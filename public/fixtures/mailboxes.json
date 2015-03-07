@@ -1,0 +1,5 @@
+[
+  {"id": 1, "name": "Inbox", "count": 1},
+  {"id": 2, "name": "Outbox", "count": 0},
+  {"id": 3, "name": "Trash", "count": 50}
+]
