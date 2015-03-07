@@ -17,7 +17,7 @@ gulp.task('webpack', function() {
     .pipe(gulpWebpack({
       watch: isWatching,
       entry: {
-        app: './app/app.js'
+        app: './app/App.react.js'
       },
       output: {
         filename: "[name].js"
