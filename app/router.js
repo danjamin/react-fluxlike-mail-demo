@@ -7,11 +7,11 @@ var start
 start = function () {
   router
     .route('', 'index')
-    //.route('box/:id', 'mailbox')
+    .route('box/:mailboxId', 'mailbox')
 
   router
-    .on('route:index', require('./routes/Index.react'))
-    //.on('route:mailbox', require('./routes/Mailbox.react'))
+    .on('route:index', require('./routes/IndexRoute.react'))
+    .on('route:mailbox', require('./routes/MailboxRoute.react'))
 
   Backbone.history.start({
     pushState: false, root: "/"

@@ -8,10 +8,10 @@ var router = require('./router')
 
 function getStateFromStores() {
   return {
-    header: AppStore.getHeader(),
-    sidePanel: AppStore.getSidePanel(),
-    content: AppStore.getContent(),
-    footer: AppStore.getFooter()
+    header: AppStore.get('header'),
+    sidePanel: AppStore.get('sidePanel'),
+    content: AppStore.get('content'),
+    footer: AppStore.get('footer')
   }
 }
 
@@ -31,6 +31,7 @@ var App = React.createClass({
   },
 
   render: function () {
+    // TODO: incorporate layout?
     return (
       <div>
         <header>{this.state.header}</header>
@@ -48,6 +49,7 @@ var App = React.createClass({
   },
 
   _onChange: function () {
+    console.log('App _onChange')
     this.setState(getStateFromStores())
   }
 })

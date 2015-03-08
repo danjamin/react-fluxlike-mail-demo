@@ -4,6 +4,7 @@ var Store = require('./Store')
 
 module.exports = _.extend({}, Store, {
   state: {
-    mailboxes: []
+    isLoading: false,
+    messages: []
   }
 })

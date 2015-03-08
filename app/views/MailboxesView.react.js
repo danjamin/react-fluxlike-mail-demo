@@ -4,29 +4,39 @@ var React = require('react')
 var _ = require('underscore')
 
 var MailboxStore = require('../stores/MailboxStore')
-var router = require('../router')
+var router = require('../router').router
 
 function getStateFromStores () {
   return {
-    mailboxes: MailboxStore.getMailboxes()
+    mailboxes: MailboxStore.get('mailboxes')
   }
 }
 
 module.exports = React.createClass({
-  displayName: 'Mailboxes',
+  displayName: 'MailboxesView',
 
   getInitialState: function () {
     return getStateFromStores()
   },
 
+  componentWillMount: function () {
+    MailboxStore.addChangeListener(this._onChange)
+  },
+
+  componentWillUnmount: function () {
+    MailboxStore.removeChangeListener(this._onChange)
+  },
+
   handleClick: function (id) {
-    console.log(router.router, id)
+    // TODO: link-to or something better here??
+    // TODO: should be an <a>
+    router.navigate('box/' + id, {trigger: true})
   },
 
   render: function () {
     var mailboxes = _.map(this.state.mailboxes, function (mailbox) {
       return (
-        <Mailbox key={mailbox.get('id')}
+        <Mailbox key={mailbox.id}
           handleClick={this.handleClick}
           mailbox={mailbox} />
       )
@@ -35,6 +45,11 @@ module.exports = React.createClass({
     return (
       <ul className="mailboxes">{mailboxes}</ul>
     )
+  },
+
+  _onChange: function () {
+    console.log('Mailboxes View _onChange')
+    this.setState(getStateFromStores())
   }
 })
 
@@ -52,7 +67,7 @@ var Mailbox = (function (React) {
     },
 
     handleClick: function (e) {
-      this.props.handleClick(this.props.mailbox.get('id'))
+      this.props.handleClick(this.props.mailbox.id)
     },
 
     render: function () {
@@ -61,10 +76,10 @@ var Mailbox = (function (React) {
       return (
         <li onClick={this.handleClick}>
           <Pull direction="right">
-            <Badge count={mailbox.get('count')} />
+            <Badge count={mailbox.count} />
           </Pull>
 
-          {mailbox.get('name')}
+          {mailbox.name}
         </li>
       )
     }
