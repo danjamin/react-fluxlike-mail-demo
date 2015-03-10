@@ -3,49 +3,64 @@ var RSVP = require('rsvp')
 // TODO: from config file
 var endPoint = '/fixtures'
 
-var _requestJSON = function (method, path, bodyObject) {
+var METADATA_KEY = '__API_metadata__'
+var COUNTER_MAX = 5000 // should be safe from overlap
+var _uuidCounter = 0
+
+var _requestJSON = function (method, path, bodyObject, options) {
   // relative starts with '/'
   var url = path[0] === '/' ? endPoint + path : path
 
-  return new RSVP.Promise(function (resolve, reject) {
-    var httpRequest
+  var xhr
+  var promise
 
+  promise = new RSVP.Promise(function (resolve, reject) {
     if (window.XMLHttpRequest) {
-      httpRequest = new XMLHttpRequest()
+      xhr = new XMLHttpRequest()
     } else if (window.ActiveXObject) { // IE
       try {
-        httpRequest = new ActiveXObject("Msxml2.XMLHTTP")
+        xhr = new ActiveXObject("Msxml2.XMLHTTP")
       } catch (e) {
         try {
-          httpRequest = new ActiveXObject("Microsoft.XMLHTTP")
+          xhr = new ActiveXObject("Microsoft.XMLHTTP")
         } catch (e) {}
       }
     }
 
-    if (!httpRequest) {
+    if (!xhr) {
       throw new Error('Unable to make AJAX requests in this browser')
     }
 
-    httpRequest.onreadystatechange = handler
-    httpRequest.open(method, url)
-    httpRequest.setRequestHeader("Accept", "application/json")
-    httpRequest.send()
+    xhr.onreadystatechange = handler
+    xhr.open(method, url)
+    xhr.setRequestHeader("Accept", "application/json")
+    xhr.send()
 
     if (bodyObject) {
-      httpRequest.setRequestHeader("Content-Type", "application/json")
-      httpRequest.send(JSON.stringify(bodyObject))
+      xhr.setRequestHeader("Content-Type", "application/json")
+      xhr.send(JSON.stringify(bodyObject))
     }
 
     function handler() {
+      var response
+
       try {
-        if (httpRequest.readyState === 4) {
-          if (httpRequest.status === 200) {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
             // TODO: remove this artificial dampener
             setTimeout(function() {
-              resolve(JSON.parse(httpRequest.responseText))
+              response = JSON.parse(xhr.responseText)
+              response[METADATA_KEY] = {
+                xhr: xhr,
+                method: method,
+                path: path,
+                options: options,
+                uuid: options && options.uuid ? options.uuid : null
+              }
+              resolve(response)
             }, 300)
           } else {
-            reject(httpRequest)
+            reject(xhr)
           }
         }
       } catch (e) {
@@ -53,26 +68,52 @@ var _requestJSON = function (method, path, bodyObject) {
       }
     }
   })
+
+  return promise
 }
 
+// e.g.
+// var uuid = APIService.uuid.generate()
+// var options = {
+//   uuid: uuid
+// }
+//
 module.exports = {
-  get: function (path) {
-    return _requestJSON('GET', path)
+  METADATA_KEY: METADATA_KEY,
+
+  uuid: {
+    generate: function () {
+      // loop back around if we hit 0
+      if (_uuidCounter === COUNTER_MAX) {
+        _uuidCounter = 0
+      }
+
+      return ++_uuidCounter
+    },
+
+    isMatch: function (uuid, response) {
+      var metadata = response[METADATA_KEY]
+      return metadata.uuid === uuid
+    }
   },
 
-  post: function (path, bodyObject) {
-    return _requestJSON('POST', path, bodyObject)
+  get: function (path, options) {
+    return _requestJSON('GET', path, null, options)
   },
 
-  put: function (path, bodyObject) {
-    return _requestJSON('PUT', path, bodyObject)
+  post: function (path, bodyObject, options) {
+    return _requestJSON('POST', path, bodyObject, options)
   },
 
-  'delete': function (path) {
-    return _requestJSON('DELETE', path)
+  put: function (path, bodyObject, options) {
+    return _requestJSON('PUT', path, bodyObject, options)
   },
 
-  patch: function (path, bodyObject) {
-    return _requestJSON('PATCH', path, bodyObject)
+  'delete': function (path, options) {
+    return _requestJSON('DELETE', path, null, options)
+  },
+
+  patch: function (path, bodyObject, options) {
+    return _requestJSON('PATCH', path, bodyObject, options)
   }
 }

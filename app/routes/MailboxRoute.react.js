@@ -5,9 +5,15 @@ var MailboxStore = require('../stores/MailboxStore')
 var MessageStore = require('../stores/MessageStore')
 var MailboxesView = require('../views/MailboxesView.react')
 var MessagesView = require('../views/MessagesView.react')
-var APIService = require('../services/APIService')
+var API = require('../services/APIService')
+
+var uuid
 
 module.exports =  function (mailboxId) {
+  mailboxId = parseInt(mailboxId, 10)
+
+  uuid = API.uuid.generate()
+
   // Set views
   AppStore.setState({
     sidePanel: (<MailboxesView />),
@@ -15,15 +21,21 @@ module.exports =  function (mailboxId) {
   })
 
   // Trigger data fetches
-  APIService.get('/mailboxes.json').then(function(mailboxes) {
-    MailboxStore.setState({mailboxes})
-  })
-
+  MailboxStore.setState({mailboxId})
   MessageStore.setState({isLoading: true})
-  APIService.get('/box/' + mailboxId + '/messages.json').then(function(messages) {
-    MessageStore.setState({
-      isLoading: false,
-      messages
+
+  API.get('/mailboxes.json')
+    .then(function(mailboxes) {
+      MailboxStore.setState({mailboxes})
+      return mailboxes
     })
-  })
+
+  API.get('/box/' + mailboxId + '/messages.json', {uuid})
+    .then(function(messages) {
+      if (API.uuid.isMatch(uuid, messages)) { // optional
+        MessageStore.setState({isLoading: false}, {isSilent: true})
+        MessageStore.setMessagesInMailbox(mailboxId, messages)
+      }
+      return messages
+    })
 }

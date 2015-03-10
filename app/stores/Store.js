@@ -2,12 +2,18 @@ var _ = require('underscore')
 var EventEmitter = require('events').EventEmitter
 
 var CHANGE_EVENT = 'change'
+var PRIVATE_PREFIX = '.'
 
-function setProp (key, value) {
+function setProp (key, value, force) {
   if (this.state.hasOwnProperty(key)) {
-    this.state[key] = value
+    if (key[0] === PRIVATE_PREFIX && !force) {
+      console.warn('Tried to set private state directly "' + key +
+        '". If doing so safely, use {force: true} option')
+    } else {
+      this.state[key] = value
+    }
   } else {
-    throw new Error('Tried to set unknown property on a Store')
+    console.error('Tried to set unknown property on a Store')
   }
 }
 
@@ -34,21 +40,32 @@ module.exports = _.extend({}, EventEmitter.prototype, {
     if (this.state.hasOwnProperty(key)) {
       return this.state[key]
     } else {
-      throw new Error('Tried to get unknown state property from a Store')
+      console.error('Tried to get unknown state property from a Store')
     }
   },
 
-  setState: function (newState) {
+  // e.g. options = { isSilent: true, force: true }
+  setState: function (newState, options) {
+    var isSilent = false
+    var force = false
+
+    if (isObject(options)) {
+      isSilent = options.hasOwnProperty('isSilent') && options.isSilent
+      force = options.hasOwnProperty('force') && options.force
+    }
+
     if (isObject(newState)) {
       for (key in newState) {
         if (newState.hasOwnProperty(key)) {
-          setProp.call(this, key, newState[key])
+          setProp.call(this, key, newState[key], force)
         }
       }
     } else {
-      throw new Error('Store.set() not called properly')
+      console.error('Store.set() not called properly')
     }
 
-    this.emitChange()
+    if (!isSilent) {
+      this.emitChange()
+    }
   }
 })

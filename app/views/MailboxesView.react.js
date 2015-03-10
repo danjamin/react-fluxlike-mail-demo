@@ -8,6 +8,7 @@ var router = require('../router').router
 
 function getStateFromStores () {
   return {
+    mailboxId: MailboxStore.get('mailboxId'),
     mailboxes: MailboxStore.get('mailboxes')
   }
 }
@@ -38,7 +39,8 @@ module.exports = React.createClass({
       return (
         <Mailbox key={mailbox.id}
           handleClick={this.handleClick}
-          mailbox={mailbox} />
+          mailbox={mailbox}
+          currentMailboxId={this.state.mailboxId} />
       )
     }.bind(this))
 
@@ -54,15 +56,18 @@ module.exports = React.createClass({
 })
 
 // Private React Component
-var Mailbox = (function (React) {
+var Mailbox = (function () {
+  var React = require('react/addons')
   var Badge = require('../components/Badge.react')
   var Pull = require('../components/Pull.react')
+  var cx = React.addons.classSet
 
   return React.createClass({
     displayName: 'Mailbox',
 
     propTypes: {
       mailbox: React.PropTypes.object.isRequired,
+      currentMailboxId: React.PropTypes.number.isRequired,
       handleClick: React.PropTypes.func
     },
 
@@ -72,9 +77,12 @@ var Mailbox = (function (React) {
 
     render: function () {
       var mailbox = this.props.mailbox
+      var classes = cx({
+        'selected': this.props.currentMailboxId === this.props.mailbox.id
+      })
 
       return (
-        <li onClick={this.handleClick}>
+        <li className={classes} onClick={this.handleClick}>
           <Pull direction="right">
             <Badge count={mailbox.count} />
           </Pull>
@@ -84,4 +92,4 @@ var Mailbox = (function (React) {
       )
     }
   })
-})(React)
+})()

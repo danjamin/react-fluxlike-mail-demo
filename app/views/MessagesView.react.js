@@ -4,12 +4,15 @@ var React = require('react')
 var _ = require('underscore')
 
 var MessageStore = require('../stores/MessageStore')
+var MailboxStore = require('../stores/MailboxStore')
 var Loading = require('../components/Loading.react')
 
 function getStateFromStores () {
+  var mailboxId = MailboxStore.get('mailboxId')
+
   return {
     isLoading: MessageStore.get('isLoading'),
-    messages: MessageStore.get('messages')
+    messages: MessageStore.getMessagesInMailbox(mailboxId)
   }
 }
 
@@ -22,14 +25,16 @@ module.exports = React.createClass({
 
   componentWillMount: function () {
     MessageStore.addChangeListener(this._onChange)
+    MailboxStore.addChangeListener(this._onChange)
   },
 
   componentWillUnmount: function () {
     MessageStore.removeChangeListener(this._onChange)
+    MailboxStore.removeChangeListener(this._onChange)
   },
 
   render: function () {
-    if (this.state.isLoading) {
+    if (this.state.isLoading && !this.state.messages.length) {
       return (
         <Loading />
       )
@@ -64,7 +69,9 @@ module.exports = React.createClass({
 })
 
 // Private React Component
-var Message = (function (React) {
+var Message = (function () {
+  var React = require('react')
+
   return React.createClass({
     displayName: 'Message',
 
@@ -84,4 +91,4 @@ var Message = (function (React) {
       )
     }
   })
-})(React)
+})()
