@@ -13,13 +13,12 @@ module.exports =  function () {
     content: (<IndexView />)
   })
 
+  MailboxStore.setState({mailboxId: 0})
+
   // Trigger data fetch
   API.get('/mailboxes.json')
     .then(function(mailboxes) {
-      MailboxStore.setState({
-        mailboxes,
-        mailboxId: 0
-      })
+      MailboxStore.setState({mailboxes})
       return mailboxes
     })
 }
