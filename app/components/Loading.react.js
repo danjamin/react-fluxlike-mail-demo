@@ -1,5 +1,3 @@
-require('../styles/loading.css')
-
 var React = require('react')
 
 module.exports = React.createClass({

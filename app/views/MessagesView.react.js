@@ -1,5 +1,3 @@
-require('../styles/messages.css')
-
 var React = require('react')
 var _ = require('underscore')
 
