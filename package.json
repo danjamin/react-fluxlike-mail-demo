@@ -1,6 +1,6 @@
 {
   "name": "react-fluxlike-mail-demo",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "private": true,
   "description": "demo application of a very basic email client using fluxlike architecture, react, and webpack",
   "main": "index.js",

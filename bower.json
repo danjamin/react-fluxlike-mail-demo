@@ -1,0 +1,26 @@
+{
+  "name": "react-fluxlike-mail-demo",
+  "version": "0.1.0",
+  "homepage": "https://github.com/danjamin/react-fluxlike-mail-demo",
+  "authors": [
+    "danjamin <e051ba3be@gmail.com>"
+  ],
+  "keywords": [
+    "react",
+    "bootstrap",
+    "webpack",
+    "flux"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-sass": "~3.3.3"
+  }
+}
