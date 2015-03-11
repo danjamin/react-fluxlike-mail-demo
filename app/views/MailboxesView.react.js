@@ -1,5 +1,6 @@
 var React = require('react')
 var _ = require('underscore')
+var {Nav, NavItem} = require('react-bootstrap')
 
 var MailboxStore = require('../stores/MailboxStore')
 var router = require('../router').router
@@ -37,13 +38,14 @@ module.exports = React.createClass({
       return (
         <Mailbox key={mailbox.id}
           handleClick={this.handleClick}
-          mailbox={mailbox}
-          currentMailboxId={this.state.mailboxId} />
+          mailbox={mailbox} />
       )
     }.bind(this))
 
     return (
-      <ul className="mailboxes">{mailboxes}</ul>
+      <Nav bsStyle="pills" stacked activeKey={this.state.mailboxId}>
+        {mailboxes}
+      </Nav>
     )
   },
 
@@ -55,17 +57,15 @@ module.exports = React.createClass({
 
 // Private React Component
 var Mailbox = (function () {
-  var React = require('react/addons')
-  var Badge = require('../components/Badge.react')
+  var React = require('react')
+  var {Badge} = require('react-bootstrap')
   var Pull = require('../components/Pull.react')
-  var cx = React.addons.classSet
 
   return React.createClass({
     displayName: 'Mailbox',
 
     propTypes: {
       mailbox: React.PropTypes.object.isRequired,
-      currentMailboxId: React.PropTypes.number.isRequired,
       handleClick: React.PropTypes.func
     },
 
@@ -75,18 +75,15 @@ var Mailbox = (function () {
 
     render: function () {
       var mailbox = this.props.mailbox
-      var classes = cx({
-        'selected': this.props.currentMailboxId === this.props.mailbox.id
-      })
 
       return (
-        <li className={classes} onClick={this.handleClick}>
+        <NavItem eventKey={mailbox.id} href="#" onSelect={this.handleClick}>
           <Pull direction="right">
-            <Badge count={mailbox.count} />
+            <Badge>{mailbox.count}</Badge>
           </Pull>
 
           {mailbox.name}
-        </li>
+        </NavItem>
       )
     }
   })

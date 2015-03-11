@@ -1,5 +1,6 @@
 var React = require('react')
 var Backbone = require('backbone')
+var {Grid, Row, Col} = require('react-bootstrap')
 
 var AppStore = require('./stores/AppStore.react')
 var router = require('./router')
@@ -34,12 +35,12 @@ var App = React.createClass({
       <div>
         <header>{this.state.header}</header>
         <main className='clearfix'>
-          <div id="side-panel">
-            {this.state.sidePanel}
-          </div>
-          <div id="content">
-            {this.state.content}
-          </div>
+          <Grid>
+            <Row>
+              <Col md={2}>{this.state.sidePanel}</Col>
+              <Col md={10}>{this.state.content}</Col>
+            </Row>
+          </Grid>
         </main>
         <footer>{this.state.footer}</footer>
       </div>

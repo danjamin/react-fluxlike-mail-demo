@@ -11,7 +11,7 @@ module.exports = React.createClass({
     var copy = this.props.copy ? this.props.copy : 'Loading'
 
     return (
-      <div className='loading rotating'>{copy}</div>
+      <div className='loading rotating'>{copy} &hellip;</div>
     )
   }
 })

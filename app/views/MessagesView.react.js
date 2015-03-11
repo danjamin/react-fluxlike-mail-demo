@@ -1,5 +1,6 @@
 var React = require('react')
 var _ = require('underscore')
+var {Table} = require('react-bootstrap')
 
 var MessageStore = require('../stores/MessageStore')
 var MailboxStore = require('../stores/MailboxStore')
@@ -45,7 +46,7 @@ module.exports = React.createClass({
     }.bind(this))
 
     return (
-      <table className="messages">
+      <Table striped condensed hover>
         <thead>
           <tr>
             <th>From</th>
@@ -56,7 +57,7 @@ module.exports = React.createClass({
         <tbody>
           {messages}
         </tbody>
-      </table>
+      </Table>
     )
   },
 
