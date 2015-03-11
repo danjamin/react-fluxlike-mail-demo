@@ -35,10 +35,14 @@ module.exports = React.createClass({
 
   render: function () {
     var mailboxes = _.map(this.state.mailboxes, function (mailbox) {
+      function handleClick() {
+        this.handleClick(mailbox.id)
+      }
+
       return (
-        <Mailbox key={mailbox.id}
-          handleClick={this.handleClick}
-          mailbox={mailbox} />
+        <NavItem eventKey={mailbox.id} href="#" onSelect={handleClick.bind(this)}>
+          <Mailbox mailbox={mailbox} />
+        </NavItem>
       )
     }.bind(this))
 
@@ -65,25 +69,18 @@ var Mailbox = (function () {
     displayName: 'Mailbox',
 
     propTypes: {
-      mailbox: React.PropTypes.object.isRequired,
-      handleClick: React.PropTypes.func
-    },
-
-    handleClick: function (e) {
-      this.props.handleClick(this.props.mailbox.id)
+      mailbox: React.PropTypes.object.isRequired
     },
 
     render: function () {
-      var mailbox = this.props.mailbox
-
       return (
-        <NavItem eventKey={mailbox.id} href="#" onSelect={this.handleClick}>
+        <div>
           <Pull direction="right">
-            <Badge>{mailbox.count}</Badge>
+            <Badge>{this.props.mailbox.count}</Badge>
           </Pull>
 
-          {mailbox.name}
-        </NavItem>
+          {this.props.mailbox.name}
+        </div>
       )
     }
   })
