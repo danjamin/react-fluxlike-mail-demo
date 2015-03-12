@@ -54,7 +54,6 @@ module.exports = React.createClass({
   },
 
   _onChange: function () {
-    console.log('Mailboxes View _onChange')
     this.setState(getStateFromStores())
   }
 })

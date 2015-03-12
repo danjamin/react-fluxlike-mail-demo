@@ -62,7 +62,6 @@ module.exports = React.createClass({
   },
 
   _onChange: function () {
-    console.log('Messages View _onChange')
     this.setState(getStateFromStores())
   }
 })

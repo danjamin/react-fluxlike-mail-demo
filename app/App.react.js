@@ -48,7 +48,6 @@ var App = React.createClass({
   },
 
   _onChange: function () {
-    console.log('App _onChange')
     this.setState(getStateFromStores())
   }
 })
