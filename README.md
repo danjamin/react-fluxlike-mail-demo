@@ -2,6 +2,23 @@
 
 demo application of a very basic email client using fluxlike architecture, react, and webpack
 
+# Pre-reqs
+
+Install [nodejs](https://nodejs.org/)
+
+# Running
+
+Install dependencies, build and watch for changes:
+
+```sh
+$ npm install
+$ npm start
+```
+
+In a separate tab serve the web app:
+```sh
+$ npm run-script serve
+```
 
 # TODO
 
