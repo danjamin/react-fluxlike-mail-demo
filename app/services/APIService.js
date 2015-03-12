@@ -1,7 +1,7 @@
 var RSVP = require('rsvp')
 
 // TODO: from config file
-var endPoint = '/fixtures'
+var endPoint = '/api'
 
 var METADATA_KEY = '__API_metadata__'
 var COUNTER_MAX = 5000 // should be safe from overlap
@@ -58,7 +58,7 @@ var _requestJSON = function (method, path, bodyObject, options) {
                 uuid: options && options.uuid ? options.uuid : null
               }
               resolve(response)
-            }, 300)
+            }, 250)
           } else {
             reject(xhr)
           }
@@ -72,6 +72,7 @@ var _requestJSON = function (method, path, bodyObject, options) {
   return promise
 }
 
+// TODO: revisit this uuid concept
 // e.g.
 // var uuid = APIService.uuid.generate()
 // var options = {

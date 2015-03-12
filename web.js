@@ -1,5 +1,6 @@
 var express = require('express')
 var app = express()
+var bindControllers = require('express-bind-controllers')
 var PORT = 5000
 
 // Set the port
@@ -10,6 +11,9 @@ app.listen(app.get('port'), function () {
 
 // Setup /public access
 app.use(express['static'](__dirname + '/dist/'))
+
+// Bind controllers
+bindControllers(app, __dirname + '/fixture-api/controllers')
 
 // Export app to be used externally
 module.exports = app

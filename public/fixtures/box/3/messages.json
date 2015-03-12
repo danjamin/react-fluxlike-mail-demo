@@ -1,5 +1,0 @@
-[
-  {"id": 3, "mailbox_id": 3, "from": "Guy 1", "to": "Dan", "subject": "React"},
-  {"id": 4, "mailbox_id": 3, "from": "Guy 1", "to": "Dan", "subject": "React again"},
-  {"id": 5, "mailbox_id": 3, "from": "Guy 2", "to": "Dan", "subject": "React one more time"}
-]
