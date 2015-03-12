@@ -4,7 +4,7 @@ var AppStore = require('../stores/AppStore.react')
 var MailboxStore = require('../stores/MailboxStore')
 var MailboxesView = require('../views/MailboxesView.react')
 var IndexView = require('../views/IndexView.react')
-var API = require('../services/APIService')
+var MailboxService = require('../services/MailboxService')
 
 module.exports =  function () {
   // Set views
@@ -14,11 +14,5 @@ module.exports =  function () {
   })
 
   MailboxStore.setState({mailboxId: 0})
-
-  // Trigger data fetch
-  API.get('/mailboxes.json')
-    .then(function(mailboxes) {
-      MailboxStore.setState({mailboxes})
-      return mailboxes
-    })
+  MailboxService.pullMailboxes()
 }
