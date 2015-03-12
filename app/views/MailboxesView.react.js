@@ -40,7 +40,7 @@ module.exports = React.createClass({
       }
 
       return (
-        <NavItem eventKey={mailbox.id} href="#" onSelect={handleClick.bind(this)}>
+        <NavItem key={mailbox.id} eventKey={mailbox.id} href="#" onSelect={handleClick.bind(this)}>
           <Mailbox mailbox={mailbox} />
         </NavItem>
       )
