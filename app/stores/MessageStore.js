@@ -5,6 +5,7 @@ var Store = require('./Store')
 module.exports = _.extend({}, Store, {
   state: {
     isLoading: false,
+    messageId: 0,
 
     // "private" state
     '.messages': {} // '.' prefix means visible but shouldn't be used directly
@@ -20,11 +21,30 @@ module.exports = _.extend({}, Store, {
   },
 
   getMessagesInMailbox: function(mailboxId) {
-    var messages = this.get('.messages')
+    var messages
+
+    if (!mailboxId) {
+      return []
+    }
+
+    messages = this.get('.messages')
+
     if (messages.hasOwnProperty(mailboxId)) {
       return messages[mailboxId]
     } else {
       return []
     }
+  },
+
+  getMessageInBoxById: function (mailboxId, messageId) {
+    var messages
+
+    if (!mailboxId || !messageId) {
+      return null
+    }
+
+    messages = this.getMessagesInMailbox(mailboxId)
+
+    return _.findWhere(messages, {id: messageId})
   }
 })

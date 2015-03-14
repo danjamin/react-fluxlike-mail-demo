@@ -8,6 +8,7 @@ start = function () {
   router
     .route('', 'index')
     .route('box/:mailboxId', 'mailbox')
+    .route('box/:mailboxId/message/:messageId', 'mailbox')
 
   router
     .on('route:index', require('./routes/IndexRoute.react'))

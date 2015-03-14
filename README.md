@@ -22,6 +22,10 @@ $ npm run-script serve
 
 # TODO
 
+- Store last route to be smarter about what data needs fetching
+-- Be smarter about which data to fetch in "nested routes"
+- Reduce the number of renders?
+- Demonstrate testing with mockrequire and an example unit test
 - Action handlers
 - Pre-load from local storage (when available)
 - Bring in immutable js for data in stores

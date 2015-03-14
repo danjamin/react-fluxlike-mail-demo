@@ -5,7 +5,7 @@
   "description": "demo application of a very basic email client using fluxlike architecture, react, and webpack",
   "main": "index.js",
   "scripts": {
-    "postinstall": "bower install",
+    "postinstall": "bower prune && bower install",
     "start": "gulp",
     "serve": "nodemon web.js",
     "build": "gulp build",
