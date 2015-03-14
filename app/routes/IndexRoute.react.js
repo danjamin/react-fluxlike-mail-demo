@@ -7,6 +7,8 @@ var IndexView = require('../views/IndexView.react')
 var MailboxService = require('../services/MailboxService')
 
 module.exports =  function () {
+  document.title = 'Mail'
+
   // Set views
   AppStore.setState({
     sidePanel: (<MailboxesView />),

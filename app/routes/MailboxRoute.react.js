@@ -8,9 +8,25 @@ var MessagesView = require('../views/MessagesView.react')
 var MailboxService = require('../services/MailboxService')
 var MessageService = require('../services/MessageService')
 
+var _currentMailboxId = 0
+
+function _setDocumentTitle(mailboxId) {
+  var mailbox = MailboxStore.getMailboxById(mailboxId)
+
+  if (mailbox) {
+    document.title = 'Mail | ' + mailbox.name +
+      (mailbox.count ? ' (' + mailbox.count + ')' : '')
+  } else {
+    document.title = 'Mail | Loading...'
+  }
+}
+
 module.exports =  function (mailboxId, messageId) {
   mailboxId = parseInt(mailboxId, 10)
   messageId = parseInt(messageId, 10)
+
+  // Set title right away when possible
+  _setDocumentTitle(mailboxId)
 
   if (!messageId) {
     messageId = 0
@@ -24,7 +40,17 @@ module.exports =  function (mailboxId, messageId) {
 
   // Trigger data fetches
   MailboxStore.setState({mailboxId})
-  MailboxService.pullMailboxes()
+
+  // update the last mailbox fetched
+  _currentMailboxId = mailboxId
+  MailboxService.pullMailboxes().then(function (mailboxes) {
+    // only respond to last mailbox
+    if (_currentMailboxId === mailboxId) {
+      _setDocumentTitle(mailboxId)
+    }
+
+    return mailboxes
+  })
 
   MessageStore.setState({messageId}, {isSilent: true})
   MessageService.pullMessagesInMailbox(mailboxId)

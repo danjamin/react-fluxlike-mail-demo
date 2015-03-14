@@ -72,13 +72,20 @@ var Mailbox = (function () {
     },
 
     render: function () {
+      var badge
+      var mailbox = this.props.mailbox
+
+      if (mailbox.count) {
+        badge = (
+          <Pull direction="right">
+            <Badge>{mailbox.count}</Badge>
+          </Pull>
+        )
+      }
       return (
         <div>
-          <Pull direction="right">
-            <Badge>{this.props.mailbox.count}</Badge>
-          </Pull>
-
-          {this.props.mailbox.name}
+          {badge}
+          {mailbox.name}
         </div>
       )
     }
