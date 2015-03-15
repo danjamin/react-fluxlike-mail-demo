@@ -3,15 +3,16 @@ var Immutable = require('immutable');
 
 var MessageRecord = require('../records/MessageRecord');
 var Store = require('./Store');
+var primitivesMixin = require('./PrimitivesMixin');
 
 var _messages = new Immutable.Map();
 
-module.exports = assign({}, Store, {
-  state: {
-    isLoading: false,
-    messageId: 0
-  },
+var Primitives = primitivesMixin({
+  isLoading: false,
+  messageId: 0
+});
 
+module.exports = assign({}, Store, Primitives, {
   /**
    * Gets all the immutable message records in a given mailbox as
    * an immutable iterable.

@@ -11,17 +11,17 @@ function _fetchMessagesInMailbox(mailboxId) {
 
 module.exports = {
   loadMessagesInMailbox: function (mailboxId) {
-    MessageStore.setState({isLoading: true});
+    MessageStore.setPrimitives({isLoading: true});
 
     return _fetchMessagesInMailbox(mailboxId)
       .then(function (messages) {
-        MessageStore.setState({isLoading: false});
+        MessageStore.setPrimitives({isLoading: false});
         MessageStore.mergeMessages(messages);
         return messages;
       });
   },
 
   changeSelection: function (messageId) {
-    MessageStore.setState({messageId});
+    MessageStore.setPrimitives({messageId});
   }
 };

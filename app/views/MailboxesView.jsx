@@ -7,7 +7,7 @@ var router = require('../router').router;
 
 function getStateFromStores () {
   return {
-    mailboxId: MailboxStore.get('mailboxId'),
+    mailboxId: MailboxStore.getPrimitive('mailboxId'),
     mailboxes: MailboxStore.getMailboxes() // Immutable.Map
   };
 }

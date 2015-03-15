@@ -20,6 +20,6 @@ module.exports = {
   },
 
   changeSelection: function (mailboxId) {
-    MailboxStore.setState({mailboxId});
+    MailboxStore.setPrimitives({mailboxId});
   }
 };

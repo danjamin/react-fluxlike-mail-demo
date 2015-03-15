@@ -9,13 +9,13 @@ var Loading = require('../components/Loading');
 var MessagePartial = require('./partials/MessagePartial');
 
 function getStateFromStores () {
-  var mailboxId = MailboxStore.get('mailboxId');
-  var messageId = MessageStore.get('messageId');
+  var mailboxId = MailboxStore.getPrimitive('mailboxId');
+  var messageId = MessageStore.getPrimitive('messageId');
 
   return {
     mailboxId,
     messageId,
-    isLoading: MessageStore.get('isLoading'),
+    isLoading: MessageStore.getPrimitive('isLoading'),
     messages: MessageStore.getMessagesInMailbox(mailboxId),
     selectedMessage: MessageStore.getMessageById(messageId)
   };

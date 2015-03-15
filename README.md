@@ -36,3 +36,4 @@ $ npm run-script lint
 - [ ] Explore a link-to component which interacts with the router
 - [ ] Be smarter about which data to fetch in "nested routes"
 - [ ] Pre-load from local storage (when available)
+- [ ] Pull out re-usable libraries
