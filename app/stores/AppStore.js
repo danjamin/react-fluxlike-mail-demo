@@ -1,18 +1,19 @@
-var React = require('react'); // required by inline JSX
 var assign = require('object-assign');
 
 var Store = require('./Store');
-var HeaderPartial = require('../views/partials/HeaderPartial');
-var FooterPartial = require('../views/partials/FooterPartial');
+var primitivesMixin = require('./PrimitivesMixin');
+
+var Primitives = primitivesMixin({
+  showHeader: true,
+  showFooter: false
+});
 
 var _state = {
-  header: (<HeaderPartial />),
   sidePanel: null,
-  content: null,
-  footer: (<FooterPartial />)
+  content: null
 };
 
-module.exports = assign({}, Store, {
+module.exports = assign({}, Store, Primitives, {
   setState: function(newState) {
     for (var key in newState) {
       if (newState.hasOwnProperty(key)) {

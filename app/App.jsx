@@ -4,12 +4,15 @@ var {Grid, Row, Col} = require('react-bootstrap');
 var AppStore = require('./stores/AppStore');
 var router = require('./router');
 
+var HeaderPartial = require('./views/partials/HeaderPartial');
+var FooterPartial = require('./views/partials/FooterPartial');
+
 function getStateFromStores() {
   return {
-    header: AppStore.get('header'),
+    showHeader: AppStore.getPrimitive('showHeader'),
+    showFooter: AppStore.getPrimitive('showFooter'),
     sidePanel: AppStore.get('sidePanel'),
-    content: AppStore.get('content'),
-    footer: AppStore.get('footer')
+    content: AppStore.get('content')
   };
 }
 
@@ -30,9 +33,29 @@ var App = React.createClass({
 
   render: function () {
     // TODO: incorporate layout?
+    var header;
+    var footer;
+
+    if (this.state.showHeader) {
+      header = (
+        <header>
+          <HeaderPartial />
+        </header>
+      );
+    }
+
+    if (this.state.showFooter) {
+      footer = (
+        <footer>
+          <FooterPartial />
+        </footer>
+      );
+    }
+
     return (
       <div>
-        <header>{this.state.header}</header>
+        {header}
+
         <main className='clearfix'>
           <Grid>
             <Row>
@@ -41,7 +64,8 @@ var App = React.createClass({
             </Row>
           </Grid>
         </main>
-        <footer>{this.state.footer}</footer>
+
+        {footer}
       </div>
     );
   },

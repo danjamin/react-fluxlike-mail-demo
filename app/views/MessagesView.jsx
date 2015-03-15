@@ -56,10 +56,15 @@ module.exports = React.createClass({
     messageRows = [];
 
     this.state.messages.forEach(function (message) {
+      // this way, less re-renders since the bool of isSelected
+      // hasn't changed for some of the rows where as messageId
+      // is changing more often!
+      var isSelected = this.state.messageId === message.get('id');
+
       messageRows.push(
         <MessageRow key={message.id}
           message={message}
-          selectedMessageId={this.state.messageId}
+          isSelected={isSelected}
           handleRowClick={this.handleRowClick} />
       );
     }.bind(this));
@@ -101,11 +106,11 @@ var MessageRow = (function () {
   var cx = React.addons.classSet;
 
   return React.createClass({
-    displayName: 'Message',
+    displayName: 'MessageRow',
 
     propTypes: {
       message: React.PropTypes.instanceOf(MessageRecord).isRequired,
-      selectedMessageId: React.PropTypes.number,
+      isSelected: React.PropTypes.bool.isRequired,
       handleRowClick: React.PropTypes.func
     },
 
@@ -121,14 +126,13 @@ var MessageRow = (function () {
      * re-renders that don't need to happen.
      */
     shouldComponentUpdate: function (nextProps) {
-      return nextProps.selectedMessageId !== this.props.selectedMessageId ||
+      return nextProps.isSelected !== this.props.isSelected ||
         nextProps.message !== this.props.message;
     },
 
     render: function () {
       var classes = cx({
-        'table-highlight': this.props.selectedMessageId &&
-          this.props.selectedMessageId === this.props.message.id
+        'table-highlight': this.props.isSelected
       });
 
       return (

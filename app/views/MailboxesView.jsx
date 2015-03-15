@@ -46,7 +46,7 @@ module.exports = React.createClass({
       mailboxes.push(
         <NavItem key={mailboxId} eventKey={mailboxId} href="#"
             onSelect={handleClick.bind(this)}>
-          <Mailbox mailbox={mailbox} />
+          <MailboxRow mailbox={mailbox} />
         </NavItem>
       );
     }.bind(this));
@@ -64,13 +64,13 @@ module.exports = React.createClass({
 });
 
 // Private React Component
-var Mailbox = (function () {
+var MailboxRow = (function () {
   var React = require('react');
   var {Badge} = require('react-bootstrap');
   var Pull = require('../components/Pull');
 
   return React.createClass({
-    displayName: 'Mailbox',
+    displayName: 'MailboxRow',
 
     propTypes: {
       mailbox: React.PropTypes.instanceOf(MailboxRecord).isRequired
