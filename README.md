@@ -28,12 +28,11 @@ $ npm run-script lint
 
 # TODO
 
-- Store last route to be smarter about what data needs fetching
--- Be smarter about which data to fetch in "nested routes"
-- Reduce the number of renders?
-- Demonstrate testing with mockrequire and an example unit test
-- Action handlers
-- Pre-load from local storage (when available)
-- Bring in immutable js for data in stores
-- Is there a lighter router to use than to include all of Backbone?
-- Drop webpack in favor of browserify ?
+- [x] Bring in immutability
+- [x] Reduce the number of re-renders
+- [ ] Action handlers
+- [ ] Demonstrate testing with mockrequire and an example unit test
+- [ ] Is there a lighter router to use than to include all of Backbone?
+- [ ] Explore a link-to component which interacts with the router
+- [ ] Be smarter about which data to fetch in "nested routes"
+- [ ] Pre-load from local storage (when available)
