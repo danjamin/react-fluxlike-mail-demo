@@ -10,17 +10,17 @@ module.exports = function (app) {
         {
           "id": 1,
           "name": "Inbox",
-          "count": _.where(_messages, {'mailbox_id': 1}).length
+          "count": _.where(_messages, {'mailboxId': 1}).length
         },
         {
           "id": 2,
           "name": "Outbox",
-          "count": _.where(_messages, {'mailbox_id': 2}).length
+          "count": _.where(_messages, {'mailboxId': 2}).length
         },
         {
           "id": 3,
           "name": "Trash",
-          "count": _.where(_messages, {'mailbox_id': 3}).length
+          "count": _.where(_messages, {'mailboxId': 3}).length
         }
       ]
     })
@@ -29,7 +29,7 @@ module.exports = function (app) {
   app.get('/api/mailbox/:mailboxId/messages', function (req, res) {
     var _messages = Messages.messages
     var mailboxId = parseInt(req.params.mailboxId, 10)
-    var messages = _.where(_messages, {'mailbox_id': mailboxId})
+    var messages = _.where(_messages, {'mailboxId': mailboxId})
 
     res.send({ messages: messages })
   })

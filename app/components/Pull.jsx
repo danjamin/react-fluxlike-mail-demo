@@ -1,4 +1,4 @@
-var React = require('react')
+var React = require('react');
 
 module.exports = React.createClass({
   displayName: 'Pull',
@@ -9,12 +9,12 @@ module.exports = React.createClass({
 
   render: function () {
     var className = this.props.direction === 'right' ?
-      'pull-right' : 'pull-left'
+      'pull-right' : 'pull-left';
 
     return (
       <span className={className}>
         {this.props.children}
       </span>
-    )
+    );
   }
-})
+});

@@ -20,6 +20,12 @@ In a separate tab serve the web app:
 $ npm run-script serve
 ```
 
+# Linting
+
+```sh
+$ npm run-script lint
+```
+
 # TODO
 
 - Store last route to be smarter about what data needs fetching

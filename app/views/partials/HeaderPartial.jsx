@@ -1,5 +1,5 @@
-var React = require('react')
-var {Navbar} = require('react-bootstrap')
+var React = require('react');
+var {Navbar} = require('react-bootstrap');
 
 module.exports = React.createClass({
   displayName: 'HeaderPartial',
@@ -8,6 +8,6 @@ module.exports = React.createClass({
     return (
       <Navbar brand='Flux-like Mail'>
       </Navbar>
-    )
+    );
   }
-})
+});

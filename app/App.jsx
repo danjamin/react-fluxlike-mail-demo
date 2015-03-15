@@ -1,9 +1,8 @@
-var React = require('react')
-var Backbone = require('backbone')
-var {Grid, Row, Col} = require('react-bootstrap')
+var React = require('react');
+var {Grid, Row, Col} = require('react-bootstrap');
 
-var AppStore = require('./stores/AppStore.react')
-var router = require('./router')
+var AppStore = require('./stores/AppStore');
+var router = require('./router');
 
 function getStateFromStores() {
   return {
@@ -11,22 +10,22 @@ function getStateFromStores() {
     sidePanel: AppStore.get('sidePanel'),
     content: AppStore.get('content'),
     footer: AppStore.get('footer')
-  }
+  };
 }
 
 var App = React.createClass({
   displayName: 'App',
 
   getInitialState: function () {
-    return getStateFromStores()
+    return getStateFromStores();
   },
 
   componentWillMount: function () {
-    AppStore.addChangeListener(this._onChange)
+    AppStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function () {
-    AppStore.removeChangeListener(this._onChange)
+    AppStore.removeChangeListener(this._onChange);
   },
 
   render: function () {
@@ -44,19 +43,19 @@ var App = React.createClass({
         </main>
         <footer>{this.state.footer}</footer>
       </div>
-    )
+    );
   },
 
   _onChange: function () {
-    this.setState(getStateFromStores())
+    this.setState(getStateFromStores());
   }
-})
+});
 
 // Render app into DOM
 React.render(
   <App />,
   document.getElementById('app')
-)
+);
 
 // Start routing
-router.start()
+router.start();

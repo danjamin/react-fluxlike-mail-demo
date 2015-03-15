@@ -1,50 +1,68 @@
-var _ = require('underscore')
+var assign = require('object-assign');
+var Immutable = require('immutable');
 
-var Store = require('./Store')
+var MessageRecord = require('../records/MessageRecord');
+var Store = require('./Store');
 
-module.exports = _.extend({}, Store, {
+var _messages = new Immutable.Map();
+
+module.exports = assign({}, Store, {
   state: {
     isLoading: false,
-    messageId: 0,
-
-    // "private" state
-    '.messages': {} // '.' prefix means visible but shouldn't be used directly
+    messageId: 0
   },
 
-  setMessagesInMailbox: function(mailboxId, messages) {
-    var current = this.get('.messages')
-    current[mailboxId] = messages
-
-    this.setState({
-      '.messages': current
-    }, {force: true})
-  },
-
+  /**
+   * Gets all the immutable message records in a given mailbox as
+   * an immutable iterable.
+   *
+   * @param {number} mailboxId The mailboxId to filter by
+   * @return {Immutable.Iterable}
+   */
   getMessagesInMailbox: function(mailboxId) {
-    var messages
-
     if (!mailboxId) {
-      return []
-    }
-
-    messages = this.get('.messages')
-
-    if (messages.hasOwnProperty(mailboxId)) {
-      return messages[mailboxId]
+      return new Immutable.Map();
     } else {
-      return []
+      return _messages.filter(function (record, messageId) {
+        return record.get('mailboxId') === mailboxId;
+      });
     }
   },
 
-  getMessageInBoxById: function (mailboxId, messageId) {
-    var messages
+  /**
+   * Gets a specific immutable message record by id.
+   * @return {undefined | MessageRecord} undefined if not found
+   */
+  getMessageById: function (messageId) {
+    if (messageId) {
+      return _messages.get(messageId);
+    }
+  },
 
-    if (!mailboxId || !messageId) {
-      return null
+  /**
+   * Merges an array of raw message objects and returns the resulting
+   * immutable messages map.  Only emits a change when a change has
+   * occurred.
+   *
+   * @param {array} messages The array of raw message objects to be merged
+   * @return {Immutable.Map} The resulting immutable map. Note: if nothing
+   *   changes, will return reference to the previous Immutable.Map.
+   */
+  mergeMessages: function(messages) {
+    var resultingMessages = _messages.withMutations(function (map) {
+      messages.forEach(function (newMessage) {
+        map.update(newMessage.id, function (oldMessage) {
+          return oldMessage ? oldMessage.merge(newMessage) :
+            new MessageRecord(newMessage);
+        });
+      });
+    });
+
+    if (resultingMessages !== _messages) {
+      _messages = resultingMessages;
+      this.emitChange();
     }
 
-    messages = this.getMessagesInMailbox(mailboxId)
-
-    return _.findWhere(messages, {id: messageId})
+    return _messages;
   }
-})
+});

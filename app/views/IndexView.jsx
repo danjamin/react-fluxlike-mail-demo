@@ -1,4 +1,4 @@
-var React = require('react')
+var React = require('react');
 
 module.exports = React.createClass({
   displayName: 'Index',
@@ -8,6 +8,6 @@ module.exports = React.createClass({
       <div>
         Um, this is awkward ... select a mailbox
       </div>
-    )
+    );
   }
-})
+});
