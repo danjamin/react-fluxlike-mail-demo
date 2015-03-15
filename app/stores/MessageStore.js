@@ -8,7 +8,6 @@ var primitivesMixin = require('./PrimitivesMixin');
 var _messages = new Immutable.Map();
 
 var Primitives = primitivesMixin({
-  isLoading: false,
   messageId: 0
 });
 

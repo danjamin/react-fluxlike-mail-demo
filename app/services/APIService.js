@@ -2,6 +2,7 @@ var RSVP = require('rsvp');
 
 // TODO: from config file
 var endPoint = '/api';
+var demoTimeout = 250;
 
 var METADATA_KEY = '__API_metadata__';
 
@@ -45,11 +46,13 @@ var _requestJSON = function (method, path, bodyObject) {
       try {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
-            response = window.JSON.parse(xhr.responseText);
-            response[METADATA_KEY] = {
-              xhr: xhr
-            };
-            resolve(response);
+            setTimeout(function() {
+              response = window.JSON.parse(xhr.responseText);
+              response[METADATA_KEY] = {
+                xhr: xhr
+              };
+              resolve(response);
+            }, demoTimeout);
           } else {
             reject(xhr);
           }

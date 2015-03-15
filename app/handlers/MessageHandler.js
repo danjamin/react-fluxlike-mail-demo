@@ -11,11 +11,8 @@ function _fetchMessagesInMailbox(mailboxId) {
 
 module.exports = {
   loadMessagesInMailbox: function (mailboxId) {
-    MessageStore.setPrimitives({isLoading: true});
-
     return _fetchMessagesInMailbox(mailboxId)
       .then(function (messages) {
-        MessageStore.setPrimitives({isLoading: false});
         MessageStore.mergeMessages(messages);
         return messages;
       });

@@ -1,12 +1,13 @@
-var React = require('react');
+var React = require('react/addons');
 var {Table} = require('react-bootstrap');
 
 var router = require('../router').router;
 var MessageStore = require('../stores/MessageStore');
 var MessageRecord = require('../records/MessageRecord');
 var MailboxStore = require('../stores/MailboxStore');
-var Loading = require('../components/Loading');
 var MessagePartial = require('./partials/MessagePartial');
+
+var PureRenderMixin = React.addons.PureRenderMixin;
 
 function getStateFromStores () {
   var mailboxId = MailboxStore.getPrimitive('mailboxId');
@@ -15,7 +16,6 @@ function getStateFromStores () {
   return {
     mailboxId,
     messageId,
-    isLoading: MessageStore.getPrimitive('isLoading'),
     messages: MessageStore.getMessagesInMailbox(mailboxId),
     selectedMessage: MessageStore.getMessageById(messageId)
   };
@@ -23,6 +23,8 @@ function getStateFromStores () {
 
 module.exports = React.createClass({
   displayName: 'MessagesView',
+
+  mixins: [PureRenderMixin],
 
   getInitialState: function () {
     return getStateFromStores();
@@ -47,11 +49,6 @@ module.exports = React.createClass({
     var messageRows;
     var selectedMessage;
 
-    if (this.state.isLoading && !this.state.messages.count()) {
-      return (
-        <Loading />
-      );
-    }
 
     messageRows = [];
 

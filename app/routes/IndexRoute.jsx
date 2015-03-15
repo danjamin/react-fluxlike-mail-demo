@@ -9,14 +9,16 @@ var DocumentTitleHandler = require('../handlers/DocumentTitleHandler');
 var MailboxHandler = require('../handlers/MailboxHandler');
 
 module.exports =  function () {
+  // Set sync state
+  DocumentTitleHandler.resetTitle();
+  MailboxHandler.changeSelection(0);
+
+  // Start async
+  MailboxHandler.load();
+
   // Set views
   AppStore.setState({
     sidePanel: (<MailboxesView />),
     content: (<IndexView />)
   });
-
-  // Set state
-  DocumentTitleHandler.resetTitle();
-  MailboxHandler.changeSelection(0);
-  MailboxHandler.load();
 };

@@ -16,15 +16,12 @@ module.exports =  function (mailboxId, messageId) {
   mailboxId = parseInt(mailboxId, 10);
   messageId = parseInt(messageId, 10);
 
-  // Set views
-  AppStore.setState({
-    sidePanel: (<MailboxesView />),
-    content: (<MessagesView />)
-  });
-
-  // Set data
+  // Set sync state
   DocumentTitleHandler.setTitleByMailboxId(mailboxId);
+  MailboxHandler.changeSelection(mailboxId);
+  MessageHandler.changeSelection(messageId ? messageId : 0);
 
+  // Start async
   // update the last mailbox fetched
   _currentMailboxId = mailboxId;
   MailboxHandler.load().then(function (mailboxes) {
@@ -35,8 +32,11 @@ module.exports =  function (mailboxId, messageId) {
 
     return mailboxes;
   });
-
-  MailboxHandler.changeSelection(mailboxId);
-  MessageHandler.changeSelection(messageId ? messageId : 0);
   MessageHandler.loadMessagesInMailbox(mailboxId);
+
+  // Set views
+  AppStore.setState({
+    sidePanel: (<MailboxesView />),
+    content: (<MessagesView />)
+  });
 };

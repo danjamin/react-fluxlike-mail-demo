@@ -1,9 +1,11 @@
-var React = require('react');
+var React = require('react/addons');
 var {Nav, NavItem} = require('react-bootstrap');
 
 var MailboxStore = require('../stores/MailboxStore');
 var MailboxRecord = require('../records/MailboxRecord');
 var router = require('../router').router;
+
+var PureRenderMixin = React.addons.PureRenderMixin;
 
 function getStateFromStores () {
   return {
@@ -14,6 +16,8 @@ function getStateFromStores () {
 
 module.exports = React.createClass({
   displayName: 'MailboxesView',
+
+  mixins: [PureRenderMixin],
 
   getInitialState: function () {
     return getStateFromStores();
