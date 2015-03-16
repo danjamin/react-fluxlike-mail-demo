@@ -14,7 +14,7 @@ module.exports =  function () {
   MailboxHandler.changeSelection(0);
 
   // Start async
-  MailboxHandler.load();
+  MailboxHandler.load({onlyIfStale: true});
 
   // Set views
   AppStore.setState({

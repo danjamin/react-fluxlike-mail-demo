@@ -87,5 +87,17 @@ module.exports = {
 
   patch: function (path, bodyObject) {
     return _requestJSON('PATCH', path, bodyObject);
+  },
+
+  resolve: function (data) {
+    return new RSVP.Promise(function (resolve, reject) {
+      resolve(data);
+    });
+  },
+
+  reject: function (reason) {
+    return new RSVP.Promise(function (resolve, reject) {
+      reject(reason);
+    });
   }
 };

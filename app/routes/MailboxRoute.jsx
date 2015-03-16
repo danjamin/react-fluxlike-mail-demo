@@ -24,7 +24,7 @@ module.exports =  function (mailboxId, messageId) {
   // Start async
   // update the last mailbox fetched
   _currentMailboxId = mailboxId;
-  MailboxHandler.load().then(function (mailboxes) {
+  MailboxHandler.load({onlyIfStale: true}).then(function (mailboxes) {
     // only respond to last mailbox
     if (_currentMailboxId === mailboxId) {
       DocumentTitleHandler.setTitleByMailboxId(mailboxId);
@@ -32,7 +32,8 @@ module.exports =  function (mailboxId, messageId) {
 
     return mailboxes;
   });
-  MessageHandler.loadMessagesInMailbox(mailboxId);
+
+  MessageHandler.loadMessagesInMailbox(mailboxId, {onlyIfStale: true});
 
   // Set views
   AppStore.setState({

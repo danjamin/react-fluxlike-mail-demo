@@ -6,12 +6,26 @@ var Store = require('./Store');
 var primitivesMixin = require('./PrimitivesMixin');
 
 var _messages = new Immutable.Map();
+var _isLoadingByMailboxId = new Immutable.Map();
 
 var Primitives = primitivesMixin({
   messageId: 0
 });
 
 module.exports = assign({}, Store, Primitives, {
+  setIsLoadingByMailboxId: function (mailboxId, isLoading) {
+    _isLoadingByMailboxId = _isLoadingByMailboxId.set(mailboxId, isLoading);
+    this.emitChange();
+  },
+
+  getIsLoadingByMailboxId: function (mailboxId) {
+    if (!mailboxId) {
+      return;
+    }
+
+    return _isLoadingByMailboxId.get(mailboxId);
+  },
+
   /**
    * Gets all the immutable message records in a given mailbox as
    * an immutable iterable.

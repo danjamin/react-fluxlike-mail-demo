@@ -8,7 +8,8 @@ var MailboxRecord = require('../records/MailboxRecord');
 var _mailboxes = new Immutable.Map();
 
 var Primitives = primitivesMixin({
-  mailboxId: 0
+  mailboxId: 0,
+  isLoading: false
 });
 
 module.exports = assign({}, Store, Primitives, {

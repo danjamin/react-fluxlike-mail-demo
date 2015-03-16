@@ -8,6 +8,7 @@ var MailboxStore = require('../stores/MailboxStore');
 var MessageRecord = require('../records/MessageRecord');
 
 var Message = require('../components/Message');
+var Loading = require('../components/Loading');
 
 var PureRenderMixin = React.addons.PureRenderMixin;
 
@@ -19,7 +20,8 @@ function getStateFromStores () {
     mailboxId,
     messageId,
     messages: MessageStore.getMessagesInMailbox(mailboxId),
-    selectedMessage: MessageStore.getMessageById(messageId)
+    selectedMessage: MessageStore.getMessageById(messageId),
+    isLoading: MessageStore.getIsLoadingByMailboxId(mailboxId)
   };
 }
 
@@ -51,6 +53,11 @@ module.exports = React.createClass({
     var messageRows;
     var selectedMessage;
 
+    if (this.state.isLoading) {
+      return (
+        <Loading />
+      );
+    }
 
     messageRows = [];
 

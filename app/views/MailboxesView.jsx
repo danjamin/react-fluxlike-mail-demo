@@ -4,13 +4,15 @@ var {Nav, NavItem} = require('react-bootstrap');
 var MailboxStore = require('../stores/MailboxStore');
 var MailboxRecord = require('../records/MailboxRecord');
 var router = require('../router').router;
+var Loading = require('../components/Loading');
 
 var PureRenderMixin = React.addons.PureRenderMixin;
 
 function getStateFromStores () {
   return {
     mailboxId: MailboxStore.getPrimitive('mailboxId'),
-    mailboxes: MailboxStore.getMailboxes() // Immutable.Map
+    mailboxes: MailboxStore.getMailboxes(), // Immutable.Map
+    isLoading: MailboxStore.getPrimitive('isLoading')
   };
 }
 
@@ -38,7 +40,15 @@ module.exports = React.createClass({
   },
 
   render: function () {
-    var mailboxes = [];
+    var mailboxes;
+
+    if (this.state.isLoading) {
+      return (
+        <Loading />
+      );
+    }
+
+    mailboxes = [];
 
     // be careful here, if using .map() you will result in
     // an immutable iterable that react does not natively support
