@@ -9,8 +9,8 @@ var FooterPartial = require('./views/partials/FooterPartial');
 
 function getStateFromStores() {
   return {
-    showHeader: AppStore.getPrimitive('showHeader'),
-    showFooter: AppStore.getPrimitive('showFooter'),
+    showHeader: AppStore.get('showHeader'),
+    showFooter: AppStore.get('showFooter'),
     sidePanel: AppStore.get('sidePanel'),
     content: AppStore.get('content')
   };

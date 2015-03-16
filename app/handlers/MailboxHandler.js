@@ -20,11 +20,11 @@ module.exports = {
     }
 
     if (doFetch) {
-      MailboxStore.setPrimitives({isLoading: true});
+      MailboxStore.setIsLoading(true);
       _lastFetched = (new Date()).getTime();
       return _fetchMailboxes()
         .then(function (mailboxes) {
-          MailboxStore.setPrimitives({isLoading: false});
+          MailboxStore.setIsLoading(false);
           MailboxStore.mergeMailboxes(mailboxes);
           return mailboxes;
         });
@@ -34,6 +34,6 @@ module.exports = {
   },
 
   changeSelection: function (mailboxId) {
-    MailboxStore.setPrimitives({mailboxId});
+    MailboxStore.setMailboxId(mailboxId);
   }
 };

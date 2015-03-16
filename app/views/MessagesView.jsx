@@ -13,8 +13,8 @@ var Loading = require('../components/Loading');
 var PureRenderMixin = React.addons.PureRenderMixin;
 
 function getStateFromStores () {
-  var mailboxId = MailboxStore.getPrimitive('mailboxId');
-  var messageId = MessageStore.getPrimitive('messageId');
+  var mailboxId = MailboxStore.getMailboxId();
+  var messageId = MessageStore.getMessageId();
 
   return {
     mailboxId,

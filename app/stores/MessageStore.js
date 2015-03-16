@@ -3,16 +3,22 @@ var Immutable = require('immutable');
 
 var MessageRecord = require('../records/MessageRecord');
 var Store = require('./Store');
-var primitivesMixin = require('./PrimitivesMixin');
 
 var _messages = new Immutable.Map();
 var _isLoadingByMailboxId = new Immutable.Map();
 
-var Primitives = primitivesMixin({
-  messageId: 0
-});
+var _messageId = 0;
 
-module.exports = assign({}, Store, Primitives, {
+module.exports = assign({}, Store, {
+  setMessageId: function (messageId) {
+    _messageId = messageId;
+    this.emitChange();
+  },
+
+  getMessageId: function () {
+    return _messageId;
+  },
+
   setIsLoadingByMailboxId: function (mailboxId, isLoading) {
     _isLoadingByMailboxId = _isLoadingByMailboxId.set(mailboxId, isLoading);
     this.emitChange();

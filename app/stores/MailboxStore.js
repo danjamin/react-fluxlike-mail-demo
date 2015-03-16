@@ -2,17 +2,31 @@ var assign = require('object-assign');
 var Immutable = require('immutable');
 
 var Store = require('./Store');
-var primitivesMixin = require('./PrimitivesMixin');
 var MailboxRecord = require('../records/MailboxRecord');
 
 var _mailboxes = new Immutable.Map();
+var _mailboxId = 0;
+var _isLoading = false;
 
-var Primitives = primitivesMixin({
-  mailboxId: 0,
-  isLoading: false
-});
+module.exports = assign({}, Store, {
+  setMailboxId: function (mailboxId) {
+    _mailboxId = mailboxId;
+    this.emitChange();
+  },
 
-module.exports = assign({}, Store, Primitives, {
+  getMailboxId: function () {
+    return _mailboxId;
+  },
+
+  setIsLoading: function (isLoading) {
+    _isLoading = isLoading;
+    this.emitChange();
+  },
+
+  getIsLoading: function () {
+    return _isLoading;
+  },
+
   /**
    * Gets the mailboxes Immutable.Map reference.
    * @return {Immutable.Map}

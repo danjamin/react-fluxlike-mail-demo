@@ -47,7 +47,7 @@ module.exports = {
   },
 
   changeSelection: function (messageId) {
-    MessageStore.setPrimitives({messageId});
+    MessageStore.setMessageId(messageId);
   },
 
   deleteMessageById: function (messageId) {

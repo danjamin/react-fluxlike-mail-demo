@@ -1,19 +1,15 @@
 var assign = require('object-assign');
 
 var Store = require('./Store');
-var primitivesMixin = require('./PrimitivesMixin');
-
-var Primitives = primitivesMixin({
-  showHeader: true,
-  showFooter: false
-});
 
 var _state = {
+  showHeader: true,
+  showFooter: false,
   sidePanel: null,
   content: null
 };
 
-module.exports = assign({}, Store, Primitives, {
+module.exports = assign({}, Store, {
   setState: function(newState) {
     for (var key in newState) {
       if (newState.hasOwnProperty(key)) {

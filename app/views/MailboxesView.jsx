@@ -10,9 +10,9 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 
 function getStateFromStores () {
   return {
-    mailboxId: MailboxStore.getPrimitive('mailboxId'),
+    mailboxId: MailboxStore.getMailboxId(),
     mailboxes: MailboxStore.getMailboxes(), // Immutable.Map
-    isLoading: MailboxStore.getPrimitive('isLoading')
+    isLoading: MailboxStore.getIsLoading()
   };
 }
 
