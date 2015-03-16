@@ -2,7 +2,7 @@ var RSVP = require('rsvp');
 
 // TODO: from config file
 var endPoint = '/api';
-var demoTimeout = 250;
+var demoTimeout = 500;
 
 var METADATA_KEY = '__API_metadata__';
 
