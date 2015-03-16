@@ -6,7 +6,7 @@ var {
 } = require('react-bootstrap');
 
 var MessageRecord = require('../records/MessageRecord');
-var MessageHandler = require('../handlers/MessageHandler');
+var MessageActions = require('../actions/MessageActions');
 var Pull = require('./Pull');
 
 module.exports = React.createClass({
@@ -33,6 +33,6 @@ module.exports = React.createClass({
   },
 
   handleDelete: function () {
-    MessageHandler.deleteMessageById(this.props.message.id);
+    MessageActions.deleteMessageById(this.props.message.id);
   }
 });

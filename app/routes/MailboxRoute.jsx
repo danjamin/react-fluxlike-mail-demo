@@ -5,9 +5,9 @@ var AppStore = require('../stores/AppStore');
 var MailboxesView = require('../views/MailboxesView');
 var MessagesView = require('../views/MessagesView');
 
-var DocumentTitleHandler = require('../handlers/DocumentTitleHandler');
-var MailboxHandler = require('../handlers/MailboxHandler');
-var MessageHandler = require('../handlers/MessageHandler');
+var DocumentTitleActions = require('../actions/DocumentTitleActions');
+var MailboxActions = require('../actions/MailboxActions');
+var MessageActions = require('../actions/MessageActions');
 
 var _currentMailboxId = 0;
 
@@ -17,23 +17,23 @@ module.exports =  function (mailboxId, messageId) {
   messageId = parseInt(messageId, 10);
 
   // Set sync state
-  DocumentTitleHandler.setTitleByMailboxId(mailboxId);
-  MailboxHandler.changeSelection(mailboxId);
-  MessageHandler.changeSelection(messageId ? messageId : 0);
+  DocumentTitleActions.setTitleByMailboxId(mailboxId);
+  MailboxActions.changeSelection(mailboxId);
+  MessageActions.changeSelection(messageId ? messageId : 0);
 
   // Start async
   // update the last mailbox fetched
   _currentMailboxId = mailboxId;
-  MailboxHandler.load({onlyIfStale: true}).then(function (mailboxes) {
+  MailboxActions.load({onlyIfStale: true}).then(function (mailboxes) {
     // only respond to last mailbox
     if (_currentMailboxId === mailboxId) {
-      DocumentTitleHandler.setTitleByMailboxId(mailboxId);
+      DocumentTitleActions.setTitleByMailboxId(mailboxId);
     }
 
     return mailboxes;
   });
 
-  MessageHandler.loadMessagesInMailbox(mailboxId, {onlyIfStale: true});
+  MessageActions.loadMessagesInMailbox(mailboxId, {onlyIfStale: true});
 
   // Set views
   AppStore.setState({
