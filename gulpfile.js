@@ -22,6 +22,11 @@ gulp.task('assets', function() {
     .pipe(gulp.dest(dest));
 });
 
+gulp.task('bowerAssets', function() {
+  return gulp.src(['bower_components/bootstrap-sass/assets/fonts/**/*.*'])
+    .pipe(gulp.dest(dest + 'fonts/'));
+});
+
 gulp.task('webpack', function() {
   return gulp.src('app/app.js')
     .pipe(gulpWebpack({
@@ -55,6 +60,6 @@ gulp.task('watch', function(cb) {
   cb();
 });
 
-gulp.task('build', ['assets', 'styles', 'webpack']);
+gulp.task('build', ['assets', 'bowerAssets', 'styles', 'webpack']);
 
 gulp.task('default', ['setWatch', 'build', 'watch']);
