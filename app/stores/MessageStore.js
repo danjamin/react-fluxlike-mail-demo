@@ -54,6 +54,27 @@ module.exports = assign({}, Store, Primitives, {
   },
 
   /**
+   * Deletes a specific message record by it's id.
+   * @return {Immutable.Map} The resulting immutable map.
+   */
+  deleteMessageById: function (messageId) {
+    var resultingMessages;
+
+    if (!messageId) {
+      return;
+    }
+
+    resultingMessages = _messages['delete'](messageId);
+
+    if (resultingMessages !== _messages) {
+      _messages = resultingMessages;
+      this.emitChange();
+    }
+
+    return _messages;
+  },
+
+  /**
    * Merges an array of raw message objects and returns the resulting
    * immutable messages map.  Only emits a change when a change has
    * occurred.

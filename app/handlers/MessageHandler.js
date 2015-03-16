@@ -1,5 +1,7 @@
 var API = require('../services/APIService');
 var MessageStore = require('../stores/MessageStore');
+var MailboxStore = require('../stores/MailboxStore');
+
 var _lastFetchedByMailboxId = {};
 
 function _fetchMessagesInMailbox(mailboxId) {
@@ -7,6 +9,14 @@ function _fetchMessagesInMailbox(mailboxId) {
     .then(function (res) {
       // leave as plain array
       return res.messages ? res.messages : [];
+    });
+}
+
+function _deleteMessage(messageId) {
+  return API['delete']('/messages/' + messageId)
+    .then(function (res) {
+      return res.hasOwnProperty('success') ?
+        res.success : false;
     });
 }
 
@@ -38,5 +48,33 @@ module.exports = {
 
   changeSelection: function (messageId) {
     MessageStore.setPrimitives({messageId});
+  },
+
+  deleteMessageById: function (messageId) {
+    var oldMessage;
+    var mailboxId;
+
+    if (!messageId) {
+      return;
+    }
+
+    oldMessage = MessageStore.getMessageById(messageId);
+    mailboxId = oldMessage.get('mailboxId');
+
+    MessageStore.deleteMessageById(messageId);
+    MailboxStore.decrementCountById(mailboxId);
+
+    function _undo() {
+      MessageStore.mergeMessages([oldMessage]);
+      MailboxStore.incrementCountById(mailboxId);
+    }
+
+    return _deleteMessage(messageId).then(function(success) {
+      if (!success) {
+        _undo();
+      }
+    })['catch'](function (xhr) {
+      _undo();
+    });
   }
 };

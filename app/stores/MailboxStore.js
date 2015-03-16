@@ -32,6 +32,48 @@ module.exports = assign({}, Store, Primitives, {
   },
 
   /**
+   * Decrements the count of messages in a mailbox record
+   * @return {Immutable.Map} The resulting immutable map. Note: if nothing
+   *   changes, will return reference to the previous Immutable.Map.
+   */
+  decrementCountById: function (mailboxId) {
+    var resultingMailboxes = _mailboxes.updateIn(
+      [mailboxId, 'count'],
+      function (count) {
+        return count > 0 ? count - 1 : count;
+      }
+    );
+
+    if (resultingMailboxes !== _mailboxes) {
+      _mailboxes = resultingMailboxes;
+      this.emitChange();
+    }
+
+    return _mailboxes;
+  },
+
+  /**
+   * Increments the count of messages in a mailbox record
+   * @return {Immutable.Map} The resulting immutable map. Note: if nothing
+   *   changes, will return reference to the previous Immutable.Map.
+   */
+  incrementCountById: function (mailboxId) {
+    var resultingMailboxes = _mailboxes.updateIn(
+      [mailboxId, 'count'],
+      function (count) {
+        return !count || count < 0 ? 1 : count + 1;
+      }
+    );
+
+    if (resultingMailboxes !== _mailboxes) {
+      _mailboxes = resultingMailboxes;
+      this.emitChange();
+    }
+
+    return _mailboxes;
+  },
+
+  /**
    * Merges an array of raw mailbox objects and returns the resulting
    * immutable mailboxes map.  Only emits a change when a change has
    * occurred.
