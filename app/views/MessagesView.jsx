@@ -2,10 +2,12 @@ var React = require('react/addons');
 var {Table} = require('react-bootstrap');
 
 var router = require('../router').router;
+
 var MessageStore = require('../stores/MessageStore');
-var MessageRecord = require('../records/MessageRecord');
 var MailboxStore = require('../stores/MailboxStore');
-var MessagePartial = require('./partials/MessagePartial');
+var MessageRecord = require('../records/MessageRecord');
+
+var Message = require('../components/Message');
 
 var PureRenderMixin = React.addons.PureRenderMixin;
 
@@ -67,7 +69,7 @@ module.exports = React.createClass({
     }.bind(this));
 
     selectedMessage = this.state.selectedMessage ?
-      (<MessagePartial message={this.state.selectedMessage} />) :
+      (<Message message={this.state.selectedMessage} />) :
       '';
 
     return (
