@@ -33,6 +33,7 @@ $ npm run-script lint
 - [x] Action handlers
 - [ ] Uh, comments through-out would be nice
 - [ ] Demonstrate testing with mockrequire and an example unit test
+- [ ] i18n
 - [ ] Is there a lighter router to use than to include all of Backbone?
 - [ ] Explore a link-to component which interacts with the router
 - [ ] Be smarter about which data to fetch in "nested routes"
