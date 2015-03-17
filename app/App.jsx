@@ -6,6 +6,7 @@ var router = require('./router');
 
 var HeaderPartial = require('./views/partials/HeaderPartial');
 var FooterPartial = require('./views/partials/FooterPartial');
+var DocumentTitleView = require('./views/DocumentTitleView');
 
 function getStateFromStores() {
   return {
@@ -66,6 +67,8 @@ var App = React.createClass({
         </main>
 
         {footer}
+
+        <DocumentTitleView />
       </div>
     );
   },
