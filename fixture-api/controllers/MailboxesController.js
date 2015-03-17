@@ -19,7 +19,7 @@ module.exports = function (app) {
         },
         {
           "id": 3,
-          "name": "Trash",
+          "name": "Archive",
           "count": _.where(_messages, {'mailboxId': 3}).length
         }
       ]
