@@ -1,6 +1,6 @@
 # react-fluxlike-mail-demo
 
-demo application of a very basic email client using fluxlike architecture, react, and webpack
+demo application of a very basic email client using fluxlike architecture, react, and requirejs
 
 # Pre-reqs
 
@@ -8,22 +8,18 @@ Install [nodejs](https://nodejs.org/)
 
 # Running
 
-Install dependencies, build and watch for changes:
+Install dependencies, run node web server:
 
 ```sh
 $ npm install
+$ bower install
 $ npm start
 ```
 
-In a separate tab serve the web app:
-```sh
-$ npm run-script serve
-```
-
-# Linting
+# Linting and testing
 
 ```sh
-$ npm run-script lint
+$ npm test
 ```
 
 # TODO
@@ -32,7 +28,6 @@ $ npm run-script lint
 - [x] Reduce the number of re-renders
 - [x] Action handlers
 - [ ] Uh, comments through-out would be nice
-- [ ] Demonstrate testing with mockrequire and an example unit test
 - [ ] i18n
 - [ ] Is there a lighter router to use than to include all of Backbone?
 - [ ] Explore a link-to component which interacts with the router

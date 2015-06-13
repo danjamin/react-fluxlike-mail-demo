@@ -1,16 +1,13 @@
 {
   "name": "react-fluxlike-mail-demo",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "demo application of a very basic email client using fluxlike architecture, react, and webpack",
+  "description": "demo application of a very basic email client using fluxlike architecture, react, and requirejs",
   "main": "index.js",
   "scripts": {
-    "postinstall": "bower prune && bower install",
-    "start": "gulp",
-    "serve": "nodemon web.js",
-    "build": "gulp build",
-    "lint": "jsxhint --jsx-only '*.js' '*.jsx' 'app/*.js' 'app/*.jsx' 'app/**/*.js' 'app/**/*.jsx'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node web.js",
+    "build": "echo \"Error: no build specified\" && exit 1",
+    "test": "jsxhint --jsx-only '*.js' '*.jsx' 'public/app/*.js' 'public/app/*.jsx' 'public/app/**/*.js' 'public/app/**/*.jsx'"
   },
   "repository": {
     "type": "git",
@@ -19,7 +16,7 @@
   "keywords": [
     "flux",
     "react",
-    "webpack"
+    "requirejs"
   ],
   "author": "Dan G",
   "license": "MIT",
@@ -27,28 +24,10 @@
     "url": "https://github.com/danjamin/react-fluxlike-mail-demo/issues"
   },
   "homepage": "https://github.com/danjamin/react-fluxlike-mail-demo",
-  "dependencies": {
-    "backbone": "^1.1.2",
-    "express": "^4.12.1",
-    "immutable": "^3.6.4",
-    "jquery": "^2.1.3",
-    "object-assign": "^2.0.0",
-    "react": "^0.12.2",
-    "react-bootstrap": "^0.16.1",
-    "rsvp": "^3.0.17",
-    "underscore": "^1.8.2"
-  },
   "devDependencies": {
-    "bower": "^1.3.12",
+    "express": "^4.12.1",
     "express-bind-controllers": "https://github.com/danjamin/express-bind-controllers/tarball/v0.1.0",
-    "gulp": "^3.8.11",
-    "gulp-autoprefixer": "^2.1.0",
-    "gulp-plumber": "^1.0.0",
-    "gulp-sass": "^1.3.3",
-    "gulp-webpack": "^1.2.0",
-    "jsx-loader": "^0.12.2",
     "jsxhint": "^0.12.1",
-    "nodemon": "^1.3.7",
-    "webpack": "^1.6.0"
+    "underscore": "^1.8.3"
   }
 }
