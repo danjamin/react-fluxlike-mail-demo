@@ -29,4 +29,5 @@ requirejs.config({
   }
 });
 
-requirejs(['jsx!app/App']);
+// bring in the app configuration
+requirejs(['app/config']);

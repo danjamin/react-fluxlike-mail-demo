@@ -3,14 +3,16 @@ define(function (require) {
 
   var RSVP = require('rsvp');
 
-  // TODO: from config file
-  var endPoint = '/api',
-    demoTimeout = 500,
+  var _config,
     METADATA_KEY = '__API_metadata__';
+
+  _config = {
+    endPoint: '/'
+  };
 
   var _requestJSON = function (method, path, bodyObject) {
     // relative starts with '/'
-    var url = path[0] === '/' ? endPoint + path : path;
+    var url = path[0] === '/' ? _config.endPoint + path : path;
 
     var xhr;
     var promise;
@@ -48,13 +50,11 @@ define(function (require) {
         try {
           if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-              setTimeout(function() {
-                response = window.JSON.parse(xhr.responseText);
-                response[METADATA_KEY] = {
-                  xhr: xhr
-                };
-                resolve(response);
-              }, demoTimeout);
+              response = window.JSON.parse(xhr.responseText);
+              response[METADATA_KEY] = {
+                xhr: xhr
+              };
+              resolve(response);
             } else {
               reject(xhr);
             }
@@ -70,6 +70,12 @@ define(function (require) {
 
   return {
     METADATA_KEY: METADATA_KEY,
+
+    config: {
+      setEndpoint: function (endPoint) {
+        _config.endPoint = endPoint;
+      }
+    },
 
     get: function (path) {
       return _requestJSON('GET', path, null);
