@@ -3,13 +3,16 @@
 <html>
   <head>
     <title>Mail</title>
-    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="styles/app.css" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
   </head>
 
   <body>
     <div id="app"></div>
-    <script src="app.js"></script>
+
+    <!-- data-main attribute tells require.js to load
+                 scripts/main.js after require.js loads. -->
+    <script data-main="requirejs-config" src="require-2.1.18.js"></script>
   </body>
 </html>

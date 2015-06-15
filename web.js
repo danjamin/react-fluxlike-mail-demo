@@ -1,4 +1,5 @@
-/* global process, __dirname */
+/* global require, module, process, __dirname */
+'use strict';
 
 var express = require('express');
 var app = express();
@@ -12,7 +13,7 @@ app.listen(app.get('port'), function () {
 });
 
 // Setup /public access
-app.use(express['static'](__dirname + '/dist/'));
+app.use(express['static'](__dirname + '/public/'));
 
 // Bind controllers
 bindControllers(app, __dirname + '/fixture-api/controllers');

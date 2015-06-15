@@ -1,0 +1,14 @@
+.table > tbody > tr,
+.table-striped > tbody > tr {
+  cursor: pointer;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.table > tbody > tr.table-highlight,
+.table-striped > tbody > tr.table-highlight {
+  color: #FFF;
+  background: #337ab7;
+}
