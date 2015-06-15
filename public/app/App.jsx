@@ -5,6 +5,7 @@ define(function (require) {
     ReactBootstrap = require('react-bootstrap'),
     AppStore = require('app/stores/AppStore'),
     start = require('app/router').start,
+    routes = require('app/routes'),
     HeaderPartial = require('jsx!app/views/partials/HeaderPartial'),
     FooterPartial = require('jsx!app/views/partials/FooterPartial'),
     DocumentTitleView = require('jsx!app/views/DocumentTitleView');
@@ -90,5 +91,5 @@ define(function (require) {
   );
 
   // Start routing
-  start();
+  start(routes);
 });

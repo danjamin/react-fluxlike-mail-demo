@@ -4,7 +4,7 @@ define(function (require) {
   var React = require('react'),
     ReactBootstrap = require('react-bootstrap'),
     MailboxStore = require('app/stores/MailboxStore'),
-    router = require('app/router').router,
+    RouteActions = require('app/actions/RouteActions'),
     Loading = require('jsx!app/components/Loading'),
     MailboxRow = require('jsx!app/components/MailboxRow');
 
@@ -38,9 +38,7 @@ define(function (require) {
     },
 
     handleClick: function (id) {
-      // TODO: link-to or something better here??
-      // TODO: should be an <a>
-      router.navigate('box/' + id, {trigger: true});
+      RouteActions.linkTo('mailbox', {mailboxId: id});
     },
 
     render: function () {

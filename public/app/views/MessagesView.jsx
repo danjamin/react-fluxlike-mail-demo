@@ -3,7 +3,7 @@ define(function (require) {
 
   var React = require('react'),
     ReactBootstrap = require('react-bootstrap'),
-    router = require('app/router').router,
+    RouteActions = require('app/actions/RouteActions'),
     MessageStore = require('app/stores/MessageStore'),
     MailboxStore = require('app/stores/MailboxStore'),
     MessageRow = require('jsx!app/components/MessageRow'),
@@ -46,8 +46,10 @@ define(function (require) {
     },
 
     handleRowClick: function (message) {
-      router.navigate('box/' + this.state.mailboxId +
-        '/message/' + message.id, {trigger: true});
+      RouteActions.linkTo('message', {
+        mailboxId: this.state.mailboxId,
+        messageId: message.id
+      });
     },
 
     render: function () {
@@ -62,6 +64,8 @@ define(function (require) {
 
       messageRows = [];
 
+      // TODO: every link should ultimately be an A tag
+      
       this.state.messages.forEach(function (message) {
         // this way, less re-renders since the bool of isSelected
         // hasn't changed for some of the rows where as messageId
