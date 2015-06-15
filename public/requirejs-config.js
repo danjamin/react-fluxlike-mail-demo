@@ -11,6 +11,7 @@ requirejs.config({
     immutable: 'immutable/dist/immutable',
     jquery: 'jquery/dist/jquery',
     react: 'react/react-with-addons',
+    classnames: 'classnames/index',
     'react-bootstrap': 'react-bootstrap/react-bootstrap',
     rsvp: 'rsvp/rsvp',
     underscore: 'underscore/underscore',

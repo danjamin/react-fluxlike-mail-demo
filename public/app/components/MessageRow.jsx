@@ -2,9 +2,8 @@ define(function (require) {
   'use strict';
 
   var React = require('react'),
+    classNames = require('classnames'),
     MessageRecord = require('app/records/MessageRecord');
-
-  var cx = React.addons.classSet;
 
   return React.createClass({
     displayName: 'MessageRow',
@@ -32,7 +31,7 @@ define(function (require) {
     },
 
     render: function () {
-      var classes = cx({
+      var classes = classNames({
         'table-highlight': this.props.isSelected
       });
 
