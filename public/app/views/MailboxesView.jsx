@@ -55,13 +55,9 @@ define(function (require) {
       // be careful here, if using .map() you will result in
       // an immutable iterable that react does not natively support
       this.state.mailboxes.forEach(function (mailbox, mailboxId) {
-        function handleClick() {
-          this.handleClick(mailboxId);
-        }
-
         mailboxes.push(
           <NavItem key={mailboxId} eventKey={mailboxId} href="#"
-              onSelect={handleClick.bind(this)}>
+              onSelect={this.handleClick.bind(this, mailboxId)}>
             <MailboxRow mailbox={mailbox} />
           </NavItem>
         );
