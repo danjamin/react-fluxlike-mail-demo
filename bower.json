@@ -29,6 +29,7 @@
     "jsx-requirejs-plugin": "~0.6.2",
     "react-bootstrap": "~0.23.3",
     "classnames": "~2.1.2",
-    "bootstrap": "~3.3.4"
+    "bootstrap": "~3.3.4",
+    "fl-api-service": "https://github.com/danjamin/fl-api-service.git#master"
   }
 }

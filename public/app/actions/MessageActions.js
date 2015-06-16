@@ -1,14 +1,14 @@
 define(function (require) {
   'use strict';
 
-  var API = require('app/services/APIService'),
+  var API = require('fl-api-service'),
     MessageStore = require('app/stores/MessageStore'),
     MailboxStore = require('app/stores/MailboxStore');
 
   var _lastFetchedByMailboxId = {};
 
   function _fetchMessagesInMailbox(mailboxId) {
-    return API.get('/mailbox/' + mailboxId + '/messages')
+    return API.GET('/mailbox/' + mailboxId + '/messages')
       .then(function (res) {
         // leave as plain array
         return res.messages ? res.messages : [];
@@ -16,7 +16,7 @@ define(function (require) {
   }
 
   function _deleteMessage(messageId) {
-    return API['delete']('/messages/' + messageId)
+    return API.DELETE('/messages/' + messageId)
       .then(function (res) {
         return res.hasOwnProperty('success') ?
           res.success : false;

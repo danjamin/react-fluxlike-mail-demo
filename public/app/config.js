@@ -2,7 +2,7 @@
 define(function (require) {
   'use strict';
 
-  var API = require('app/services/APIService');
+  var API = require('fl-api-service');
 
   // Configure the API service
   API.config.setEndpoint('/api');
