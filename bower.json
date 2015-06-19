@@ -30,6 +30,7 @@
     "react-bootstrap": "~0.23.3",
     "classnames": "~2.1.2",
     "bootstrap": "~3.3.4",
-    "fl-api-service": "https://github.com/danjamin/fl-api-service.git#master"
+    "fl-api-service": "https://github.com/danjamin/fl-api-service.git#0.1.0",
+    "fl-store": "https://github.com/danjamin/fl-store.git#0.1.0"
   }
 }

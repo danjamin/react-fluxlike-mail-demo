@@ -16,6 +16,7 @@ requirejs.config({
     rsvp: 'rsvp/rsvp',
     underscore: 'underscore/underscore',
     'fl-api-service': 'fl-api-service/dist/amd/main',
+    'fl-store': 'fl-store/index',
 
     // JSX loader plugin
     text: 'requirejs-text/text',
