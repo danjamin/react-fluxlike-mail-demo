@@ -24,6 +24,10 @@ requirejs.config({
     JSXTransformer: 'jsx-requirejs-plugin/js/JSXTransformer'
   },
 
+  packages: [
+    { name: 'fl-router', location: 'fl-router/lib' }
+  ],
+
   jsx: {
     fileExtension: '.jsx',
     harmony: false,

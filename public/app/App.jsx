@@ -4,7 +4,7 @@ define(function (require) {
   var React = require('react'),
     ReactBootstrap = require('react-bootstrap'),
     AppStore = require('app/stores/AppStore'),
-    start = require('app/router').start,
+    start = require('fl-router').Router.start,
     routes = require('app/routes'),
     HeaderPartial = require('jsx!app/views/partials/HeaderPartial'),
     FooterPartial = require('jsx!app/views/partials/FooterPartial'),

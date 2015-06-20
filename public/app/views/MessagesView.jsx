@@ -3,7 +3,7 @@ define(function (require) {
 
   var React = require('react'),
     ReactBootstrap = require('react-bootstrap'),
-    RouteActions = require('app/actions/RouteActions'),
+    RouteActions = require('fl-router').RouteActions,
     MessageStore = require('app/stores/MessageStore'),
     MailboxStore = require('app/stores/MailboxStore'),
     MessageRow = require('jsx!app/components/MessageRow'),
