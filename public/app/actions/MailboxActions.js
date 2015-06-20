@@ -1,13 +1,13 @@
 define(function (require) {
   'use strict';
 
-  var API = require('app/services/APIService'),
+  var API = require('fl-api-service'),
     MailboxStore = require('app/stores/MailboxStore');
 
   var _lastFetched = -1;
 
   function _fetchMailboxes() {
-    return API.get('/mailboxes')
+    return API.GET('/mailboxes')
       .then(function(res) {
         // leave this as plain object or array at this point
         return res.mailboxes ? res.mailboxes : [];

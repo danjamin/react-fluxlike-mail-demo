@@ -15,12 +15,18 @@ requirejs.config({
     'react-bootstrap': 'react-bootstrap/react-bootstrap',
     rsvp: 'rsvp/rsvp',
     underscore: 'underscore/underscore',
+    'fl-api-service': 'fl-api-service/dist/amd/main',
+    'fl-store': 'fl-store/index',
 
     // JSX loader plugin
     text: 'requirejs-text/text',
     jsx: 'jsx-requirejs-plugin/js/jsx',
     JSXTransformer: 'jsx-requirejs-plugin/js/JSXTransformer'
   },
+
+  packages: [
+    { name: 'fl-router', location: 'fl-router/lib' }
+  ],
 
   jsx: {
     fileExtension: '.jsx',
@@ -29,4 +35,5 @@ requirejs.config({
   }
 });
 
-requirejs(['jsx!app/App']);
+// bring in the app configuration
+requirejs(['app/config']);

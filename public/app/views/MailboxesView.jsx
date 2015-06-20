@@ -4,7 +4,7 @@ define(function (require) {
   var React = require('react'),
     ReactBootstrap = require('react-bootstrap'),
     MailboxStore = require('app/stores/MailboxStore'),
-    RouteActions = require('app/actions/RouteActions'),
+    RouteActions = require('fl-router').RouteActions,
     Loading = require('jsx!app/components/Loading'),
     MailboxRow = require('jsx!app/components/MailboxRow');
 
