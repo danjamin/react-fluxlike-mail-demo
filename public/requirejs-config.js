@@ -16,17 +16,14 @@ requirejs.config({
     rsvp: 'rsvp/rsvp',
     underscore: 'underscore/underscore',
     'fl-api-service': 'fl-api-service/dist/fl-api-service',
-    'fl-store': 'fl-store/index',
+    'fl-store': 'fl-store/dist/fl-store',
+    'fl-router': 'fl-router/dist/fl-router',
 
     // JSX loader plugin
     text: 'requirejs-text/text',
     jsx: 'jsx-requirejs-plugin/js/jsx',
     JSXTransformer: 'jsx-requirejs-plugin/js/JSXTransformer'
   },
-
-  packages: [
-    { name: 'fl-router', location: 'fl-router/lib' }
-  ],
 
   jsx: {
     fileExtension: '.jsx',

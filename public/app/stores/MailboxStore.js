@@ -3,7 +3,7 @@ define(function (require) {
 
   var _ = require('underscore'),
     Immutable = require('immutable'),
-    Store = require('fl-store'),
+    Store = require('fl-store')['default'],
     MailboxRecord = require('app/records/MailboxRecord');
 
   var _mailboxes = new Immutable.Map(),

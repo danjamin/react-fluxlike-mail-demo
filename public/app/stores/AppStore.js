@@ -2,7 +2,7 @@ define(function (require) {
   'use strict';
 
   var _ = require('underscore'),
-    Store = require('fl-store');
+    Store = require('fl-store')['default'];
 
   var _state = {
     showHeader: true,

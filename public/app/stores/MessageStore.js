@@ -4,7 +4,7 @@ define(function (require) {
   var _ = require('underscore'),
     Immutable = require('immutable'),
     MessageRecord = require('app/records/MessageRecord'),
-    Store = require('fl-store');
+    Store = require('fl-store')['default'];
 
   var _messages = new Immutable.Map(),
     _isLoadingByMailboxId = new Immutable.Map(),
