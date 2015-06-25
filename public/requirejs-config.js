@@ -15,7 +15,7 @@ requirejs.config({
     'react-bootstrap': 'react-bootstrap/react-bootstrap',
     rsvp: 'rsvp/rsvp',
     underscore: 'underscore/underscore',
-    'fl-api-service': 'fl-api-service/dist/amd/main',
+    'fl-api-service': 'fl-api-service/dist/fl-api-service',
     'fl-store': 'fl-store/index',
 
     // JSX loader plugin
