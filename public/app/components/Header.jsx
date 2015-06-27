@@ -4,10 +4,12 @@ define(function (require) {
   var React = require('react'),
     ReactBootstrap = require('react-bootstrap');
 
-  var Navbar = ReactBootstrap.Navbar;
+  var Navbar = ReactBootstrap.Navbar,
+    Nav = ReactBootstrap.Nav,
+    NavItem = ReactBootstrap.NavItem;
 
   return React.createClass({
-    displayName: 'HeaderPartial',
+    displayName: 'Header',
 
     shouldComponentUpdate: function () {
       return false;
@@ -15,7 +17,10 @@ define(function (require) {
 
     render: function () {
       return (
-        <Navbar brand='Flux-like Mail'>
+        <Navbar brand={<a href="#/">Flux-like Mail</a>}>
+          <Nav>
+            <NavItem eventKey={1} href='#/contributors'>Contributors</NavItem>
+          </Nav>
         </Navbar>
       );
     }

@@ -6,6 +6,7 @@
   "indent": 2,
   "singleGroups": false,
   "unused": "vars",
+  "camelcase": false,
   "globals": {
     "document": false,
     "window": false,

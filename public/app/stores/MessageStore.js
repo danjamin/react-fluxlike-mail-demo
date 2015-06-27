@@ -4,33 +4,52 @@ define(function (require) {
   var _ = require('underscore'),
     Immutable = require('immutable'),
     MessageRecord = require('app/records/MessageRecord'),
-    Store = require('fl-store')['default'];
+    Store = require('fl-store')['default'],
+    AppDispatcher = require('app/dispatcher/AppDispatcher'),
+    ActionTypes = require('app/ActionTypes');
+
+  var MessageStore;
 
   var _messages = new Immutable.Map(),
-    _isLoadingByMailboxId = new Immutable.Map(),
     _messageId = 0;
 
-  return _.extend({}, Store, {
-    setMessageId: function (messageId) {
-      _messageId = messageId;
-      this.emitChange();
-    },
+  /**
+   * Merges rawMessages with the private _messages Immutable map
+   * @param array rawMessages Array of raw JS objects representing messages
+   */
+  function _mergeMessages(rawMessages) {
+    _messages = _messages.withMutations(function (map) {
+      rawMessages.forEach(function (rawMessage) {
+        map.update(rawMessage.id, function (oldMessage) {
+          return oldMessage ? oldMessage.merge(rawMessage) :
+            new MessageRecord(rawMessage);
+        });
+      });
+    });
+  }
 
-    getMessageId: function () {
+  /**
+   * Selects a message by id -- this is expected to represent which message
+   * is currently selected in the UI.
+   * @param number messageId
+   */
+  function _selectMessage(messageId) {
+    _messageId = messageId;
+  }
+
+  /**
+   * Deletes a message by id.
+   * @param number messageId
+   */
+  function _deleteMessage(messageId) {
+    if (messageId) {
+       _messages = _messages['delete'](messageId);
+    }
+  }
+
+  MessageStore = _.extend({}, Store, {
+    getSelectedMessageId: function () {
       return _messageId;
-    },
-
-    setIsLoadingByMailboxId: function (mailboxId, isLoading) {
-      _isLoadingByMailboxId = _isLoadingByMailboxId.set(mailboxId, isLoading);
-      this.emitChange();
-    },
-
-    getIsLoadingByMailboxId: function (mailboxId) {
-      if (!mailboxId) {
-        return;
-      }
-
-      return _isLoadingByMailboxId.get(mailboxId);
     },
 
     /**
@@ -58,54 +77,36 @@ define(function (require) {
       if (messageId) {
         return _messages.get(messageId);
       }
-    },
-
-    /**
-     * Deletes a specific message record by it's id.
-     * @return {Immutable.Map} The resulting immutable map.
-     */
-    deleteMessageById: function (messageId) {
-      var resultingMessages;
-
-      if (!messageId) {
-        return;
-      }
-
-      resultingMessages = _messages['delete'](messageId);
-
-      if (resultingMessages !== _messages) {
-        _messages = resultingMessages;
-        this.emitChange();
-      }
-
-      return _messages;
-    },
-
-    /**
-     * Merges an array of raw message objects and returns the resulting
-     * immutable messages map.  Only emits a change when a change has
-     * occurred.
-     *
-     * @param {array} messages The array of raw message objects to be merged
-     * @return {Immutable.Map} The resulting immutable map. Note: if nothing
-     *   changes, will return reference to the previous Immutable.Map.
-     */
-    mergeMessages: function(messages) {
-      var resultingMessages = _messages.withMutations(function (map) {
-        messages.forEach(function (newMessage) {
-          map.update(newMessage.id, function (oldMessage) {
-            return oldMessage ? oldMessage.merge(newMessage) :
-              new MessageRecord(newMessage);
-          });
-        });
-      });
-
-      if (resultingMessages !== _messages) {
-        _messages = resultingMessages;
-        this.emitChange();
-      }
-
-      return _messages;
     }
   });
+
+  // Register callback with dispatcher and save dispatchToken
+  MessageStore.dispatchToken = AppDispatcher.register(function (action) {
+    switch (action.type) {
+      case ActionTypes.RECEIVE_RAW_MESSAGES:
+        _mergeMessages(action.rawMessages);
+        MessageStore.emitChange();
+        break;
+
+      case ActionTypes.SELECT_MESSAGE:
+        _selectMessage(action.messageId);
+        MessageStore.emitChange();
+        break;
+
+      case ActionTypes.DELETE_MESSAGE:
+        _deleteMessage(action.message.get('id'));
+        MessageStore.emitChange();
+        break;
+
+      case ActionTypes.UNDO_DELETE_MESSAGE:
+        _mergeMessages([action.message]);
+        MessageStore.emitChange();
+        break;
+
+      default:
+        // do nothing
+    }
+  });
+
+  return MessageStore;
 });

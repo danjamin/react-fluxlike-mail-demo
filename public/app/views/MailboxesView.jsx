@@ -4,8 +4,7 @@ define(function (require) {
   var React = require('react'),
     ReactBootstrap = require('react-bootstrap'),
     MailboxStore = require('app/stores/MailboxStore'),
-    RouteActions = require('fl-router').RouteActions,
-    Loading = require('jsx!app/components/Loading'),
+    Router = require('fl-router').Router,
     MailboxRow = require('jsx!app/components/MailboxRow');
 
   var Nav = ReactBootstrap.Nav,
@@ -14,9 +13,8 @@ define(function (require) {
 
   function getStateFromStores () {
     return {
-      mailboxId: MailboxStore.getMailboxId(),
-      mailboxes: MailboxStore.getMailboxes(), // Immutable.Map
-      isLoading: MailboxStore.getIsLoading()
+      mailboxId: MailboxStore.getSelectedMailboxId(),
+      mailboxes: MailboxStore.getMailboxes() // Immutable.Map
     };
   }
 
@@ -38,17 +36,11 @@ define(function (require) {
     },
 
     handleClick: function (id) {
-      RouteActions.linkTo('mailbox', {mailboxId: id});
+      Router.linkTo('mailbox', {mailboxId: id});
     },
 
     render: function () {
       var mailboxes;
-
-      if (this.state.isLoading) {
-        return (
-          <Loading />
-        );
-      }
 
       mailboxes = [];
 

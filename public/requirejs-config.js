@@ -15,6 +15,7 @@ requirejs.config({
     'react-bootstrap': 'react-bootstrap/react-bootstrap',
     rsvp: 'rsvp/rsvp',
     underscore: 'underscore/underscore',
+    flux: 'flux/dist/Flux',
     'fl-api-service': 'fl-api-service/dist/fl-api-service',
     'fl-store': 'fl-store/dist/fl-store',
     'fl-router': 'fl-router/dist/fl-router',

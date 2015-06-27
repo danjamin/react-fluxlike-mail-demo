@@ -3,27 +3,26 @@ define(function (require) {
 
   var React = require('react'),
     ReactBootstrap = require('react-bootstrap'),
-    RouteActions = require('fl-router').RouteActions,
-    MessageActions = require('app/actions/MessageActions'),
+    Router = require('fl-router').Router,
+    MessageActionCreators = require('app/actions/MessageActionCreators'),
     MessageStore = require('app/stores/MessageStore'),
     MailboxStore = require('app/stores/MailboxStore'),
     MessageRow = require('jsx!app/components/MessageRow'),
-    Message = require('jsx!app/components/Message'),
-    Loading = require('jsx!app/components/Loading');
+    Message = require('jsx!app/components/Message');
 
   var Table = ReactBootstrap.Table,
     PureRenderMixin = React.addons.PureRenderMixin;
 
   function getStateFromStores () {
-    var mailboxId = MailboxStore.getMailboxId();
-    var messageId = MessageStore.getMessageId();
+    var mailboxId = MailboxStore.getSelectedMailboxId();
+    var messageId = MessageStore.getSelectedMessageId();
 
     return {
       mailboxId: mailboxId,
       messageId: messageId,
       messages: MessageStore.getMessagesInMailbox(mailboxId),
-      selectedMessage: MessageStore.getMessageById(messageId),
-      isLoading: MessageStore.getIsLoadingByMailboxId(mailboxId)
+      selectedMailbox: MailboxStore.getMailboxById(mailboxId),
+      selectedMessage: MessageStore.getMessageById(messageId)
     };
   }
 
@@ -49,12 +48,7 @@ define(function (require) {
     render: function () {
       var messageRows;
       var selectedMessage;
-
-      if (this.state.isLoading) {
-        return (
-          <Loading />
-        );
-      }
+      var messagesTable;
 
       messageRows = [];
 
@@ -74,24 +68,27 @@ define(function (require) {
         );
       }.bind(this));
 
+      messagesTable = (
+        <Table striped condensed hover>
+          <thead>
+            <tr>
+              <th>From</th>
+              <th>To</th>
+              <th>Subject</th>
+            </tr>
+          </thead>
+          <tbody>
+            {messageRows}
+          </tbody>
+        </Table>
+      );
+
       selectedMessage = this.state.selectedMessage ?
-        (<Message message={this.state.selectedMessage} onDelete={this.handleMessageDelete} />) :
-        '';
+        <Message message={this.state.selectedMessage} onDelete={this.handleMessageDelete} /> : null;
 
       return (
         <div>
-          <Table striped condensed hover>
-            <thead>
-              <tr>
-                <th>From</th>
-                <th>To</th>
-                <th>Subject</th>
-              </tr>
-            </thead>
-            <tbody>
-              {messageRows}
-            </tbody>
-          </Table>
+          {messagesTable}
 
           <p>
             {selectedMessage}
@@ -100,15 +97,27 @@ define(function (require) {
       );
     },
 
+    handleBackToBoxClick: function (e) {
+      e.preventDefault();
+
+      Router.linkTo('mailbox', {
+        mailboxId: this.state.mailboxId
+      });
+    },
+
     handleRowClick: function (message) {
-      RouteActions.linkTo('message', {
+      Router.linkTo('message', {
         mailboxId: this.state.mailboxId,
         messageId: message.id
       });
     },
 
     handleMessageDelete: function (messageId) {
-      MessageActions.deleteMessageById(messageId);
+      MessageActionCreators.deleteMessage(messageId);
+
+      Router.linkTo('mailbox', {
+        mailboxId: this.state.mailboxId
+      });
     },
 
     _onChange: function () {

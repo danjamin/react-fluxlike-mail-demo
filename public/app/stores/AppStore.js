@@ -1,33 +1,72 @@
 define(function (require) {
   'use strict';
 
-  var _ = require('underscore'),
-    Store = require('fl-store')['default'];
+  var React = require('react'),
+    _ = require('underscore'),
+    Store = require('fl-store')['default'],
+    AppDispatcher = require('app/dispatcher/AppDispatcher'),
+    ActionTypes = require('app/ActionTypes'),
+    DefaultTemplate = require('jsx!app/templates/DefaultTemplate'),
+    LoadingView = require('jsx!app/views/LoadingView');
 
-  var _state = {
-    showHeader: true,
-    showFooter: false,
-    sidePanel: null,
-    content: null
-  };
+  var AppStore;
 
-  return _.extend({}, Store, {
-    setState: function(newState) {
-      for (var key in newState) {
-        if (newState.hasOwnProperty(key)) {
-          if (_state.hasOwnProperty(key)) {
-            _state[key] = newState[key];
-          }
-        }
-      }
-
-      this.emitChange();
+  var _template = DefaultTemplate,
+    _templateOptions = {
+      showSidePanel: false,
+      ContentView: React.createElement(LoadingView)
     },
+    _isHeaderVisible = true,
+    _isFooterVisible = true;
 
-    get: function(key) {
-      if (_state.hasOwnProperty(key)) {
-        return _state[key];
+  function _setTemplate(template) {
+    _template = template;
+  }
+
+  function _setTemplateOptions(templateOptions) {
+    // replace/add all options from the templateOptions
+    for (var name in templateOptions) {
+      if (templateOptions.hasOwnProperty(name)) {
+        _templateOptions[name] = templateOptions[name];
       }
     }
+  }
+
+  AppStore = _.extend({}, Store, {
+    getTemplate: function () {
+      return _template;
+    },
+
+    getTemplateOptions: function () {
+      return _templateOptions;
+    },
+
+    isHeaderVisible: function () {
+      return _isHeaderVisible;
+    },
+
+    isFooterVisible: function () {
+      return _isFooterVisible;
+    }
   });
+
+  // Register callback with dispatcher and save dispatchToken
+  AppStore.dispatchToken = AppDispatcher.register(function (action) {
+    switch (action.type) {
+      case ActionTypes.SET_TEMPLATE:
+        _setTemplate(action.template);
+        AppStore.emitChange();
+        break;
+
+      case ActionTypes.SET_TEMPLATE_OPTIONS:
+        _setTemplateOptions(action.options);
+        AppStore.emitChange();
+        break;
+
+      default:
+        // do nothing
+    }
+  });
+
+  return AppStore;
 });

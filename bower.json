@@ -32,7 +32,8 @@
     "bootstrap": "~3.3.4",
     "fl-api-service": "https://github.com/danjamin/fl-api-service.git#0.1.2",
     "fl-store": "https://github.com/danjamin/fl-store.git#0.1.1",
-    "fl-router": "https://github.com/danjamin/fl-router.git#0.1.2",
-    "requirejs": "~2.1.18"
+    "fl-router": "https://github.com/danjamin/fl-router.git#0.1.3",
+    "requirejs": "~2.1.18",
+    "flux": "~2.0.2"
   }
 }

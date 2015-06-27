@@ -4,7 +4,7 @@ define(function (require) {
   var React = require('react');
 
   return React.createClass({
-    displayName: 'FooterPartial',
+    displayName: 'Footer',
 
     shouldComponentUpdate: function () {
       return false;
