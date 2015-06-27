@@ -8,19 +8,21 @@ define(function (require) {
   var _lastFetchedByMailboxId = {};
 
   function _fetchMessagesInMailbox(mailboxId) {
-    return API.GET('/mailbox/' + mailboxId + '/messages')
-      .then(function (res) {
-        // leave as plain array
-        return res.messages ? res.messages : [];
-      });
+    var url = '/mailbox/' + mailboxId + '/messages';
+
+    return API.GET(url).then(function (res) {
+      // leave as plain array
+      return res.messages ? res.messages : [];
+    });
   }
 
   function _deleteMessage(messageId) {
-    return API.DELETE('/messages/' + messageId)
-      .then(function (res) {
-        return res.hasOwnProperty('success') ?
-          res.success : false;
-      });
+    var url = '/messages/' + messageId;
+
+    return API.DELETE(url).then(function (res) {
+      return res.hasOwnProperty('success') ?
+        res.success : false;
+    });
   }
 
   return {
@@ -33,20 +35,19 @@ define(function (require) {
         }
       }
 
-      if (doFetch) {
-        MessageStore.setIsLoadingByMailboxId(mailboxId, true);
-        _lastFetchedByMailboxId[mailboxId] = (new Date()).getTime();
-        return _fetchMessagesInMailbox(mailboxId)
-          .then(function (messages) {
-            MessageStore.setIsLoadingByMailboxId(mailboxId, false);
-            MessageStore.mergeMessages(messages);
-            return messages;
-          });
-      } else {
-        return API.resolve(
-          MessageStore.getMessagesInMailbox(mailboxId)
-        );
+      if (!doFetch) {
+        return;
       }
+
+      MessageStore.setIsLoadingByMailboxId(mailboxId, true);
+
+      _lastFetchedByMailboxId[mailboxId] = (new Date()).getTime();
+
+      _fetchMessagesInMailbox(mailboxId).then(function (messages) {
+        MessageStore.setIsLoadingByMailboxId(mailboxId, false);
+        MessageStore.mergeMessages(messages);
+        return messages;
+      });
     },
 
     changeSelection: function (messageId) {
@@ -72,7 +73,7 @@ define(function (require) {
         MailboxStore.incrementCountById(mailboxId);
       }
 
-      return _deleteMessage(messageId).then(function(success) {
+      _deleteMessage(messageId).then(function(success) {
         if (!success) {
           _undo();
         }

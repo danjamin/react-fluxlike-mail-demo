@@ -7,11 +7,10 @@ define(function (require) {
   var _lastFetched = -1;
 
   function _fetchMailboxes() {
-    return API.GET('/mailboxes')
-      .then(function(res) {
-        // leave this as plain object or array at this point
-        return res.mailboxes ? res.mailboxes : [];
-      });
+    return API.GET('/mailboxes').then(function(res) {
+      // leave this as plain object or array at this point
+      return res.mailboxes ? res.mailboxes : [];
+    });
   }
 
   return {
@@ -22,18 +21,19 @@ define(function (require) {
         doFetch = _lastFetched === -1;
       }
 
-      if (doFetch) {
-        MailboxStore.setIsLoading(true);
-        _lastFetched = (new Date()).getTime();
-        return _fetchMailboxes()
-          .then(function (mailboxes) {
-            MailboxStore.setIsLoading(false);
-            MailboxStore.mergeMailboxes(mailboxes);
-            return mailboxes;
-          });
-      } else {
-        return API.resolve(MailboxStore.getMailboxes());
+      if (!doFetch) {
+        return;
       }
+
+      MailboxStore.setIsLoading(true);
+
+      _lastFetched = (new Date()).getTime();
+
+      _fetchMailboxes().then(function (mailboxes) {
+        MailboxStore.setIsLoading(false);
+        MailboxStore.mergeMailboxes(mailboxes);
+        return mailboxes;
+      });
     },
 
     changeSelection: function (mailboxId) {
