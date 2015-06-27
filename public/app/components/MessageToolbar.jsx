@@ -4,7 +4,6 @@ define(function (require) {
   var React = require('react'),
     ReactBootstrap = require('react-bootstrap'),
     MessageRecord = require('app/records/MessageRecord'),
-    MessageActions = require('app/actions/MessageActions'),
     Pull = require('jsx!app/components/Pull');
 
   var Glyphicon = ReactBootstrap.Glyphicon,
@@ -15,7 +14,19 @@ define(function (require) {
     displayName: 'MessagesToolbar',
 
     propTypes: {
-      message: React.PropTypes.instanceOf(MessageRecord).isRequired
+      // required
+      message: React.PropTypes.instanceOf(MessageRecord).isRequired,
+
+      // optional
+      onDelete: React.PropTypes.func
+    },
+
+    getDefaultProps: function () {
+      return {
+        onDelete: function (messageId) {
+          console.warn('Not handling onDelete() in MessageToolbar component');
+        }
+      };
     },
 
     shouldComponentUpdate: function (nextProps) {
@@ -35,7 +46,7 @@ define(function (require) {
     },
 
     handleDelete: function () {
-      MessageActions.deleteMessageById(this.props.message.id);
+      this.props.onDelete(this.props.message.id);
     }
   });
 });

@@ -9,7 +9,19 @@ define(function (require) {
     displayName: 'Message',
 
     propTypes: {
-      message: React.PropTypes.instanceOf(MessageRecord).isRequired
+      // required
+      message: React.PropTypes.instanceOf(MessageRecord).isRequired,
+
+      // optional
+      onDelete: React.PropTypes.func
+    },
+
+    getDefaultProps: function () {
+      return {
+        onDelete: function (messageId) {
+          console.warn('Not handling onDelete() in Message component');
+        }
+      };
     },
 
     shouldComponentUpdate: function (nextProps) {
@@ -20,7 +32,7 @@ define(function (require) {
       return (
         <div>
           <hr />
-          <MessageToolbar message={this.props.message} />
+          <MessageToolbar message={this.props.message} onDelete={this.handleDelete} />
           <h2>{this.props.message.subject}</h2>
           <p>
             <span>From:</span> {this.props.message.from},
@@ -29,6 +41,10 @@ define(function (require) {
           <p>{this.props.message.body}</p>
         </div>
       );
+    },
+
+    handleDelete: function (messageId) {
+      this.props.onDelete(messageId);
     }
   });
 });

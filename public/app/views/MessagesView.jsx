@@ -4,6 +4,7 @@ define(function (require) {
   var React = require('react'),
     ReactBootstrap = require('react-bootstrap'),
     RouteActions = require('fl-router').RouteActions,
+    MessageActions = require('app/actions/MessageActions'),
     MessageStore = require('app/stores/MessageStore'),
     MailboxStore = require('app/stores/MailboxStore'),
     MessageRow = require('jsx!app/components/MessageRow'),
@@ -45,13 +46,6 @@ define(function (require) {
       MailboxStore.removeChangeListener(this._onChange);
     },
 
-    handleRowClick: function (message) {
-      RouteActions.linkTo('message', {
-        mailboxId: this.state.mailboxId,
-        messageId: message.id
-      });
-    },
-
     render: function () {
       var messageRows;
       var selectedMessage;
@@ -81,7 +75,7 @@ define(function (require) {
       }.bind(this));
 
       selectedMessage = this.state.selectedMessage ?
-        (<Message message={this.state.selectedMessage} />) :
+        (<Message message={this.state.selectedMessage} onDelete={this.handleMessageDelete} />) :
         '';
 
       return (
@@ -104,6 +98,17 @@ define(function (require) {
           </p>
         </div>
       );
+    },
+
+    handleRowClick: function (message) {
+      RouteActions.linkTo('message', {
+        mailboxId: this.state.mailboxId,
+        messageId: message.id
+      });
+    },
+
+    handleMessageDelete: function (messageId) {
+      MessageActions.deleteMessageById(messageId);
     },
 
     _onChange: function () {
