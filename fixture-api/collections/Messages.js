@@ -1,3 +1,5 @@
+/* global module */
+
 module.exports = {
   messages: [
     {"id": 1, "mailboxId": 1, "from": "Guy 1", "to": "Dan", "subject": "React", "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris porta feugiat ligula, non blandit metus viverra quis. Nullam non blandit sapien, et dignissim metus. Sed laoreet vel metus id mattis. Nunc mollis viverra massa efficitur scelerisque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent laoreet neque in imperdiet aliquet. Cras id velit et mi dignissim laoreet et et est. Pellentesque vitae auctor nulla, in consectetur nunc. Nam convallis mollis laoreet."},
@@ -6,4 +8,4 @@ module.exports = {
     {"id": 4, "mailboxId": 3, "from": "Guy 3", "to": "Dan", "subject": "Foundation?", "body": "Integer non sapien sit amet justo viverra scelerisque vel ac sapien. Morbi posuere, diam ut scelerisque condimentum, nisl eros viverra odio, nec vehicula purus lorem ut dolor. Nam ut nisi laoreet, tincidunt tortor tincidunt, consequat purus. Duis nunc nibh, lobortis non facilisis ac, varius sit amet est. Pellentesque id sodales dui. Nulla vel semper quam. Praesent auctor pharetra gravida. Sed vestibulum at orci eu rhoncus. Maecenas pellentesque ut mi vel aliquam. Integer vestibulum molestie finibus. Cras pellentesque at ligula a consequat."},
     {"id": 5, "mailboxId": 3, "from": "Guy 4", "to": "Dan", "subject": "Webpack?", "body": "Suspendisse euismod nunc nec leo tristique dictum. Morbi a neque sed erat pulvinar aliquet at vel sapien. Fusce elementum ligula sit amet efficitur tempor. Nunc auctor enim id commodo pharetra. Nulla pellentesque fringilla ligula ac viverra. Maecenas euismod ligula turpis, ac laoreet metus elementum sit amet. Mauris mattis euismod dolor, vitae mollis ante pulvinar ut. Suspendisse pulvinar et lacus nec placerat. Vestibulum at aliquet magna. Aenean at ultricies ligula, et molestie erat. Sed feugiat augue et velit euismod laoreet. Curabitur lacinia massa nec viverra lacinia. Interdum et malesuada fames ac ante ipsum primis in faucibus."}
   ]
-}
+};

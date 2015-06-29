@@ -1,0 +1,12 @@
+ul.contributors {
+  list-style-type: none;
+}
+
+ul.contributors > li {
+  float: left;
+}
+
+ul.contributors > li img {
+  border-radius: 5px;
+  width: 150px;
+}

@@ -5,9 +5,10 @@
   "description": "demo application of a very basic email client using fluxlike architecture, react, and requirejs",
   "main": "index.js",
   "scripts": {
+    "postinstall": "pushd .git/hooks && rm pre-commit && ln -s ../../.githooks/pre-commit && popd",
     "start": "node web.js",
     "build": "echo \"Error: no build specified\" && exit 1",
-    "lint": "jsxhint --jsx-only '*.js' '*.jsx' 'public/app/*.js' 'public/app/*.jsx' 'public/app/**/*.js' 'public/app/**/*.jsx'",
+    "lint": "jsxhint '*.js' '*.jsx' 'public/app/*.js' 'public/app/*.jsx' 'public/app/**/*.js' 'public/app/**/*.jsx' 'fixture-api/**/*.js'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
