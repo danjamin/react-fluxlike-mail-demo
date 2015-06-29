@@ -89,10 +89,7 @@ define(function (require) {
       return (
         <div>
           {messagesTable}
-
-          <p>
-            {selectedMessage}
-          </p>
+          {selectedMessage}
         </div>
       );
     },
