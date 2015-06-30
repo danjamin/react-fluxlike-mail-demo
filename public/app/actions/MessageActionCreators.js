@@ -55,6 +55,12 @@ define(function (require) {
       // e.g. mark deleted with flag vs. actually remove from data set
       message = MessageStore.getMessageById(messageId);
 
+      // if we can't find the message, then there is nothing to delete
+      // so get out now
+      if (!message) {
+        return;
+      }
+
       AppDispatcher.dispatch({
         type: ActionTypes.DELETE_MESSAGE,
         message: message
