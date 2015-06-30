@@ -9,7 +9,7 @@ define(function (require) {
 
   return function () {
     MailboxActionCreators.selectMailbox(0);
-    MailboxActionCreators.load({onlyIfStale: true});
+    MailboxActionCreators.load();
 
     AppActionCreators.setTemplate(DefaultTemplate);
     AppActionCreators.setTemplateOptions({

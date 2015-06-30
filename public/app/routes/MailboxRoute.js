@@ -16,8 +16,8 @@ define(function (require) {
     MailboxActionCreators.selectMailbox(mailboxId);
     MessageActionCreators.selectMessage(messageId ? messageId : 0);
 
-    MailboxActionCreators.load({onlyIfStale: true});
-    MessageActionCreators.loadMessagesInMailbox(mailboxId, {onlyIfStale: true});
+    MailboxActionCreators.load();
+    MessageActionCreators.loadMessagesInMailbox(mailboxId);
 
     AppActionCreators.setTemplate(DefaultTemplate);
     AppActionCreators.setTemplateOptions({

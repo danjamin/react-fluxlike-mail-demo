@@ -8,7 +8,7 @@ define(function (require) {
     ContributorsView = require('jsx!app/views/ContributorsView');
 
   return function () {
-    ContributorsActionCreators.load({onlyIfStale: true});
+    ContributorsActionCreators.load();
     AppActionCreators.setTemplate(DefaultTemplate);
     AppActionCreators.setTemplateOptions({
       showSidePanel: false,
