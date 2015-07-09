@@ -5,10 +5,11 @@ define(function (require) {
     MailboxActionCreators = require('app/actions/MailboxActionCreators'),
     MessageActionCreators = require('app/actions/MessageActionCreators'),
     AppActionCreators = require('app/actions/AppActionCreators'),
-    DefaultTemplate = require('jsx!app/templates/DefaultTemplate'),
     MessagesView = require('jsx!app/views/MessagesView');
 
   return function (mailboxId, messageId) {
+    mailboxId = mailboxId ? mailboxId : 1; // default inbox
+
     // parse params
     mailboxId = parseInt(mailboxId, 10);
     messageId = parseInt(messageId, 10);
@@ -19,9 +20,7 @@ define(function (require) {
     MailboxActionCreators.load();
     MessageActionCreators.loadMessagesInMailbox(mailboxId);
 
-    AppActionCreators.setTemplate(DefaultTemplate);
     AppActionCreators.setTemplateOptions({
-      showSidePanel: true,
       ContentView: React.createElement(MessagesView)
     });
   };

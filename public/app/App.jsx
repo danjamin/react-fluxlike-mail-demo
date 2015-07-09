@@ -3,7 +3,8 @@ define(function (require) {
 
   var React = require('react'),
     AppStore = require('app/stores/AppStore'),
-    start = require('fl-router').Router.start,
+    AppActionCreators = require('app/actions/AppActionCreators'),
+    Router = require('fl-router').Router,
     routes = require('app/routes'),
     Header = require('jsx!app/components/header'),
     Footer = require('jsx!app/components/footer'),
@@ -77,6 +78,16 @@ define(function (require) {
     document.getElementById('app')
   );
 
+  // register beforeEach route callback
+  Router.beforeEach(function (name) {
+    AppActionCreators.clearSelectedItems();
+    AppActionCreators.restoreDefaultTemplateAndOptions();
+  });
+
   // Start routing
-  start(routes);
+  Router.start(routes, {
+    pushState: false,
+    root: '/'
+  });
+
 });

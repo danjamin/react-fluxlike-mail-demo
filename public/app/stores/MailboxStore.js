@@ -11,7 +11,7 @@ define(function (require) {
   var MailboxStore;
 
   var _mailboxes = new Immutable.Map(),
-    _selectedMailboxId = 0;
+    _selectedMailboxId = null;
 
   /**
    * Merges rawMailboxes with the private _mailboxes Immutable map
@@ -63,6 +63,13 @@ define(function (require) {
     _selectedMailboxId = mailboxId;
   }
 
+  /**
+   * Clears the selected mailbox
+   */
+  function _clearSelectedMailbox() {
+    _selectedMailboxId = null;
+  }
+
   MailboxStore = _.extend({}, Store, {
     getSelectedMailboxId: function () {
       return _selectedMailboxId;
@@ -97,6 +104,11 @@ define(function (require) {
 
       case ActionTypes.SELECT_MAILBOX:
         _selectMailbox(action.mailboxId);
+        MailboxStore.emitChange();
+        break;
+
+      case ActionTypes.CLEAR_SELECTED_ITEMS:
+        _clearSelectedMailbox();
         MailboxStore.emitChange();
         break;
 

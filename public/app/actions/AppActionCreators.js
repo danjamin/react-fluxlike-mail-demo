@@ -17,6 +17,18 @@ define(function (require) {
         type: ActionTypes.SET_TEMPLATE_OPTIONS,
         options: options
       });
+    },
+
+    clearSelectedItems: function () {
+      AppDispatcher.dispatch({
+        type: ActionTypes.CLEAR_SELECTED_ITEMS
+      });
+    },
+
+    restoreDefaultTemplateAndOptions: function () {
+      AppDispatcher.dispatch({
+        type: ActionTypes.RESTORE_DEFAULT_TEMPLATE_AND_OPTIONS
+      });
     }
   };
 });

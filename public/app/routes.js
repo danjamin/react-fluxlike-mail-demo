@@ -1,15 +1,14 @@
 define(function (require) {
   'use strict';
 
-  var IndexRoute = require('app/routes/IndexRoute'),
-    MailboxRoute = require('app/routes/MailboxRoute'),
+  var MailboxRoute = require('app/routes/MailboxRoute'),
     ContributorsRoute = require('app/routes/ContributorsRoute');
 
   // WARNING: do not add an initial "/" in your paths!
   return {
     index: {
       path: '',
-      route: IndexRoute
+      route: MailboxRoute
     },
 
     mailbox: {

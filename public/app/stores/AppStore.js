@@ -11,11 +11,13 @@ define(function (require) {
 
   var AppStore;
 
-  var _template = DefaultTemplate,
-    _templateOptions = {
-      showSidePanel: false,
+  var _defaultTemplate = DefaultTemplate,
+    _defaultTemplateOptions = {
+      showSidePanel: true,
       ContentView: React.createElement(LoadingView)
     },
+    _template = null,
+    _templateOptions = {},
     _isHeaderVisible = true,
     _isFooterVisible = true;
 
@@ -31,6 +33,13 @@ define(function (require) {
       }
     }
   }
+
+  function _restoreDefaultTemplateAndOptions() {
+    _setTemplate(_defaultTemplate);
+    _setTemplateOptions(_defaultTemplateOptions);
+  }
+
+  _restoreDefaultTemplateAndOptions();
 
   AppStore = _.extend({}, Store, {
     getTemplate: function () {
@@ -60,6 +69,11 @@ define(function (require) {
 
       case ActionTypes.SET_TEMPLATE_OPTIONS:
         _setTemplateOptions(action.options);
+        AppStore.emitChange();
+        break;
+
+      case ActionTypes.RESTORE_DEFAULT_TEMPLATE_AND_OPTIONS:
+        _restoreDefaultTemplateAndOptions();
         AppStore.emitChange();
         break;
 

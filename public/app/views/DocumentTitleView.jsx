@@ -42,6 +42,7 @@ define(function (require) {
         title = 'Mail';
 
       switch (this.state.routeName) {
+        case 'index':
         case 'mailbox':
         case 'message':
           if (this.state.mailbox) {
