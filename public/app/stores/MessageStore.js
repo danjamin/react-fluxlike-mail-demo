@@ -11,7 +11,7 @@ define(function (require) {
   var MessageStore;
 
   var _messages = new Immutable.Map(),
-    _messageId = 0;
+    _messageId = null;
 
   /**
    * Merges rawMessages with the private _messages Immutable map
@@ -35,6 +35,13 @@ define(function (require) {
    */
   function _selectMessage(messageId) {
     _messageId = messageId;
+  }
+
+  /**
+   * Clears selected message
+   */
+  function _clearSelectedMessage() {
+    _messageId = null;
   }
 
   /**
@@ -90,6 +97,11 @@ define(function (require) {
 
       case ActionTypes.SELECT_MESSAGE:
         _selectMessage(action.messageId);
+        MessageStore.emitChange();
+        break;
+
+      case ActionTypes.CLEAR_SELECTED_ITEMS:
+        _clearSelectedMessage();
         MessageStore.emitChange();
         break;
 
