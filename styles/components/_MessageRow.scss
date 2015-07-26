@@ -1,0 +1,29 @@
+.table {
+  display: table;
+  width: 100%;
+
+  .table-row {
+    display: table-row;
+
+    &.active {
+      color: black;
+      text-decoration: none;
+      cursor: default;
+    }
+
+    .table-cell,
+    .table-head {
+      display: table-cell;
+      padding: 5px;
+    }
+
+    .table-head {
+      text-transform: uppercase;
+      font-size: 0.8em;
+    }
+
+    &:nth-child(even) {
+      background: #EEE;
+    }
+  }
+}

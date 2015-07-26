@@ -1,0 +1,15 @@
+ul.navbar {
+  list-style-type: none;
+  background-color: #EEE;
+  width: 100%;
+  margin: 0;
+  padding: 5px;
+  border-bottom: 1px solid #CCC;
+
+  li.navbar-item {
+    display: inline-block;
+    margin: 0 5px 0 0;
+    padding: 0;
+  }
+}
+

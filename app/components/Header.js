@@ -1,20 +1,25 @@
 import React from 'react';
-import {Navbar, Nav, NavItem} from 'react-bootstrap';
+import {LinkTo} from 'fl-router';
 
 export default React.createClass({
   displayName: 'Header',
 
-  shouldComponentUpdate: function () {
-    return false;
+  propTypes: {
+    activeURL: React.PropTypes.string.isRequired
   },
 
   render: function () {
     return (
-      <Navbar brand={<a href="#/">Flux-like Mail</a>}>
-        <Nav>
-          <NavItem eventKey={1} href='#/contributors'>Contributors</NavItem>
-        </Nav>
-      </Navbar>
+      <ul className='navbar'>
+        <li className='navbar-item'>
+          <h3>Flux-like Mail</h3>
+        </li>
+        <li className='navbar-item'>
+          <LinkTo route='contributors' activeURL={this.props.activeURL}>
+            Contributors
+          </LinkTo>
+        </li>
+      </ul>
     );
   }
 });

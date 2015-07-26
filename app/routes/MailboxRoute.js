@@ -1,4 +1,5 @@
 import React from 'react';
+import {Router} from 'fl-router';
 
 import MailboxActionCreators from '../actions/MailboxActionCreators.js';
 import MessageActionCreators from '../actions/MessageActionCreators.js';
@@ -6,7 +7,12 @@ import AppActionCreators from '../actions/AppActionCreators.js';
 import MessagesView from '../views/MessagesView.js';
 
 export default function (mailboxId, messageId) {
-  mailboxId = mailboxId ? mailboxId : 1; // default inbox
+  // default to inbox, and transition to mailbox with proper
+  // mailboxId when not originally defined
+  if (!mailboxId) {
+    mailboxId = 1;
+    Router.transitionTo("mailbox", [mailboxId]);
+  }
 
   // parse params
   mailboxId = parseInt(mailboxId, 10);

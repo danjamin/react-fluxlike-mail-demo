@@ -1,6 +1,5 @@
 import React from 'react/addons';
-import {Nav, NavItem} from 'react-bootstrap';
-import {Router} from 'fl-router';
+import {RouteStore, LinkTo} from 'fl-router';
 
 import MailboxStore from '../stores/MailboxStore.js';
 import MailboxRow from '../components/MailboxRow.js';
@@ -10,7 +9,8 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 function getStateFromStores () {
   return {
     mailboxId: MailboxStore.getSelectedMailboxId(),
-    mailboxes: MailboxStore.getMailboxes() // Immutable.Map
+    mailboxes: MailboxStore.getMailboxes(), // Immutable.Map
+    activeURL: RouteStore.getURL()
   };
 }
 
@@ -31,10 +31,6 @@ export default React.createClass({
     MailboxStore.removeChangeListener(this._onChange);
   },
 
-  handleClick: function (id) {
-    Router.linkTo('mailbox', [id]);
-  },
-
   render: function () {
     var mailboxes;
 
@@ -44,17 +40,18 @@ export default React.createClass({
     // an immutable iterable that react does not natively support
     this.state.mailboxes.forEach(function (mailbox, mailboxId) {
       mailboxes.push(
-        <NavItem key={mailboxId} eventKey={mailboxId} href="#"
-            onSelect={this.handleClick.bind(this, mailboxId)}>
-          <MailboxRow mailbox={mailbox} />
-        </NavItem>
+        <li key={mailboxId}>
+          <LinkTo route='mailbox' params={[mailboxId]} activeURL={this.state.activeURL}>
+            <MailboxRow mailbox={mailbox} />
+          </LinkTo>
+        </li>
       );
     }.bind(this));
 
     return (
-      <Nav bsStyle="pills" stacked activeKey={this.state.mailboxId}>
+      <ul className='mailboxes'>
         {mailboxes}
-      </Nav>
+      </ul>
     );
   },
 

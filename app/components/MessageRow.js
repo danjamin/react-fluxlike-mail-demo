@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import {LinkTo} from 'fl-router';
 
 import MessageRecord from '../records/MessageRecord.js';
 
@@ -7,15 +7,12 @@ export default React.createClass({
   displayName: 'MessageRow',
 
   propTypes: {
+    // required
     message: React.PropTypes.instanceOf(MessageRecord).isRequired,
-    isSelected: React.PropTypes.bool.isRequired,
-    handleRowClick: React.PropTypes.func
-  },
 
-  handleRowClick: function () {
-    if (typeof this.props.handleRowClick === 'function') {
-      this.props.handleRowClick(this.props.message);
-    }
+    // optional
+    mailboxId: React.PropTypes.number.isRequired,
+    activeURL: React.PropTypes.string.isRequired
   },
 
   /**
@@ -24,21 +21,21 @@ export default React.createClass({
    * re-renders that don't need to happen.
    */
   shouldComponentUpdate: function (nextProps) {
-    return nextProps.isSelected !== this.props.isSelected ||
+    return nextProps.mailboxId !== this.props.mailboxId ||
+      nextProps.activeURL !== this.props.activeURL ||
       nextProps.message !== this.props.message;
   },
 
   render: function () {
-    var classes = classNames({
-      'table-highlight': this.props.isSelected
-    });
-
     return (
-      <tr className={classes} onClick={this.handleRowClick}>
-        <td>{this.props.message.from}</td>
-        <td>{this.props.message.to}</td>
-        <td>{this.props.message.subject}</td>
-      </tr>
+      <LinkTo className='table-row'
+          activeURL={this.props.activeURL}
+          route="message"
+          params={[this.props.mailboxId, this.props.message.get('id')]}>
+        <div className='table-cell'>{this.props.message.from}</div>
+        <div className='table-cell'>{this.props.message.to}</div>
+        <div className='table-cell'>{this.props.message.subject}</div>
+      </LinkTo>
     );
   }
 });

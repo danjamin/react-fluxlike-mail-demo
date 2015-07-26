@@ -1,8 +1,6 @@
 import React from 'react';
-import {Badge} from 'react-bootstrap';
 
 import MailboxRecord from '../records/MailboxRecord.js';
-import Pull from './Pull.js';
 
 export default React.createClass({
   displayName: 'MailboxRow',
@@ -25,15 +23,12 @@ export default React.createClass({
 
     if (this.props.mailbox.get('count')) {
       badge = (
-        <Pull direction="right">
-          <Badge>{this.props.mailbox.get('count')}</Badge>
-        </Pull>
+        <span>({this.props.mailbox.get('count')})</span>
       );
     }
     return (
       <div>
-        {badge}
-        {this.props.mailbox.get('name')}
+        {this.props.mailbox.get('name')} {badge}
       </div>
     );
   }
