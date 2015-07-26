@@ -1,5 +1,5 @@
 {
-  "esnext": false,
+  "esnext": true,
   "enforceall": true,
   "bitwise": false,
   "nocomma": false,
