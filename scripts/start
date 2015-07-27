@@ -3,10 +3,12 @@
 out=_build
 out_js=_build_js
 
+binPath=./node_modules/.bin
+
 rm -rf $out $out_js
 mkdir $out_js
 
-(broccoli-timepiece $out) &
+($binPath/broccoli-timepiece $out) &
 (watchify app/main.js -d -v -o $out_js/app.js -t [ babelify --only app ]) &
 (BUILD_DIR=$out BUILD_JS_DIR=$out_js node web.js) &
 

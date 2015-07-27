@@ -11,13 +11,17 @@ Install [nodejs](https://nodejs.org/)
 Install dependencies:
 
 ```sh
+$ npm install -g watchify
+```
+
+```sh
 $ npm install
 ```
 
 Watch code and run web server:
 
 ```
-$ npm start
+$ ./scripts/start
 ```
 
 # Linting
