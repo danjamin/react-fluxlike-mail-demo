@@ -22,7 +22,7 @@ app.use(express['static'](__dirname + '/' + process.env.BUILD_DIR + '/'));
 app.use(express['static'](__dirname + '/' + process.env.BUILD_JS_DIR + '/'));
 
 // Bind controllers
-bindControllers(app, __dirname + '/fixture-api/controllers');
+bindControllers(app, __dirname + '/fixture-api/controllers', true);
 
 // Export app to be used externally
 module.exports = app;
