@@ -1,5 +1,4 @@
 import React from 'react';
-import {Glyphicon, ButtonGroup, Button} from 'react-bootstrap';
 
 import MessageRecord from '../records/MessageRecord.js';
 import Pull from './Pull.js';
@@ -30,11 +29,9 @@ export default React.createClass({
   render: function () {
     return (
       <Pull direction='right'>
-        <ButtonGroup>
-          <Button onClick={this.handleDelete}>
-            <Glyphicon glyph="trash" />
-          </Button>
-        </ButtonGroup>
+        <button onClick={this.handleDelete}>
+          Delete
+        </button>
       </Pull>
     );
   },

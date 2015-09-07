@@ -6,8 +6,8 @@ var compileSass = require('broccoli-sass');
 var autoprefixer = require('broccoli-autoprefixer');
 
 var publicTree,
-  styleTree,
-  fontTree;
+  styleTree;
+//  fontTree;
 
 // public
 publicTree = new funnel('public');
@@ -17,9 +17,9 @@ styleTree = compileSass(['styles'], 'app.scss', 'app.css');
 styleTree = autoprefixer(styleTree);
 
 // fonts
-fontTree = new funnel('node_modules/bootstrap/dist', {
-  srcDir: 'fonts',
-  destDir: 'fonts'
-});
+//fontTree = new funnel('node_modules/bootstrap/dist', {
+  //srcDir: 'fonts',
+  //destDir: 'fonts'
+//});
 
-module.exports = mergeTrees([publicTree, styleTree, fontTree]);
+module.exports = mergeTrees([publicTree, styleTree /*, fontTree*/]);

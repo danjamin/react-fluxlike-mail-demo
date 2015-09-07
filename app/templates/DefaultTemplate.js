@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid, Row, Col} from 'react-bootstrap';
+import classNames from 'classnames';
 
 import MailboxesView from '../views/MailboxesView.js';
 
@@ -12,27 +12,15 @@ export default React.createClass({
   },
 
   render: function () {
-    var sidePanel;
-
-    if (this.props.showSidePanel) {
-      sidePanel = (
-        <Col md={2}>
-          <MailboxesView />
-        </Col>
-      );
-    }
+    var asideClasses = classNames({
+      'hidden': this.props.showSidePanel === false
+    });
 
     return (
-      <main className='clearfix'>
-        <Grid>
-          <Row>
-            {sidePanel}
-            <Col md={sidePanel ? 10 : 12}>
-              {this.props.ContentView}
-            </Col>
-          </Row>
-        </Grid>
-      </main>
+      <section className='main hbox'>
+        <aside className={asideClasses}><MailboxesView /></aside>
+        <article>{this.props.ContentView}</article>
+      </section>
     );
   }
 });

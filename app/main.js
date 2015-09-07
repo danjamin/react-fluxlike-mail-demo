@@ -1,5 +1,5 @@
 import React from 'react';
-import {Router} from 'fl-router';
+import {Router, RouteStore} from 'fl-router';
 
 import AppStore from './stores/AppStore.js';
 import AppActionCreators from './actions/AppActionCreators.js';
@@ -16,7 +16,8 @@ function getStateFromStores() {
     isHeaderVisible: AppStore.isHeaderVisible(),
     isFooterVisible: AppStore.isFooterVisible(),
     template: AppStore.getTemplate(),
-    templateOptions: AppStore.getTemplateOptions()
+    templateOptions: AppStore.getTemplateOptions(),
+    activeURL: RouteStore.getURL()
   };
 }
 
@@ -42,7 +43,7 @@ var App = React.createClass({
     if (this.state.isHeaderVisible) {
       header = (
         <header>
-          <Header />
+          <Header activeURL={this.state.activeURL} />
         </header>
       );
     }
@@ -56,7 +57,7 @@ var App = React.createClass({
     }
 
     return (
-      <div>
+      <div className='viewport vbox'>
         {header}
 
         <this.state.template {...this.state.templateOptions} />
@@ -73,6 +74,12 @@ var App = React.createClass({
   }
 });
 
+// Start routing
+Router.start(routes, {
+  pushState: false,
+  root: '/'
+});
+
 // Render app into DOM
 React.render(
   <App />,
@@ -85,8 +92,3 @@ Router.beforeEach(function (name) {
   AppActionCreators.restoreDefaultTemplateAndOptions();
 });
 
-// Start routing
-Router.start(routes, {
-  pushState: false,
-  root: '/'
-});

@@ -1,0 +1,9 @@
+a {
+  color: blue;
+
+  &.active {
+    text-decoration: none;
+    cursor: default;
+    color: black;
+  }
+}

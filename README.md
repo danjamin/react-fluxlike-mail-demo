@@ -11,7 +11,7 @@ Install [nodejs](https://nodejs.org/)
 Install dependencies:
 
 ```sh
-$ npm install -g watchify
+$ npm install -g watchify broccoli-timepiece
 ```
 
 ```sh

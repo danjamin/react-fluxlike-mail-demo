@@ -1,6 +1,5 @@
 import React from 'react/addons';
-import {Table} from 'react-bootstrap';
-import {Router} from 'fl-router';
+import {Router, RouteStore} from 'fl-router';
 
 import MessageActionCreators from '../actions/MessageActionCreators.js';
 import MessageStore from '../stores/MessageStore.js';
@@ -15,6 +14,7 @@ function getStateFromStores () {
   var messageId = MessageStore.getSelectedMessageId();
 
   return {
+    activeURL: RouteStore.getURL(),
     mailboxId: mailboxId,
     messageId: messageId,
     messages: MessageStore.getMessagesInMailbox(mailboxId),
@@ -49,35 +49,24 @@ export default React.createClass({
 
     messageRows = [];
 
-    // TODO: every link should ultimately be an A tag
-
     this.state.messages.forEach(function (message) {
-      // this way, less re-renders since the bool of isSelected
-      // hasn't changed for some of the rows where as messageId
-      // is changing more often!
-      var isSelected = this.state.messageId === message.get('id');
-
       messageRows.push(
-        <MessageRow key={message.id}
+        <MessageRow key={message.get('id')}
+          mailboxId={this.state.mailboxId}
           message={message}
-          isSelected={isSelected}
-          handleRowClick={this.handleRowClick} />
+          activeURL={this.state.activeURL} />
       );
     }.bind(this));
 
     messagesTable = (
-      <Table striped condensed hover>
-        <thead>
-          <tr>
-            <th>From</th>
-            <th>To</th>
-            <th>Subject</th>
-          </tr>
-        </thead>
-        <tbody>
-          {messageRows}
-        </tbody>
-      </Table>
+      <div className='table'>
+        <div className='table-row'>
+          <div className='table-head'>From</div>
+          <div className='table-head'>To</div>
+          <div className='table-head'>Subject</div>
+        </div>
+        {messageRows}
+      </div>
     );
 
     selectedMessage = this.state.selectedMessage ?
@@ -89,16 +78,6 @@ export default React.createClass({
         {selectedMessage}
       </div>
     );
-  },
-
-  handleBackToBoxClick: function (e) {
-    e.preventDefault();
-
-    Router.linkTo('mailbox', [this.state.mailboxId]);
-  },
-
-  handleRowClick: function (message) {
-    Router.linkTo('message', [this.state.mailboxId, message.id]);
   },
 
   handleMessageDelete: function (messageId) {
