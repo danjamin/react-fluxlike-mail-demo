@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# usage: ./scripts/transpile ['watch']
+
+out=_transpiled
+watch=""
+
+# optionally watch
+if [ "$1" == "watch" ] ; then
+  watch="-w"
+fi
+
+rm -rf $out
+babel app --out-dir $out $watch

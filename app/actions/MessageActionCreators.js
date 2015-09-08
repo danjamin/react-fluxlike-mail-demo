@@ -23,8 +23,9 @@ function _deleteMessage(messageId) {
 }
 
 export default {
+  // return a promise
   loadMessagesInMailbox: function (mailboxId) {
-    _fetchMessagesInMailbox(mailboxId).then(function (rawMessages) {
+    return _fetchMessagesInMailbox(mailboxId).then(function (rawMessages) {
       AppDispatcher.dispatch({
         type: ActionTypes.RECEIVE_RAW_MESSAGES,
         rawMessages: rawMessages

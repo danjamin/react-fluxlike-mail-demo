@@ -32,7 +32,7 @@ export default React.createClass({
     return getStateFromStores();
   },
 
-  componentWillMount: function () {
+  componentDidMount: function () {
     MessageStore.addChangeListener(this._onChange);
     MailboxStore.addChangeListener(this._onChange);
   },

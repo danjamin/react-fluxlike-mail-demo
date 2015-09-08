@@ -7,7 +7,7 @@ rm -rf $out $out_js
 mkdir $out_js
 
 (broccoli-timepiece $out) &
-(watchify app/main.js -d -v -o $out_js/app.js -t [ babelify --only app ]) &
+(watchify app/client.js -d -v -o $out_js/app.js -t [ babelify --only app ]) &
 (BUILD_DIR=$out BUILD_JS_DIR=$out_js node web.js) &
 
 wait

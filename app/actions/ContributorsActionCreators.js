@@ -9,8 +9,9 @@ function _fetchContributors(owner, repo) {
 }
 
 export default {
+  // return a promise
   load: function () {
-    _fetchContributors('danjamin', 'react-fluxlike-mail-demo').then(function (rawContributors) {
+    return _fetchContributors('danjamin', 'react-fluxlike-mail-demo').then(function (rawContributors) {
       AppDispatcher.dispatch({
         type: ActionTypes.RECEIVE_RAW_CONTRIBUTORS,
         rawContributors: rawContributors

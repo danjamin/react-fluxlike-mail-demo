@@ -1,15 +1,10 @@
 import React from 'react';
-import {Router, RouteStore} from 'fl-router';
+import {RouteStore} from 'fl-router';
 
-import AppStore from './stores/AppStore.js';
-import AppActionCreators from './actions/AppActionCreators.js';
-import routes from './routes.js';
-import Header from './components/header.js';
-import Footer from './components/footer.js';
-import DocumentTitleView from './views/DocumentTitleView.js';
-import config from './config.js';
-
-config();
+import AppStore from '../stores/AppStore.js';
+import Header from '../components/header.js';
+import Footer from '../components/footer.js';
+import DocumentTitleView from './DocumentTitleView.js';
 
 function getStateFromStores() {
   return {
@@ -21,14 +16,14 @@ function getStateFromStores() {
   };
 }
 
-var App = React.createClass({
-  displayName: 'App',
+export default React.createClass({
+  displayName: 'AppView',
 
   getInitialState: function () {
     return getStateFromStores();
   },
 
-  componentWillMount: function () {
+  componentDidMount: function () {
     AppStore.addChangeListener(this._onChange);
   },
 
@@ -73,22 +68,3 @@ var App = React.createClass({
     this.setState(getStateFromStores());
   }
 });
-
-// Start routing
-Router.start(routes, {
-  pushState: false,
-  root: '/'
-});
-
-// Render app into DOM
-React.render(
-  <App />,
-  document.getElementById('app')
-);
-
-// register beforeEach route callback
-Router.beforeEach(function (name) {
-  AppActionCreators.clearSelectedItems();
-  AppActionCreators.restoreDefaultTemplateAndOptions();
-});
-

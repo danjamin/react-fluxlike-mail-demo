@@ -19,7 +19,7 @@ export default React.createClass({
     return getStateFromStores();
   },
 
-  componentWillMount: function () {
+  componentDidMount: function () {
     ContributorStore.addChangeListener(this._onChange);
   },
 

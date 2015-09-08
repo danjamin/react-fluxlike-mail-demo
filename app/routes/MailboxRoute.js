@@ -6,7 +6,10 @@ import MessageActionCreators from '../actions/MessageActionCreators.js';
 import AppActionCreators from '../actions/AppActionCreators.js';
 import MessagesView from '../views/MessagesView.js';
 
+// returns array of promises
 export default function (mailboxId, messageId) {
+  var promises = [];
+
   // default to inbox, and transition to mailbox with proper
   // mailboxId when not originally defined
   if (!mailboxId) {
@@ -21,10 +24,12 @@ export default function (mailboxId, messageId) {
   MailboxActionCreators.selectMailbox(mailboxId);
   MessageActionCreators.selectMessage(messageId ? messageId : 0);
 
-  MailboxActionCreators.load();
-  MessageActionCreators.loadMessagesInMailbox(mailboxId);
+  promises.push(MailboxActionCreators.load());
+  promises.push(MessageActionCreators.loadMessagesInMailbox(mailboxId));
 
   AppActionCreators.setTemplateOptions({
     ContentView: React.createElement(MessagesView)
   });
+
+  return promises;
 }

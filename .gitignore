@@ -2,5 +2,6 @@ node_modules
 tmp
 _build
 _build_js
+_transpiled
 .DS_Store
 *.swp

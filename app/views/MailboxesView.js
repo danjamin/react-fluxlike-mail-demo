@@ -23,7 +23,7 @@ export default React.createClass({
     return getStateFromStores();
   },
 
-  componentWillMount: function () {
+  componentDidMount: function () {
     MailboxStore.addChangeListener(this._onChange);
   },
 

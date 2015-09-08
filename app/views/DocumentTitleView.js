@@ -22,7 +22,7 @@ export default React.createClass({
     return getStateFromStores();
   },
 
-  componentWillMount: function () {
+  componentDidMount: function () {
     RouteStore.addChangeListener(this._onChange);
     MailboxStore.addChangeListener(this._onChange);
   },
@@ -33,6 +33,10 @@ export default React.createClass({
   },
 
   render: function () {
+    if (typeof document === 'undefined') {
+      return (null);
+    }
+
     // Note: this is not actually rendering to the DOM
     // instead it updates the document.title property directly
     var count,

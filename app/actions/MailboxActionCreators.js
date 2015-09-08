@@ -11,8 +11,9 @@ function _fetchMailboxes() {
 }
 
 export default {
+  // return a promise
   load: function () {
-    _fetchMailboxes().then(function (rawMailboxes) {
+    return _fetchMailboxes().then(function (rawMailboxes) {
       AppDispatcher.dispatch({
         type: ActionTypes.RECEIVE_RAW_MAILBOXES,
         rawMailboxes: rawMailboxes
