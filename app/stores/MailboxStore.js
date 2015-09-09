@@ -124,12 +124,12 @@ MailboxStore.dispatchToken = AppDispatcher.register(function (action) {
       break;
 
     case ActionTypes.DELETE_MESSAGE:
-      _decrementCount(action.message.get('mailboxId'));
+      _decrementCount(action.message.mailboxId);
       MailboxStore.emitChange();
       break;
 
     case ActionTypes.UNDO_DELETE_MESSAGE:
-      _incrementCount(action.message.get('mailboxId'));
+      _incrementCount(action.message.mailboxId);
       MailboxStore.emitChange();
       break;
 

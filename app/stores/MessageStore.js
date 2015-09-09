@@ -118,7 +118,7 @@ MessageStore.dispatchToken = AppDispatcher.register(function (action) {
       break;
 
     case ActionTypes.DELETE_MESSAGE:
-      _deleteMessage(action.message.get('id'));
+      _deleteMessage(action.message.id);
       MessageStore.emitChange();
       break;
 
