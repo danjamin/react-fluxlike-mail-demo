@@ -28,19 +28,13 @@ export default React.createClass({
   },
 
   render: function () {
-    var contributors = [];
-
-    // be careful here, if using .map() you will result in
-    // an immutable iterable that react does not natively support
-    this.state.contributors.forEach(function (contributor, contributorId) {
-      contributors.push(
-        <li key={contributor.get('id')}>
-          <a target='_blank' href={contributor.get('html_url')}>
-            <img src={contributor.get('avatar_url')} /><br />
-            {contributor.get('login')}
-          </a>
-        </li>
-      );
+    var contributors = this.state.contributors.map(function (contributor) {
+      return <li key={contributor.id}>
+        <a target='_blank' href={contributor.html_url}>
+          <img src={contributor.avatar_url} /><br />
+          {contributor.login}
+        </a>
+      </li>;
     });
 
     return (
