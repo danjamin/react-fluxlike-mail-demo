@@ -9,7 +9,7 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 function getStateFromStores () {
   return {
     mailboxId: MailboxStore.getSelectedMailboxId(),
-    mailboxes: MailboxStore.getMailboxes(), // Immutable.Map
+    mailboxes: MailboxStore.getMailboxes(),
     activeURL: RouteStore.getURL()
   };
 }
@@ -34,18 +34,12 @@ export default React.createClass({
   render: function () {
     var mailboxes;
 
-    mailboxes = [];
-
-    // be careful here, if using .map() you will result in
-    // an immutable iterable that react does not natively support
-    this.state.mailboxes.forEach(function (mailbox, mailboxId) {
-      mailboxes.push(
-        <li key={mailboxId}>
-          <LinkTo route='mailbox' params={[mailboxId]} activeURL={this.state.activeURL}>
-            <MailboxRow mailbox={mailbox} />
-          </LinkTo>
-        </li>
-      );
+    mailboxes = this.state.mailboxes.map(function (mailbox) {
+      return <li key={mailbox.id}>
+        <LinkTo route='mailbox' params={[mailbox.id]} activeURL={this.state.activeURL}>
+          <MailboxRow mailbox={mailbox} />
+        </LinkTo>
+      </li>;
     }.bind(this));
 
     return (

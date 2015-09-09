@@ -47,15 +47,11 @@ export default React.createClass({
     var selectedMessage;
     var messagesTable;
 
-    messageRows = [];
-
-    this.state.messages.forEach(function (message) {
-      messageRows.push(
-        <MessageRow key={message.get('id')}
+    messageRows = this.state.messages.map(function (message) {
+      return <MessageRow key={message.id}
           mailboxId={this.state.mailboxId}
           message={message}
-          activeURL={this.state.activeURL} />
-      );
+          activeURL={this.state.activeURL} />;
     }.bind(this));
 
     messagesTable = (

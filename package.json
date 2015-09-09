@@ -38,7 +38,6 @@
     "fl-router": "https://github.com/danjamin/fl-router/tarball/0.1.9",
     "fl-store": "https://github.com/danjamin/fl-store/tarball/0.2.0",
     "flux": "^2.0.3",
-    "immutable": "^3.7.4",
     "jsxhint": "^0.12.1",
     "react": "^0.13.3",
     "underscore": "^1.8.3"

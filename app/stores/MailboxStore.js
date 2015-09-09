@@ -1,28 +1,23 @@
+/* global JSON */
+
 import _ from 'underscore';
-import Immutable from 'immutable';
 import {Store} from 'fl-store';
 
 import AppDispatcher from '../dispatcher/AppDispatcher.js';
 import ActionTypes from '../ActionTypes.js';
-import MailboxRecord from '../records/MailboxRecord.js';
 
 var MailboxStore;
 
-var _mailboxes = new Immutable.Map(),
+var _mailboxes = {}, 
   _selectedMailboxId = null;
 
 /**
- * Merges rawMailboxes with the private _mailboxes Immutable map
+ * Merges rawMailboxes with the private _mailboxes
  * @param array rawMailboxes Array of raw JS objects representing mailboxes
  */
 function _mergeMailboxes(rawMailboxes) {
-  _mailboxes = _mailboxes.withMutations(function (map) {
-    rawMailboxes.forEach(function (rawMailbox) {
-      map.update(rawMailbox.id, function (oldMailbox) {
-        return oldMailbox ? oldMailbox.merge(rawMailbox) :
-          new MailboxRecord(rawMailbox);
-      });
-    });
+  rawMailboxes.forEach(function (rawMailbox) {
+    _mailboxes[rawMailbox.id] = rawMailbox;
   });
 }
 
@@ -31,12 +26,11 @@ function _mergeMailboxes(rawMailboxes) {
  * @param number mailboxId the id of the mailbox to decrement
  */
 function _decrementCount(mailboxId) {
-  _mailboxes = _mailboxes.updateIn(
-    [mailboxId, 'count'],
-    function (count) {
-      return count > 0 ? count - 1 : count;
-    }
-  );
+  var mailbox = _mailboxes[mailboxId];
+
+  if (mailbox && mailbox.count > 0) {
+    --mailbox.count;
+  }
 }
 
 /**
@@ -44,12 +38,10 @@ function _decrementCount(mailboxId) {
  * @param number mailboxId the id of the mailbox to increment
  */
 function _incrementCount(mailboxId) {
-  _mailboxes = _mailboxes.updateIn(
-    [mailboxId, 'count'],
-    function (count) {
-      return !count || count < 0 ? 1 : count + 1;
-    }
-  );
+  var mailbox = _mailboxes[mailboxId];
+  if (mailbox) {
+    mailbox.count = mailbox.count < 0 ? 1 : mailbox.count + 1;
+  }
 }
 
 /**
@@ -74,11 +66,19 @@ MailboxStore = _.extend({}, Store, {
   },
 
   /**
-   * Gets the mailboxes Immutable.Map reference.
-   * @return {Immutable.Map}
+   * Gets the mailboxes
+   * @return array
    */
   getMailboxes: function () {
-    return _mailboxes;
+    var mailboxArr = [];
+
+    for (var key in _mailboxes) {
+      if (_mailboxes.hasOwnProperty(key)) {
+        mailboxArr.push(_mailboxes[key]);
+      }
+    }
+
+    return mailboxArr;
   },
 
   /**
@@ -87,16 +87,21 @@ MailboxStore = _.extend({}, Store, {
    */
   getMailboxById: function (mailboxId) {
     if (mailboxId) {
-      return _mailboxes.get(mailboxId);
+      return _mailboxes[mailboxId];
     }
   },
 
   serialize: function () {
-    return JSON.stringify({mailboxes: _mailboxes.toJS()});
+    return JSON.stringify({
+      selectedMailboxId: _selectedMailboxId,
+      mailboxes: _mailboxes
+    });
   },
 
   deserialize: function (serializedData) {
-    //_contributors = JSON.parse(serializedData);
+    var raw = JSON.parse(serializedData);
+    _selectedMailboxId = raw.selectedMailboxId;
+    _mailboxes = raw.mailboxes;
   }
 });
 
@@ -129,7 +134,7 @@ MailboxStore.dispatchToken = AppDispatcher.register(function (action) {
       break;
 
     case ActionTypes.RESET:
-      _mailboxes = new Immutable.Map();
+      _mailboxes = {};
       _selectedMailboxId = null;
       MailboxStore.emitChange();
       break;

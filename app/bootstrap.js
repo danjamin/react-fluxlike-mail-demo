@@ -23,7 +23,7 @@ export default {
 
     config(isServerSide);
 
-    if (!isServerSide) {
+    if (!isServerSide && typeof __serializedData__ === 'object') {
       // TODO do this more generically -- obviously
       ContributorStore.deserialize(__serializedData__.ContributorStore);
       MailboxStore.deserialize(__serializedData__.MailboxStore);

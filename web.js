@@ -35,7 +35,7 @@ bootstrap.init(true /*isServerSide*/);
 app.get('*', function (req, res) {
   var url = req.path.substr(1);
 
-  res.setHeader("Cache-Control", "public, max-age=3600");
+  res.setHeader("Cache-Control", "no-cache");
 
   fs.readFile('./public/index.html', 'utf8', function(err, data) {
     var React = require('react');
@@ -43,7 +43,8 @@ app.get('*', function (req, res) {
     var AppView = require('./_transpiled/views/AppView.js');
     var Router = require('fl-router').Router;
     var content = '';
-    var serializedData = '';
+
+    var serializedData = '""';
 
     try {
       AppActionCreators.resetStores();

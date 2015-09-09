@@ -6,7 +6,7 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 
 function getStateFromStores () {
   return {
-    contributors: ContributorStore.getContributors() // Immutable.Map
+    contributors: ContributorStore.getContributors()
   };
 }
 

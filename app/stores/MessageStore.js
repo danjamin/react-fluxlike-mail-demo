@@ -1,28 +1,23 @@
+/* global JSON */
+
 import _ from 'underscore';
-import Immutable from 'immutable';
 import {Store} from 'fl-store';
 
-import MessageRecord from '../records/MessageRecord.js';
 import AppDispatcher from '../dispatcher/AppDispatcher.js';
 import ActionTypes from '../ActionTypes.js';
 
 var MessageStore;
 
-var _messages = new Immutable.Map(),
+var _messages = {},
   _messageId = null;
 
 /**
- * Merges rawMessages with the private _messages Immutable map
+ * Merges rawMessages with the private _messages
  * @param array rawMessages Array of raw JS objects representing messages
  */
 function _mergeMessages(rawMessages) {
-  _messages = _messages.withMutations(function (map) {
-    rawMessages.forEach(function (rawMessage) {
-      map.update(rawMessage.id, function (oldMessage) {
-        return oldMessage ? oldMessage.merge(rawMessage) :
-          new MessageRecord(rawMessage);
-      });
-    });
+  rawMessages.forEach(function (rawMessage) {
+    _messages[rawMessage.id] = rawMessage;
   });
 }
 
@@ -48,7 +43,7 @@ function _clearSelectedMessage() {
  */
 function _deleteMessage(messageId) {
   if (messageId) {
-     _messages = _messages['delete'](messageId);
+    delete _messages[messageId];
   }
 }
 
@@ -61,17 +56,23 @@ MessageStore = _.extend({}, Store, {
    * Gets all the immutable message records in a given mailbox as
    * an immutable iterable.
    *
-   * @param {number} mailboxId The mailboxId to filter by
-   * @return {Immutable.Iterable}
+   * @param number mailboxId The mailboxId to filter by
+   * @return array
    */
   getMessagesInMailbox: function(mailboxId) {
-    if (!mailboxId) {
-      return new Immutable.Map();
-    } else {
-      return _messages.filter(function (record, messageId) {
-        return record.get('mailboxId') === mailboxId;
-      });
+    var messages = [];
+
+    if (mailboxId) {
+      for (var key in _messages) {
+        if (_messages.hasOwnProperty(key)) {
+          if (_messages[key].mailboxId === mailboxId) {
+            messages.push(_messages[key]);
+          }
+        }
+      }
     }
+
+    return messages;
   },
 
   /**
@@ -80,16 +81,21 @@ MessageStore = _.extend({}, Store, {
    */
   getMessageById: function (messageId) {
     if (messageId) {
-      return _messages.get(messageId);
+      return _messages[messageId];
     }
   },
 
   serialize: function () {
-    return JSON.stringify({messages: _messages.toJS()});
+    return JSON.stringify({
+      messageId: _messageId,
+      messages: _messages
+    });
   },
 
   deserialize: function (serializedData) {
-    //_contributors = JSON.parse(serializedData);
+    var raw = JSON.parse(serializedData);
+    _messageId = raw.messageId;
+    _messages = raw.messages;
   }
 });
 
@@ -122,7 +128,7 @@ MessageStore.dispatchToken = AppDispatcher.register(function (action) {
       break;
 
     case ActionTypes.RESET:
-      _messages = new Immutable.Map();
+      _messages = {};
       _messageId = null;
       MessageStore.emitChange();
       break;

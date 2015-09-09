@@ -47,10 +47,10 @@ export default React.createClass({
       case 'mailbox':
       case 'message':
         if (this.state.mailbox) {
-          count = this.state.mailbox.get('count') ? ' (' +
-            this.state.mailbox.get('count') + ')' : '';
+          count = this.state.mailbox.count ? ' (' +
+            this.state.mailbox.count + ')' : '';
 
-          title = title + ' | ' + this.state.mailbox.get('name') + count;
+          title = title + ' | ' + this.state.mailbox.name + count;
         }
         break;
       case 'contributors':

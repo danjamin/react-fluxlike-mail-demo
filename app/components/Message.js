@@ -1,14 +1,13 @@
 import React from 'react';
 
 import MessageToolbar from './MessageToolbar.js';
-import MessageRecord from '../records/MessageRecord.js';
 
 export default React.createClass({
   displayName: 'Message',
 
   propTypes: {
     // required
-    message: React.PropTypes.instanceOf(MessageRecord).isRequired,
+    message: React.PropTypes.object.isRequired,
 
     // optional
     onDelete: React.PropTypes.func
@@ -20,10 +19,6 @@ export default React.createClass({
         console.warn('Not handling onDelete() in Message component');
       }
     };
-  },
-
-  shouldComponentUpdate: function (nextProps) {
-    return nextProps.message !== this.props.message;
   },
 
   render: function () {
