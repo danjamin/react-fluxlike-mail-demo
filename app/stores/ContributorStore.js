@@ -1,3 +1,5 @@
+/* global JSON */
+
 import _ from 'underscore';
 import {Store} from 'fl-store';
 
@@ -23,7 +25,7 @@ function _mergeContributors(rawContributors) {
       html_url: rawContributor.html_url
     };
 
-    _contributors[rawContributors.id] = contributor;
+    _contributors[rawContributor.id] = contributor;
   });
 }
 
@@ -32,10 +34,20 @@ ContributorStore = _.extend({}, Store, {
     var contributorsArr = [];
 
     for (var key in _contributors) {
-      contributorsArr.push(_contributors[key]);
+      if (_contributors.hasOwnProperty(key)) {
+        contributorsArr.push(_contributors[key]);
+      }
     }
 
     return contributorsArr;
+  },
+
+  serialize: function () {
+    return JSON.stringify(_contributors);
+  },
+
+  deserialize: function (serializedData) {
+    _contributors = JSON.parse(serializedData);
   }
 });
 
@@ -44,6 +56,11 @@ ContributorStore.dispatchToken = AppDispatcher.register(function (action) {
   switch (action.type) {
     case ActionTypes.RECEIVE_RAW_CONTRIBUTORS:
       _mergeContributors(action.rawContributors);
+      ContributorStore.emitChange();
+      break;
+
+    case ActionTypes.RESET:
+      _contributors = {};
       ContributorStore.emitChange();
       break;
 

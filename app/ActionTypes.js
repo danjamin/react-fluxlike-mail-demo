@@ -1,6 +1,7 @@
 export default {
   // generic
   CLEAR_SELECTED_ITEMS: 'CLEAR_SELECTED_ITEMS',
+  RESET: 'RESET',
 
   // templates
   SET_TEMPLATE: 'SET_TEMPLATE',

@@ -89,6 +89,14 @@ MailboxStore = _.extend({}, Store, {
     if (mailboxId) {
       return _mailboxes.get(mailboxId);
     }
+  },
+
+  serialize: function () {
+    return JSON.stringify({mailboxes: _mailboxes.toJS()});
+  },
+
+  deserialize: function (serializedData) {
+    //_contributors = JSON.parse(serializedData);
   }
 });
 
@@ -117,6 +125,12 @@ MailboxStore.dispatchToken = AppDispatcher.register(function (action) {
 
     case ActionTypes.UNDO_DELETE_MESSAGE:
       _incrementCount(action.message.get('mailboxId'));
+      MailboxStore.emitChange();
+      break;
+
+    case ActionTypes.RESET:
+      _mailboxes = new Immutable.Map();
+      _selectedMailboxId = null;
       MailboxStore.emitChange();
       break;
 

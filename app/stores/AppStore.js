@@ -71,6 +71,7 @@ AppStore.dispatchToken = AppDispatcher.register(function (action) {
       break;
 
     case ActionTypes.RESTORE_DEFAULT_TEMPLATE_AND_OPTIONS:
+    case ActionTypes.RESET:
       _restoreDefaultTemplateAndOptions();
       AppStore.emitChange();
       break;

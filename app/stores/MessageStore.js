@@ -82,6 +82,14 @@ MessageStore = _.extend({}, Store, {
     if (messageId) {
       return _messages.get(messageId);
     }
+  },
+
+  serialize: function () {
+    return JSON.stringify({messages: _messages.toJS()});
+  },
+
+  deserialize: function (serializedData) {
+    //_contributors = JSON.parse(serializedData);
   }
 });
 
@@ -110,6 +118,12 @@ MessageStore.dispatchToken = AppDispatcher.register(function (action) {
 
     case ActionTypes.UNDO_DELETE_MESSAGE:
       _mergeMessages([action.message]);
+      MessageStore.emitChange();
+      break;
+
+    case ActionTypes.RESET:
+      _messages = new Immutable.Map();
+      _messageId = null;
       MessageStore.emitChange();
       break;
 

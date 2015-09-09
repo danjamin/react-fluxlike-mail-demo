@@ -30,35 +30,46 @@ bindControllers(app, __dirname + '/fixture-api/controllers', true);
 // init the app
 bootstrap.init(true /*isServerSide*/);
 
-// Deliver index.html with pre-rendered React main
-// isomorphic app -- engage
-app.get('/bob', function (req, res) {
-  res.setHeader("Cache-Control", "no-cache, no-store");
+// Deliver index.html with pre-rendered content
+// catch all route!
+app.get('*', function (req, res) {
+  var url = req.path.substr(1);
+
+  res.setHeader("Cache-Control", "public, max-age=3600");
 
   fs.readFile('./public/index.html', 'utf8', function(err, data) {
     var React = require('react');
+    var AppActionCreators = require('./_transpiled/actions/AppActionCreators.js');
     var AppView = require('./_transpiled/views/AppView.js');
     var Router = require('fl-router').Router;
-    var content;
+    var content = '';
+    var serializedData = '';
 
-    Router.linkToURL('contributors').then(function () {
-      try {
-        content = React.renderToString(React.createElement(AppView, null, null));
-        data = data.replace('{{content}}', content);
-        data = data.replace('{{data}}', bootstrap.getSerializedData());
-        res.send(data);
-      } catch (e) {
+    try {
+      AppActionCreators.resetStores();
+      Router.linkToURL(url).then(function () {
+        try {
+          content = React.renderToString(React.createElement(AppView));
+          serializedData = bootstrap.getSerializedData();
+        } catch (e) {
+          console.error(e);
+        } finally {
+          _send();
+        }
+      })['catch'](function (e) {
         console.error(e);
-        data = data.replace('{{content}}', '');
-        data = data.replace('{{data}}', '');
-        res.send(data);
-      }
-    })['catch'](function (e) {
+        _send();
+      });
+    } catch (e) {
+      res.send(404);
       console.error(e);
-      data = data.replace('{{content}}', '');
-      data = data.replace('{{data}}', '');
+    }
+
+    function _send () {
+      data = data.replace('{{content}}', content);
+      data = data.replace('{{data}}', serializedData);
       res.send(data);
-    });
+    }
   });
 });
 

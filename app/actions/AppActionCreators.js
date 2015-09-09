@@ -26,5 +26,11 @@ export default {
     AppDispatcher.dispatch({
       type: ActionTypes.RESTORE_DEFAULT_TEMPLATE_AND_OPTIONS
     });
+  },
+
+  resetStores: function () {
+    AppDispatcher.dispatch({
+      type: ActionTypes.RESET
+    });
   }
 };

@@ -4,8 +4,8 @@ import AppDispatcher from '../dispatcher/AppDispatcher.js';
 import ActionTypes from '../ActionTypes.js';
 
 function _fetchContributors(owner, repo) {
-  var url = 'https://api.github.com/repos/' + owner + '/' + repo + '/contributors';
-  return API.GET(url);
+  //var url = 'https://api.github.com/repos/' + owner + '/' + repo + '/contributors';
+  return API.GET('/contributors');
 }
 
 export default {
@@ -17,6 +17,12 @@ export default {
         rawContributors: rawContributors
       });
       return rawContributors;
+    })['catch'](function (e) {
+      console.warn(e);
+      AppDispatcher.dispatch({
+        type: ActionTypes.RECEIVE_RAW_CONTRIBUTORS,
+        rawContributors: []
+      });
     });
   }
 };
