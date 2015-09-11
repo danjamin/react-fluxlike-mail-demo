@@ -11,13 +11,16 @@ var MailboxStore;
 var _mailboxes,
   _selectedMailboxId;
 
+// Set the initial state
+_setInitialState();
+
 /**
  * Sets the initial state of the store
  */
-(function _setInitialState() {
+function _setInitialState() {
   _mailboxes = {};
   _selectedMailboxId = null;
-})();
+}
 
 function _deserialize(serializedData) {
   var raw = JSON.parse(serializedData);

@@ -11,13 +11,16 @@ var MessageStore;
 var _messages,
   _messageId;
 
+// Set the initial state
+_setInitialState();
+
 /**
  * Sets the initial state of the store
  */
-(function _setInitialState() {
+function _setInitialState() {
   _messages = {};
   _messageId = null;
-})();
+}
 
 function _deserialize(serializedData) {
   var raw = JSON.parse(serializedData);

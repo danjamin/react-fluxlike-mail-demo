@@ -10,12 +10,15 @@ var ContributorStore;
 
 var _contributors;
 
+// Set the initial state
+_setInitialState();
+
 /**
  * Sets the initial state of the store
  */
-(function _setInitialState() {
+function _setInitialState() {
   _contributors = {};
-})();
+}
 
 function _deserialize(serializedData) {
   _contributors = JSON.parse(serializedData);
