@@ -6,10 +6,9 @@ out_js=_build_js
 rm -rf $out $out_js
 mkdir $out_js
 
-./scripts/transpile
-
 (broccoli-timepiece $out) &
 (watchify app/client.js -d -v -o $out_js/app.js -t [ babelify --only app ]) &
-(BUILD_DIR=$out BUILD_JS_DIR=$out_js node web.js) &
+(node fixture-api.js) &
+(BUILD_DIR=$out BUILD_JS_DIR=$out_js babel-node web.js) &
 
 wait

@@ -1,13 +1,16 @@
-/* global require, module, process, __dirname */
-'use strict';
+/* global process, __dirname */
 
-var express = require('express');
-var fs = require('fs');
-var app = express();
-var bindControllers = require('express-bind-controllers');
-var PORT = 5000;
+import React from 'react';
+import express from 'express';
+import fs from 'fs';
+import {Router} from 'fl-router';
 
-var bootstrap = require('./_transpiled/bootstrap.js');
+import bootstrap from './app/bootstrap.js';
+import AppActionCreators from './app/actions/AppActionCreators.js';
+import AppView from './app/views/AppView.js';
+
+var app = express(),
+  PORT = 5000;
 
 if (!process.env.BUILD_DIR || !process.env.BUILD_JS_DIR) {
   console.log('Please specify the BUILD_DIR and BUILD_JS_DIR environment variables');
@@ -24,9 +27,6 @@ app.listen(app.get('port'), function () {
 app.use(express['static'](__dirname + '/' + process.env.BUILD_DIR + '/'));
 app.use(express['static'](__dirname + '/' + process.env.BUILD_JS_DIR + '/'));
 
-// Bind controllers
-bindControllers(app, __dirname + '/fixture-api/controllers', true);
-
 // init the app
 bootstrap.init(true /*isServerSide*/);
 
@@ -35,16 +35,13 @@ bootstrap.init(true /*isServerSide*/);
 app.get('*', function (req, res) {
   var url = req.path.substr(1);
 
+  console.log('serving url', url);
+
   res.setHeader("Cache-Control", "no-cache");
 
   fs.readFile('./public/index.html', 'utf8', function(err, data) {
-    var React = require('react');
-    var AppActionCreators = require('./_transpiled/actions/AppActionCreators.js');
-    var AppView = require('./_transpiled/views/AppView.js');
-    var Router = require('fl-router').Router;
-    var content = '';
-
-    var serializedData = '""';
+    var content = '',
+      serializedData = '""';
 
     try {
       AppActionCreators.resetStores();
@@ -62,7 +59,7 @@ app.get('*', function (req, res) {
         _send();
       });
     } catch (e) {
-      res.send(404);
+      res.sendStatus(404);
       console.error(e);
     }
 
@@ -75,4 +72,4 @@ app.get('*', function (req, res) {
 });
 
 // Export app to be used externally
-module.exports = app;
+export default app;

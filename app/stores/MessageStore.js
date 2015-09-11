@@ -98,8 +98,7 @@ MessageStore = _.extend({}, Store, {
     if (messageId) {
       return _messages[messageId];
     }
-  },
-
+  }
 });
 
 // Register callback with dispatcher and save dispatchToken

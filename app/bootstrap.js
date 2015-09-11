@@ -12,6 +12,7 @@ import MailboxStore from './stores/MailboxStore.js';
 import MessageStore from './stores/MessageStore.js';
 
 var _alreadyInit = false;
+var _isServerSide = false;
 
 export default {
   init: function (isServerSide) {
@@ -19,11 +20,12 @@ export default {
       return;
     }
 
+    _isServerSide = isServerSide;
     _alreadyInit = true;
 
-    config(isServerSide);
+    config(_isServerSide);
 
-    if (!isServerSide && typeof __serializedData__ === 'object') {
+    if (!_isServerSide && typeof __serializedData__ === 'object') {
       AppActionCreators.receiveSerializedData(__serializedData__);
     }
 
@@ -40,7 +42,7 @@ export default {
       isServerSide: isServerSide
     });
 
-    if (!isServerSide) {
+    if (!_isServerSide) {
       // Render app into DOM (client side)
       React.render(
         <AppView />,
@@ -51,6 +53,10 @@ export default {
 
   getSerializedData: function () {
     var data = {};
+
+    if (!_isServerSide) {
+      return data;
+    }
 
     // TODO do this more generically obviously
     data.ContributorStore = ContributorStore.serialize();
