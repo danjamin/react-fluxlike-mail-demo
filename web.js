@@ -35,11 +35,11 @@ bootstrap.init(true /*isServerSide*/);
 app.get('*', function (req, res) {
   var url = req.path.substr(1);
 
-  console.log('serving url', url);
+  console.log('serving url', url ? url : '/');
 
   res.setHeader("Cache-Control", "no-cache");
 
-  fs.readFile('./public/index.html', 'utf8', function(err, data) {
+  fs.readFile('./public/200.html', 'utf8', function(err, data) {
     var content = '',
       serializedData = '""';
 
