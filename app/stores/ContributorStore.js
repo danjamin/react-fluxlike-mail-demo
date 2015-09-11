@@ -17,6 +17,10 @@ var _contributors;
   _contributors = {};
 })();
 
+function _deserialize(serializedData) {
+  _contributors = JSON.parse(serializedData);
+}
+
  /**
  * Merges rawContributors with the private _contributors
  * @param array rawContributors Array of raw JS objects representing contributors
@@ -37,10 +41,6 @@ ContributorStore = _.extend({}, Store, {
     return JSON.stringify(_contributors);
   },
 
-  deserialize: function (serializedData) {
-    _contributors = JSON.parse(serializedData);
-  },
-
   getContributors: function () {
     return _.toArray(_contributors);
   }
@@ -57,6 +57,12 @@ ContributorStore.dispatchToken = AppDispatcher.register(function (action) {
     case ActionTypes.RESET:
       _setInitialState();
       ContributorStore.emitChange();
+      break;
+
+    case ActionTypes.RECEIVE_SERIALIZED_DATA:
+      if (action.hasOwnProperty('ContributorStore')) {
+        _deserialize(action.ContributorStore);
+      }
       break;
 
     default:

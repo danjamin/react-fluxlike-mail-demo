@@ -19,6 +19,12 @@ var _mailboxes,
   _selectedMailboxId = null;
 })();
 
+function _deserialize(serializedData) {
+  var raw = JSON.parse(serializedData);
+  _selectedMailboxId = raw.selectedMailboxId;
+  _mailboxes = raw.mailboxes;
+}
+
 /**
  * Merges rawMailboxes with the private _mailboxes
  * @param array rawMailboxes Array of raw JS objects representing mailboxes
@@ -77,12 +83,6 @@ MailboxStore = _.extend({}, Store, {
     });
   },
 
-  deserialize: function (serializedData) {
-    var raw = JSON.parse(serializedData);
-    _selectedMailboxId = raw.selectedMailboxId;
-    _mailboxes = raw.mailboxes;
-  },
-
   getSelectedMailboxId: function () {
     return _selectedMailboxId;
   },
@@ -137,6 +137,12 @@ MailboxStore.dispatchToken = AppDispatcher.register(function (action) {
     case ActionTypes.RESET:
       _setInitialState();
       MailboxStore.emitChange();
+      break;
+
+    case ActionTypes.RECEIVE_SERIALIZED_DATA:
+      if (action.hasOwnProperty('MailboxStore')) {
+        _deserialize(action.MailboxStore);
+      }
       break;
 
     default:

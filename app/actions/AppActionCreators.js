@@ -1,3 +1,5 @@
+import _ from 'underscore';
+
 import AppDispatcher from '../dispatcher/AppDispatcher.js';
 import ActionTypes from '../ActionTypes.js';
 
@@ -32,5 +34,17 @@ export default {
     AppDispatcher.dispatch({
       type: ActionTypes.RESET
     });
+  },
+
+  receiveSerializedData: function (serializedData) {
+    var actionData = {
+      type: ActionTypes.RECEIVE_SERIALIZED_DATA
+    };
+
+    _.each(serializedData, function (data, name) {
+      actionData[name] = data;
+    });
+
+    AppDispatcher.dispatch(actionData);
   }
 };

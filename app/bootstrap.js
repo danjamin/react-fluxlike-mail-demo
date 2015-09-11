@@ -24,10 +24,7 @@ export default {
     config(isServerSide);
 
     if (!isServerSide && typeof __serializedData__ === 'object') {
-      // TODO do this more generically -- obviously
-      ContributorStore.deserialize(__serializedData__.ContributorStore);
-      MailboxStore.deserialize(__serializedData__.MailboxStore);
-      MessageStore.deserialize(__serializedData__.MessageStore);
+      AppActionCreators.receiveSerializedData(__serializedData__);
     }
 
     // register beforeEach route callback
@@ -63,5 +60,4 @@ export default {
     return JSON.stringify(data);
   }
 };
-
 

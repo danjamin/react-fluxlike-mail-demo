@@ -19,6 +19,12 @@ var _messages,
   _messageId = null;
 })();
 
+function _deserialize(serializedData) {
+  var raw = JSON.parse(serializedData);
+  _messageId = raw.messageId;
+  _messages = raw.messages;
+}
+
 /**
  * Merges rawMessages with the private _messages
  * @param array rawMessages Array of raw JS objects representing messages
@@ -61,12 +67,6 @@ MessageStore = _.extend({}, Store, {
       messageId: _messageId,
       messages: _messages
     });
-  },
-
-  deserialize: function (serializedData) {
-    var raw = JSON.parse(serializedData);
-    _messageId = raw.messageId;
-    _messages = raw.messages;
   },
 
   getSelectedMessageId: function () {
@@ -133,6 +133,12 @@ MessageStore.dispatchToken = AppDispatcher.register(function (action) {
     case ActionTypes.RESET:
       _setInitialState();
       MessageStore.emitChange();
+      break;
+
+    case ActionTypes.RECEIVE_SERIALIZED_DATA:
+      if (action.hasOwnProperty('MessageStore')) {
+        _deserialize(action.MessageStore);
+      }
       break;
 
     default:
