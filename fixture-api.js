@@ -15,6 +15,7 @@ app.listen(app.get('port'), function () {
 // Allow cross origin
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   next();
 });

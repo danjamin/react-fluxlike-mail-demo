@@ -77,9 +77,10 @@ export default React.createClass({
   },
 
   handleMessageDelete: function (messageId) {
-    MessageActionCreators.deleteMessage(messageId);
-
-    Router.linkTo('mailbox', [this.state.mailboxId]);
+    // TODO: disable delete button during pending state?
+    MessageActionCreators.deleteMessage(messageId).then(function() {
+      Router.linkTo('mailbox', [this.state.mailboxId]);
+    }.bind(this));
   },
 
   _onChange: function () {

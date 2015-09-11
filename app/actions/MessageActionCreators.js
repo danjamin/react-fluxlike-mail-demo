@@ -73,7 +73,7 @@ export default {
       });
     }
 
-    _deleteMessage(messageId).then(function(success) {
+    return _deleteMessage(messageId).then(function(success) {
       if (!success) {
         _undo('Oops, an unexpected error occurred.  Please try again later.');
       }
