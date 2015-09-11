@@ -8,8 +8,16 @@ import ActionTypes from '../ActionTypes.js';
 
 var MessageStore;
 
-var _messages = {},
+var _messages,
+  _messageId;
+
+/**
+ * Sets the initial state of the store
+ */
+(function _setInitialState() {
+  _messages = {};
   _messageId = null;
+})();
 
 /**
  * Merges rawMessages with the private _messages
@@ -48,6 +56,19 @@ function _deleteMessage(messageId) {
 }
 
 MessageStore = _.extend({}, Store, {
+  serialize: function () {
+    return JSON.stringify({
+      messageId: _messageId,
+      messages: _messages
+    });
+  },
+
+  deserialize: function (serializedData) {
+    var raw = JSON.parse(serializedData);
+    _messageId = raw.messageId;
+    _messages = raw.messages;
+  },
+
   getSelectedMessageId: function () {
     return _messageId;
   },
@@ -63,13 +84,7 @@ MessageStore = _.extend({}, Store, {
     var messages = [];
 
     if (mailboxId) {
-      for (var key in _messages) {
-        if (_messages.hasOwnProperty(key)) {
-          if (_messages[key].mailboxId === mailboxId) {
-            messages.push(_messages[key]);
-          }
-        }
-      }
+      messages = _.where(_messages, {mailboxId: mailboxId});
     }
 
     return messages;
@@ -85,18 +100,6 @@ MessageStore = _.extend({}, Store, {
     }
   },
 
-  serialize: function () {
-    return JSON.stringify({
-      messageId: _messageId,
-      messages: _messages
-    });
-  },
-
-  deserialize: function (serializedData) {
-    var raw = JSON.parse(serializedData);
-    _messageId = raw.messageId;
-    _messages = raw.messages;
-  }
 });
 
 // Register callback with dispatcher and save dispatchToken
@@ -128,8 +131,7 @@ MessageStore.dispatchToken = AppDispatcher.register(function (action) {
       break;
 
     case ActionTypes.RESET:
-      _messages = {};
-      _messageId = null;
+      _setInitialState();
       MessageStore.emitChange();
       break;
 

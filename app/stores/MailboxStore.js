@@ -8,8 +8,16 @@ import ActionTypes from '../ActionTypes.js';
 
 var MailboxStore;
 
-var _mailboxes = {}, 
+var _mailboxes,
+  _selectedMailboxId;
+
+/**
+ * Sets the initial state of the store
+ */
+(function _setInitialState() {
+  _mailboxes = {};
   _selectedMailboxId = null;
+})();
 
 /**
  * Merges rawMailboxes with the private _mailboxes
@@ -39,6 +47,7 @@ function _decrementCount(mailboxId) {
  */
 function _incrementCount(mailboxId) {
   var mailbox = _mailboxes[mailboxId];
+
   if (mailbox) {
     mailbox.count = mailbox.count < 0 ? 1 : mailbox.count + 1;
   }
@@ -61,36 +70,6 @@ function _clearSelectedMailbox() {
 }
 
 MailboxStore = _.extend({}, Store, {
-  getSelectedMailboxId: function () {
-    return _selectedMailboxId;
-  },
-
-  /**
-   * Gets the mailboxes
-   * @return array
-   */
-  getMailboxes: function () {
-    var mailboxArr = [];
-
-    for (var key in _mailboxes) {
-      if (_mailboxes.hasOwnProperty(key)) {
-        mailboxArr.push(_mailboxes[key]);
-      }
-    }
-
-    return mailboxArr;
-  },
-
-  /**
-   * Gets a specific immutable mailbox record by id.
-   * @return {undefined | MailboxRecord} undefined if not found
-   */
-  getMailboxById: function (mailboxId) {
-    if (mailboxId) {
-      return _mailboxes[mailboxId];
-    }
-  },
-
   serialize: function () {
     return JSON.stringify({
       selectedMailboxId: _selectedMailboxId,
@@ -102,6 +81,28 @@ MailboxStore = _.extend({}, Store, {
     var raw = JSON.parse(serializedData);
     _selectedMailboxId = raw.selectedMailboxId;
     _mailboxes = raw.mailboxes;
+  },
+
+  getSelectedMailboxId: function () {
+    return _selectedMailboxId;
+  },
+
+  /**
+   * Gets the mailboxes
+   * @return array
+   */
+  getMailboxes: function () {
+    return _.toArray(_mailboxes);
+  },
+
+  /**
+   * Gets a specific immutable mailbox record by id.
+   * @return {undefined | MailboxRecord} undefined if not found
+   */
+  getMailboxById: function (mailboxId) {
+    if (mailboxId) {
+      return _mailboxes[mailboxId];
+    }
   }
 });
 
@@ -134,8 +135,7 @@ MailboxStore.dispatchToken = AppDispatcher.register(function (action) {
       break;
 
     case ActionTypes.RESET:
-      _mailboxes = {};
-      _selectedMailboxId = null;
+      _setInitialState();
       MailboxStore.emitChange();
       break;
 
