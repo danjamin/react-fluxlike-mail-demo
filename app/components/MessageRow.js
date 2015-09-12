@@ -1,5 +1,7 @@
 import React from 'react';
-import {LinkTo} from 'fl-router';
+import {Router} from '../lib/fl-base/fl-base.js';
+
+var LinkTo = Router.LinkTo;
 
 export default React.createClass({
   displayName: 'MessageRow',

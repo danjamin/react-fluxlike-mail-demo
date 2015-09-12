@@ -1,8 +1,9 @@
 import React from 'react/addons';
-import {RouteStore} from 'fl-router';
+import {Router} from '../lib/fl-base/fl-base.js';
+
 import MailboxStore from '../stores/MailboxStore.js';
 
-var PureRenderMixin = React.addons.PureRenderMixin;
+var RouteStore = Router.RouteStore;
 
 function getStateFromStores () {
   var mailboxId = MailboxStore.getSelectedMailboxId();
@@ -15,8 +16,6 @@ function getStateFromStores () {
 
 export default React.createClass({
   displayName: 'DocumentTitleView',
-
-  mixins: [PureRenderMixin],
 
   getInitialState: function () {
     return getStateFromStores();

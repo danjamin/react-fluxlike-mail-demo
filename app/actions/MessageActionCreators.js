@@ -1,7 +1,7 @@
 import API from 'fl-api-service';
+import {Dispatcher} from '../lib/fl-base/fl-base.js';
 
-import AppDispatcher from '../dispatcher/AppDispatcher.js';
-import ActionTypes from '../ActionTypes.js';
+import AppActionTypes from '../AppActionTypes.js';
 import MessageStore from '../stores/MessageStore.js';
 
 function _fetchMessagesInMailbox(mailboxId) {
@@ -26,8 +26,8 @@ export default {
   // return a promise
   loadMessagesInMailbox: function (mailboxId) {
     return _fetchMessagesInMailbox(mailboxId).then(function (rawMessages) {
-      AppDispatcher.dispatch({
-        type: ActionTypes.RECEIVE_RAW_MESSAGES,
+      Dispatcher.dispatch({
+        type: AppActionTypes.RECEIVE_RAW_MESSAGES,
         rawMessages: rawMessages
       });
 
@@ -36,8 +36,8 @@ export default {
   },
 
   selectMessage: function (messageId) {
-    AppDispatcher.dispatch({
-      type: ActionTypes.SELECT_MESSAGE,
+    Dispatcher.dispatch({
+      type: AppActionTypes.SELECT_MESSAGE,
       messageId: messageId
     });
   },
@@ -60,14 +60,14 @@ export default {
       return;
     }
 
-    AppDispatcher.dispatch({
-      type: ActionTypes.DELETE_MESSAGE,
+    Dispatcher.dispatch({
+      type: AppActionTypes.DELETE_MESSAGE,
       message: message
     });
 
     function _undo(reason) {
-      AppDispatcher.dispatch({
-        type: ActionTypes.UNDO_DELETE_MESSAGE,
+      Dispatcher.dispatch({
+        type: AppActionTypes.UNDO_DELETE_MESSAGE,
         message: message,
         reason: reason
       });

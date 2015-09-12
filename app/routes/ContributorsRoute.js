@@ -1,7 +1,8 @@
 import React from 'react';
+import {ActionCreators} from '../lib/fl-base/fl-base.js';
 
-import AppActionCreators from '../actions/AppActionCreators.js';
 import ContributorsActionCreators from '../actions/ContributorsActionCreators.js';
+import DefaultTemplate from '../templates/DefaultTemplate.js';
 import ContributorsView from '../views/ContributorsView.js';
 
 // returns array of promises
@@ -10,10 +11,11 @@ export default function () {
 
   promise = ContributorsActionCreators.load();
 
-  AppActionCreators.setTemplateOptions({
-    showSidePanel: false,
-    ContentView: React.createElement(ContributorsView)
-  });
+  ActionCreators.setTemplate(
+    <DefaultTemplate showSidePanel={false}>
+      <ContributorsView />
+    </DefaultTemplate>
+  );
 
   return promise;
 }

@@ -5,8 +5,7 @@ var mergeTrees = require('broccoli-merge-trees');
 var compileSass = require('broccoli-sass');
 var autoprefixer = require('broccoli-autoprefixer');
 
-var publicTree,
-  styleTree;
+var styleTree;
 //  fontTree;
 
 // public

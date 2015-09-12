@@ -1,10 +1,12 @@
 import React from 'react';
-import {Router} from 'fl-router';
+import {Router, ActionCreators} from '../lib/fl-base/fl-base.js';
 
 import MailboxActionCreators from '../actions/MailboxActionCreators.js';
 import MessageActionCreators from '../actions/MessageActionCreators.js';
-import AppActionCreators from '../actions/AppActionCreators.js';
 import MessagesView from '../views/MessagesView.js';
+import DefaultTemplate from '../templates/DefaultTemplate.js';
+
+var transitionTo = Router.Router.transitionTo;
 
 // returns array of promises
 export default function (mailboxId, messageId) {
@@ -14,7 +16,7 @@ export default function (mailboxId, messageId) {
   // mailboxId when not originally defined
   if (!mailboxId) {
     mailboxId = 1;
-    Router.transitionTo("mailbox", [mailboxId]);
+    transitionTo("mailbox", [mailboxId]);
   }
 
   // parse params
@@ -27,9 +29,11 @@ export default function (mailboxId, messageId) {
   promises.push(MailboxActionCreators.load());
   promises.push(MessageActionCreators.loadMessagesInMailbox(mailboxId));
 
-  AppActionCreators.setTemplateOptions({
-    ContentView: React.createElement(MessagesView)
-  });
+  ActionCreators.setTemplate(
+    <DefaultTemplate>
+      <MessagesView />
+    </DefaultTemplate>
+  );
 
   return promises;
 }

@@ -1,7 +1,7 @@
 import API from 'fl-api-service';
+import {Dispatcher} from '../lib/fl-base/fl-base.js';
 
-import AppDispatcher from '../dispatcher/AppDispatcher.js';
-import ActionTypes from '../ActionTypes.js';
+import AppActionTypes from '../AppActionTypes.js';
 
 function _fetchMailboxes() {
   return API.GET('/mailboxes').then(function(res) {
@@ -14,8 +14,8 @@ export default {
   // return a promise
   load: function () {
     return _fetchMailboxes().then(function (rawMailboxes) {
-      AppDispatcher.dispatch({
-        type: ActionTypes.RECEIVE_RAW_MAILBOXES,
+      Dispatcher.dispatch({
+        type: AppActionTypes.RECEIVE_RAW_MAILBOXES,
         rawMailboxes: rawMailboxes
       });
 
@@ -24,8 +24,8 @@ export default {
   },
 
   selectMailbox: function (mailboxId) {
-    AppDispatcher.dispatch({
-      type: ActionTypes.SELECT_MAILBOX,
+    Dispatcher.dispatch({
+      type: AppActionTypes.SELECT_MAILBOX,
       mailboxId: mailboxId
     });
   }

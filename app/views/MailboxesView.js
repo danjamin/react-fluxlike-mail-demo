@@ -1,10 +1,10 @@
 import React from 'react/addons';
-import {RouteStore, LinkTo} from 'fl-router';
+import {Router} from '../lib/fl-base/fl-base.js';
 
 import MailboxStore from '../stores/MailboxStore.js';
 import MailboxRow from '../components/MailboxRow.js';
 
-var PureRenderMixin = React.addons.PureRenderMixin;
+var {RouteStore, LinkTo} = Router;
 
 function getStateFromStores () {
   return {
@@ -16,8 +16,6 @@ function getStateFromStores () {
 
 export default React.createClass({
   displayName: 'MailboxesView',
-
-  mixins: [PureRenderMixin],
 
   getInitialState: function () {
     return getStateFromStores();

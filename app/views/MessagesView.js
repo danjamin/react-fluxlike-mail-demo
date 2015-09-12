@@ -1,5 +1,5 @@
 import React from 'react/addons';
-import {Router, RouteStore} from 'fl-router';
+import {Router} from '../lib/fl-base/fl-base.js';
 
 import MessageActionCreators from '../actions/MessageActionCreators.js';
 import MessageStore from '../stores/MessageStore.js';
@@ -7,7 +7,7 @@ import MailboxStore from '../stores/MailboxStore.js';
 import MessageRow from '../components/MessageRow.js';
 import Message from '../components/Message.js';
 
-var PureRenderMixin = React.addons.PureRenderMixin;
+var {RouteStore} = Router;
 
 function getStateFromStores () {
   var mailboxId = MailboxStore.getSelectedMailboxId();
@@ -25,8 +25,6 @@ function getStateFromStores () {
 
 export default React.createClass({
   displayName: 'MessagesView',
-
-  mixins: [PureRenderMixin],
 
   getInitialState: function () {
     return getStateFromStores();

@@ -2,9 +2,9 @@
 
 import _ from 'underscore';
 import {Store} from 'fl-store';
+import {Dispatcher, Serializer, ActionTypes} from '../lib/fl-base/fl-base.js';
 
-import AppDispatcher from '../dispatcher/AppDispatcher.js';
-import ActionTypes from '../ActionTypes.js';
+import AppActionTypes from '../AppActionTypes.js';
 
 var ContributorStore;
 
@@ -18,6 +18,10 @@ _setInitialState();
  */
 function _setInitialState() {
   _contributors = {};
+}
+
+function _serialize () {
+  return JSON.stringify(_contributors);
 }
 
 function _deserialize(serializedData) {
@@ -40,19 +44,18 @@ function _mergeContributors(rawContributors) {
 }
 
 ContributorStore = _.extend({}, Store, {
-  serialize: function () {
-    return JSON.stringify(_contributors);
-  },
-
   getContributors: function () {
     return _.toArray(_contributors);
   }
 });
 
+// Register with serializer
+Serializer.register('ContributorStore', _serialize, _deserialize);
+
 // Register callback with dispatcher and save dispatchToken
-ContributorStore.dispatchToken = AppDispatcher.register(function (action) {
+ContributorStore.dispatchToken = Dispatcher.register(function (action) {
   switch (action.type) {
-    case ActionTypes.RECEIVE_RAW_CONTRIBUTORS:
+    case AppActionTypes.RECEIVE_RAW_CONTRIBUTORS:
       _mergeContributors(action.rawContributors);
       ContributorStore.emitChange();
       break;
@@ -60,12 +63,6 @@ ContributorStore.dispatchToken = AppDispatcher.register(function (action) {
     case ActionTypes.RESET:
       _setInitialState();
       ContributorStore.emitChange();
-      break;
-
-    case ActionTypes.RECEIVE_SERIALIZED_DATA:
-      if (action.hasOwnProperty('ContributorStore')) {
-        _deserialize(action.ContributorStore);
-      }
       break;
 
     default:

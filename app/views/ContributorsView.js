@@ -2,8 +2,6 @@ import React from 'react/addons';
 
 import ContributorStore from '../stores/ContributorStore.js';
 
-var PureRenderMixin = React.addons.PureRenderMixin;
-
 function getStateFromStores () {
   return {
     contributors: ContributorStore.getContributors()
@@ -12,8 +10,6 @@ function getStateFromStores () {
 
 export default React.createClass({
   displayName: 'ContributorsView',
-
-  mixins: [PureRenderMixin],
 
   getInitialState: function () {
     return getStateFromStores();

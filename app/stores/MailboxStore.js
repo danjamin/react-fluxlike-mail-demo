@@ -2,9 +2,9 @@
 
 import _ from 'underscore';
 import {Store} from 'fl-store';
+import {Dispatcher, Serializer, ActionTypes} from '../lib/fl-base/fl-base.js';
 
-import AppDispatcher from '../dispatcher/AppDispatcher.js';
-import ActionTypes from '../ActionTypes.js';
+import AppActionTypes from '../AppActionTypes.js';
 
 var MailboxStore;
 
@@ -20,6 +20,13 @@ _setInitialState();
 function _setInitialState() {
   _mailboxes = {};
   _selectedMailboxId = null;
+}
+
+function _serialize() {
+  return JSON.stringify({
+    selectedMailboxId: _selectedMailboxId,
+    mailboxes: _mailboxes
+  });
 }
 
 function _deserialize(serializedData) {
@@ -79,12 +86,6 @@ function _clearSelectedMailbox() {
 }
 
 MailboxStore = _.extend({}, Store, {
-  serialize: function () {
-    return JSON.stringify({
-      selectedMailboxId: _selectedMailboxId,
-      mailboxes: _mailboxes
-    });
-  },
 
   getSelectedMailboxId: function () {
     return _selectedMailboxId;
@@ -109,16 +110,29 @@ MailboxStore = _.extend({}, Store, {
   }
 });
 
+// Register with serializer
+Serializer.register('MailboxStore', _serialize, _deserialize);
+
 // Register callback with dispatcher and save dispatchToken
-MailboxStore.dispatchToken = AppDispatcher.register(function (action) {
+MailboxStore.dispatchToken = Dispatcher.register(function (action) {
   switch (action.type) {
-    case ActionTypes.RECEIVE_RAW_MAILBOXES:
+    case AppActionTypes.RECEIVE_RAW_MAILBOXES:
       _mergeMailboxes(action.rawMailboxes);
       MailboxStore.emitChange();
       break;
 
-    case ActionTypes.SELECT_MAILBOX:
+    case AppActionTypes.SELECT_MAILBOX:
       _selectMailbox(action.mailboxId);
+      MailboxStore.emitChange();
+      break;
+
+    case AppActionTypes.DELETE_MESSAGE:
+      _decrementCount(action.message.mailboxId);
+      MailboxStore.emitChange();
+      break;
+
+    case AppActionTypes.UNDO_DELETE_MESSAGE:
+      _incrementCount(action.message.mailboxId);
       MailboxStore.emitChange();
       break;
 
@@ -127,25 +141,9 @@ MailboxStore.dispatchToken = AppDispatcher.register(function (action) {
       MailboxStore.emitChange();
       break;
 
-    case ActionTypes.DELETE_MESSAGE:
-      _decrementCount(action.message.mailboxId);
-      MailboxStore.emitChange();
-      break;
-
-    case ActionTypes.UNDO_DELETE_MESSAGE:
-      _incrementCount(action.message.mailboxId);
-      MailboxStore.emitChange();
-      break;
-
     case ActionTypes.RESET:
       _setInitialState();
       MailboxStore.emitChange();
-      break;
-
-    case ActionTypes.RECEIVE_SERIALIZED_DATA:
-      if (action.hasOwnProperty('MailboxStore')) {
-        _deserialize(action.MailboxStore);
-      }
       break;
 
     default:
