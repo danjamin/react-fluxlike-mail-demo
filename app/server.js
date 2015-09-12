@@ -1,6 +1,6 @@
 /* global process */
 
-import {serve} from './lib/fl-base/fl-base.js';
+import serve from './lib/fl-base/serve.js';
 
 import config from './config.js';
 import routes from './routes.js';

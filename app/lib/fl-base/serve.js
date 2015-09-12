@@ -4,10 +4,10 @@ import React from 'react';
 import express from 'express';
 import fs from 'fs';
 
-import {Router} from './Router.js';
-import bootstrap from './bootstrap.js';
-import ActionCreators from './ActionCreators.js';
-import RootView from './RootView.js';
+import {Router} from './lib/Router.js';
+import bootstrap from './lib/bootstrap.js';
+import ActionCreators from './lib/ActionCreators.js';
+import RootView from './lib/RootView.js';
 
 export default function serve(routes, configFn, options) {
   var app = express(),
@@ -45,7 +45,7 @@ export default function serve(routes, configFn, options) {
 
     res.setHeader("Cache-Control", "no-cache");
 
-    fs.readFile(__dirname + '/../200.html', 'utf8', function(err, data) {
+    fs.readFile(__dirname + '/200.html', 'utf8', function(err, data) {
       var content = '',
         serializedData = '""';
 
