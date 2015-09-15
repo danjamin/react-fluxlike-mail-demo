@@ -1,5 +1,5 @@
 import React from 'react/addons';
-import {Router} from '../lib/fl-base/fl-base.js';
+import {Router} from 'fluxlike';
 
 import MailboxStore from '../stores/MailboxStore.js';
 import MailboxRow from '../components/MailboxRow.js';

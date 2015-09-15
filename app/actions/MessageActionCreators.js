@@ -1,5 +1,5 @@
 import API from 'fl-api-service';
-import {Dispatcher} from '../lib/fl-base/fl-base.js';
+import {Dispatcher} from 'fluxlike';
 
 import AppActionTypes from '../AppActionTypes.js';
 import MessageStore from '../stores/MessageStore.js';

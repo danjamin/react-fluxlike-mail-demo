@@ -2,7 +2,7 @@
 
 import _ from 'underscore';
 import {Store} from 'fl-store';
-import {Dispatcher, Serializer, ActionTypes} from '../lib/fl-base/fl-base.js';
+import {Dispatcher, Serializer, ActionTypes} from 'fluxlike';
 
 import AppActionTypes from '../AppActionTypes.js';
 

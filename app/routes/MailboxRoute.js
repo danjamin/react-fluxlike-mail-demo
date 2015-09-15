@@ -1,5 +1,5 @@
 import React from 'react';
-import {Router, ActionCreators} from '../lib/fl-base/fl-base.js';
+import {Router, ActionCreators} from 'fluxlike';
 
 import MailboxActionCreators from '../actions/MailboxActionCreators.js';
 import MessageActionCreators from '../actions/MessageActionCreators.js';

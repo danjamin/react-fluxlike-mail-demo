@@ -1,5 +1,5 @@
 import React from 'react';
-import {Router} from '../lib/fl-base/fl-base.js';
+import {Router} from 'fluxlike';
 
 var LinkTo = Router.LinkTo;
 

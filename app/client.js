@@ -1,4 +1,4 @@
-import {bootstrap} from './lib/fl-base/fl-base.js';
+import {bootstrap} from 'fluxlike';
 
 import config from './config.js';
 import routes from './routes.js';

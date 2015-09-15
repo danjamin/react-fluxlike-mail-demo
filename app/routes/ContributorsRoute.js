@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActionCreators} from '../lib/fl-base/fl-base.js';
+import {ActionCreators} from 'fluxlike';
 
 import ContributorsActionCreators from '../actions/ContributorsActionCreators.js';
 import DefaultTemplate from '../templates/DefaultTemplate.js';

@@ -1,6 +1,6 @@
 /* global __dirname, require, module */
 
-var broccoliTrees = require('./app/lib/fl-base/broccoliTrees.js');
+var broccoliTrees = require('fluxlike/broccoliTrees.js');
 
 module.exports = broccoliTrees({
   root: __dirname
