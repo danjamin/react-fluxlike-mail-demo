@@ -1,7 +1,5 @@
 import React from 'react';
-import {Router} from 'fluxlike';
-
-var {RouteStore, LinkTo} = Router;
+import {RouteStore, LinkTo} from 'fluxlike';
 
 function getStateFromStores () {
   return {

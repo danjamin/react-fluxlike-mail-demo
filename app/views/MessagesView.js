@@ -1,13 +1,11 @@
 import React from 'react/addons';
-import {Router} from 'fluxlike';
+import {RouteStore, Router} from 'fluxlike';
 
 import MessageActionCreators from '../actions/MessageActionCreators.js';
 import MessageStore from '../stores/MessageStore.js';
 import MailboxStore from '../stores/MailboxStore.js';
 import MessageRow from '../components/MessageRow.js';
 import Message from '../components/Message.js';
-
-var {RouteStore} = Router;
 
 function getStateFromStores () {
   var mailboxId = MailboxStore.getSelectedMailboxId();

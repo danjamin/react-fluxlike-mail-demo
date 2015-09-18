@@ -1,10 +1,8 @@
 import React from 'react/addons';
-import {Router} from 'fluxlike';
+import {RouteStore, LinkTo} from 'fluxlike';
 
 import MailboxStore from '../stores/MailboxStore.js';
 import MailboxRow from '../components/MailboxRow.js';
-
-var {RouteStore, LinkTo} = Router;
 
 function getStateFromStores () {
   return {

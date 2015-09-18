@@ -1,7 +1,5 @@
 import React from 'react';
-import {Router} from 'fluxlike';
-
-var LinkTo = Router.LinkTo;
+import {LinkTo} from 'fluxlike';
 
 export default React.createClass({
   displayName: 'MessageRow',

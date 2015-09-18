@@ -6,8 +6,6 @@ import MessageActionCreators from '../actions/MessageActionCreators.js';
 import MessagesView from '../views/MessagesView.js';
 import DefaultTemplate from '../templates/DefaultTemplate.js';
 
-var transitionTo = Router.Router.transitionTo;
-
 // returns array of promises
 export default function (mailboxId, messageId) {
   var promises = [];
@@ -16,7 +14,7 @@ export default function (mailboxId, messageId) {
   // mailboxId when not originally defined
   if (!mailboxId) {
     mailboxId = 1;
-    transitionTo("mailbox", [mailboxId]);
+    Router.transitionTo("mailbox", [mailboxId]);
   }
 
   // parse params
