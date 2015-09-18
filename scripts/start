@@ -9,6 +9,6 @@ mkdir $out_js
 (broccoli-timepiece $out) &
 (watchify app/client.js -d -v -o $out_js/app.js -t [ babelify --only app ]) &
 (node fixture-api.js) &
-(BUILD_DIR=$out BUILD_JS_DIR=$out_js babel-node ./app/server.js) &
+(babel-node ./app/server.js) &
 
 wait

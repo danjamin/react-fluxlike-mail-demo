@@ -1,8 +1,7 @@
 /* global JSON */
 
 import _ from 'underscore';
-import {Store} from 'fl-store';
-import {Dispatcher, Serializer, ActionTypes} from 'fluxlike';
+import {Store, Dispatcher, Serializer, ActionTypes} from 'fluxlike';
 
 import AppActionTypes from '../AppActionTypes.js';
 

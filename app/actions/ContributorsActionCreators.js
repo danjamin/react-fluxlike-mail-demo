@@ -1,5 +1,4 @@
-import API from 'fl-api-service';
-import {Dispatcher} from 'fluxlike';
+import {API, Dispatcher} from 'fluxlike';
 
 import AppActionTypes from '../AppActionTypes.js';
 

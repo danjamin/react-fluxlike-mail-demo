@@ -1,4 +1,4 @@
-import API from 'fl-api-service';
+import {API} from 'fluxlike';
 
 export default function (_isServerSide) {
   // Configure the API service
