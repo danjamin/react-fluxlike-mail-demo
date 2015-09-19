@@ -1,18 +1,20 @@
-import React from 'react/addons';
-import {RouteStore, LinkTo} from 'fluxlike';
+var React = require('react/addons');
+var Fluxlike = require('fluxlike');
 
-import MailboxStore from '../stores/MailboxStore.js';
-import MailboxRow from '../components/MailboxRow.js';
+var MailboxStore = require('../stores/MailboxStore.js');
+var MailboxRow = require('../components/MailboxRow.js');
+
+var LinkTo = Fluxlike.LinkTo;
 
 function getStateFromStores () {
   return {
     mailboxId: MailboxStore.getSelectedMailboxId(),
     mailboxes: MailboxStore.getMailboxes(),
-    activeURL: RouteStore.getURL()
+    activeURL: Fluxlike.RouteStore.getURL()
   };
 }
 
-export default React.createClass({
+module.exports = React.createClass({
   displayName: 'MailboxesView',
 
   getInitialState: function () {

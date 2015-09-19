@@ -1,21 +1,21 @@
-import React from 'react';
-import {ActionCreators} from 'fluxlike';
+var React = require('react');
+var Fluxlike = require('fluxlike');
 
-import ContributorsActionCreators from '../actions/ContributorsActionCreators.js';
-import DefaultTemplate from '../templates/DefaultTemplate.js';
-import ContributorsView from '../views/ContributorsView.js';
+var ContributorsActionCreators = require('../actions/ContributorsActionCreators.js');
+var DefaultTemplate = require('../templates/DefaultTemplate.js');
+var ContributorsView = require('../views/ContributorsView.js');
 
 // returns array of promises
-export default function () {
+module.exports = function () {
   var promise;
 
   promise = ContributorsActionCreators.load();
 
-  ActionCreators.setTemplate(
+  Fluxlike.ActionCreators.setTemplate(
     <DefaultTemplate showSidePanel={false}>
       <ContributorsView />
     </DefaultTemplate>
   );
 
   return promise;
-}
+};

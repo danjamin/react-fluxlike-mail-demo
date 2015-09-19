@@ -1,9 +1,9 @@
 /* global JSON */
 
-import _ from 'underscore';
-import {Store, Dispatcher, Serializer, ActionTypes} from 'fluxlike';
+var _ = require('underscore');
+var Fluxlike = require('fluxlike');
 
-import AppActionTypes from '../AppActionTypes.js';
+var AppActionTypes = require('../AppActionTypes.js');
 
 var ContributorStore;
 
@@ -42,24 +42,24 @@ function _mergeContributors(rawContributors) {
   });
 }
 
-ContributorStore = _.extend({}, Store, {
+ContributorStore = _.extend({}, Fluxlike.Store, {
   getContributors: function () {
     return _.toArray(_contributors);
   }
 });
 
 // Register with serializer
-Serializer.register('ContributorStore', _serialize, _deserialize);
+Fluxlike.Serializer.register('ContributorStore', _serialize, _deserialize);
 
 // Register callback with dispatcher and save dispatchToken
-ContributorStore.dispatchToken = Dispatcher.register(function (action) {
+ContributorStore.dispatchToken = Fluxlike.Dispatcher.register(function (action) {
   switch (action.type) {
     case AppActionTypes.RECEIVE_RAW_CONTRIBUTORS:
       _mergeContributors(action.rawContributors);
       ContributorStore.emitChange();
       break;
 
-    case ActionTypes.RESET:
+    case Fluxlike.ActionTypes.RESET:
       _setInitialState();
       ContributorStore.emitChange();
       break;
@@ -69,4 +69,4 @@ ContributorStore.dispatchToken = Dispatcher.register(function (action) {
   }
 });
 
-export default ContributorStore;
+module.exports = ContributorStore;

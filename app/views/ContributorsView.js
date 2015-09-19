@@ -1,6 +1,6 @@
-import React from 'react/addons';
+var React = require('react/addons');
 
-import ContributorStore from '../stores/ContributorStore.js';
+var ContributorStore = require('../stores/ContributorStore.js');
 
 function getStateFromStores () {
   return {
@@ -8,7 +8,7 @@ function getStateFromStores () {
   };
 }
 
-export default React.createClass({
+module.exports = React.createClass({
   displayName: 'ContributorsView',
 
   getInitialState: function () {

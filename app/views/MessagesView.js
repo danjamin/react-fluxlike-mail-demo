@@ -1,18 +1,18 @@
-import React from 'react/addons';
-import {RouteStore, Router} from 'fluxlike';
+var React = require('react/addons');
+var Fluxlike = require('fluxlike');
 
-import MessageActionCreators from '../actions/MessageActionCreators.js';
-import MessageStore from '../stores/MessageStore.js';
-import MailboxStore from '../stores/MailboxStore.js';
-import MessageRow from '../components/MessageRow.js';
-import Message from '../components/Message.js';
+var MessageActionCreators = require('../actions/MessageActionCreators.js');
+var MessageStore = require('../stores/MessageStore.js');
+var MailboxStore = require('../stores/MailboxStore.js');
+var MessageRow = require('../components/MessageRow.js');
+var Message = require('../components/Message.js');
 
 function getStateFromStores () {
   var mailboxId = MailboxStore.getSelectedMailboxId();
   var messageId = MessageStore.getSelectedMessageId();
 
   return {
-    activeURL: RouteStore.getURL(),
+    activeURL: Fluxlike.RouteStore.getURL(),
     mailboxId: mailboxId,
     messageId: messageId,
     messages: MessageStore.getMessagesInMailbox(mailboxId),
@@ -21,7 +21,7 @@ function getStateFromStores () {
   };
 }
 
-export default React.createClass({
+module.exports = React.createClass({
   displayName: 'MessagesView',
 
   getInitialState: function () {
@@ -75,7 +75,7 @@ export default React.createClass({
   handleMessageDelete: function (messageId) {
     // TODO: disable delete button during pending state?
     MessageActionCreators.deleteMessage(messageId).then(function() {
-      Router.linkTo('mailbox', [this.state.mailboxId]);
+      Fluxlike.Router.linkTo('mailbox', [this.state.mailboxId]);
     }.bind(this));
   },
 

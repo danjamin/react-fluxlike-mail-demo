@@ -1,7 +1,7 @@
-import {API} from 'fluxlike';
+var Fluxlike = require('fluxlike');
 
-export default function (_isServerSide) {
+module.exports = function (_isServerSide) {
   // Configure the API service
-  API.config.setDomain('http://localhost:5001');
-  API.config.setEndpoint('/api');
-}
+  Fluxlike.API.config.setDomain('http://localhost:5001');
+  Fluxlike.API.config.setEndpoint('/api');
+};

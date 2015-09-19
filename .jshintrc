@@ -8,10 +8,9 @@
   "unused": "vars",
   "camelcase": false,
   "globals": {
-    "document": false,
-    "window": false,
+    "require": false,
+    "module": false,
     "console": false,
-    "define": false,
     "setTimeout": false
   }
 }

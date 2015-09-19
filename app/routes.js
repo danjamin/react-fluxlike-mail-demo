@@ -1,8 +1,8 @@
-import MailboxRoute from './routes/MailboxRoute.js';
-import ContributorsRoute from './routes/ContributorsRoute.js';
+var MailboxRoute = require('./routes/MailboxRoute.js');
+var ContributorsRoute = require('./routes/ContributorsRoute.js');
 
 // WARNING: do not add an initial "/" in your paths!
-export default {
+module.exports = {
   index: {
     path: '',
     route: MailboxRoute

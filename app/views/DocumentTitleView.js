@@ -1,18 +1,20 @@
-import React from 'react/addons';
-import {RouteStore} from 'fluxlike';
+/* global document */
 
-import MailboxStore from '../stores/MailboxStore.js';
+var React = require('react/addons');
+var Fluxlike = require('fluxlike');
+
+var MailboxStore = require('../stores/MailboxStore.js');
 
 function getStateFromStores () {
   var mailboxId = MailboxStore.getSelectedMailboxId();
 
   return {
-    mailbox: MailboxStore.getMailboxById(mailboxId), // MailboxRecord
-    routeName: RouteStore.getRouteName()
+    mailbox: MailboxStore.getMailboxById(mailboxId),
+    routeName: Fluxlike.RouteStore.getRouteName()
   };
 }
 
-export default React.createClass({
+module.exports = React.createClass({
   displayName: 'DocumentTitleView',
 
   getInitialState: function () {
@@ -20,12 +22,12 @@ export default React.createClass({
   },
 
   componentDidMount: function () {
-    RouteStore.addChangeListener(this._onChange);
+    Fluxlike.RouteStore.addChangeListener(this._onChange);
     MailboxStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function () {
-    RouteStore.removeChangeListener(this._onChange);
+    Fluxlike.RouteStore.removeChangeListener(this._onChange);
     MailboxStore.removeChangeListener(this._onChange);
   },
 

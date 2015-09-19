@@ -1,6 +1,6 @@
-import {bootstrap} from 'fluxlike';
+var Fluxlike = require('fluxlike');
 
-import config from './config.js';
-import routes from './routes.js';
+var config = require('./config.js');
+var routes = require('./routes.js');
 
-bootstrap.init(routes, config, false);
+Fluxlike.bootstrap.init(routes, config, false);

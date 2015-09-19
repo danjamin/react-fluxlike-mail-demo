@@ -1,4 +1,4 @@
-/* global __dirname, require, module */
+/* global __dirname */
 
 var broccoliTrees = require('fluxlike/broccoliTrees.js');
 

@@ -1,9 +1,9 @@
 /* global JSON */
 
-import _ from 'underscore';
-import {Store, Dispatcher, Serializer, ActionTypes} from 'fluxlike';
+var _ = require('underscore');
+var Fluxlike = require('fluxlike');
 
-import AppActionTypes from '../AppActionTypes.js';
+var AppActionTypes = require('../AppActionTypes.js');
 
 var MailboxStore;
 
@@ -84,7 +84,7 @@ function _clearSelectedMailbox() {
   _selectedMailboxId = null;
 }
 
-MailboxStore = _.extend({}, Store, {
+MailboxStore = _.extend({}, Fluxlike.Store, {
 
   getSelectedMailboxId: function () {
     return _selectedMailboxId;
@@ -100,7 +100,7 @@ MailboxStore = _.extend({}, Store, {
 
   /**
    * Gets a specific immutable mailbox record by id.
-   * @return {undefined | MailboxRecord} undefined if not found
+   * @return {undefined | object} undefined if not found
    */
   getMailboxById: function (mailboxId) {
     if (mailboxId) {
@@ -110,10 +110,10 @@ MailboxStore = _.extend({}, Store, {
 });
 
 // Register with serializer
-Serializer.register('MailboxStore', _serialize, _deserialize);
+Fluxlike.Serializer.register('MailboxStore', _serialize, _deserialize);
 
 // Register callback with dispatcher and save dispatchToken
-MailboxStore.dispatchToken = Dispatcher.register(function (action) {
+MailboxStore.dispatchToken = Fluxlike.Dispatcher.register(function (action) {
   switch (action.type) {
     case AppActionTypes.RECEIVE_RAW_MAILBOXES:
       _mergeMailboxes(action.rawMailboxes);
@@ -135,12 +135,12 @@ MailboxStore.dispatchToken = Dispatcher.register(function (action) {
       MailboxStore.emitChange();
       break;
 
-    case ActionTypes.CLEAR_SELECTED_ITEMS:
+    case Fluxlike.ActionTypes.CLEAR_SELECTED_ITEMS:
       _clearSelectedMailbox();
       MailboxStore.emitChange();
       break;
 
-    case ActionTypes.RESET:
+    case Fluxlike.ActionTypes.RESET:
       _setInitialState();
       MailboxStore.emitChange();
       break;
@@ -150,4 +150,4 @@ MailboxStore.dispatchToken = Dispatcher.register(function (action) {
   }
 });
 
-export default MailboxStore;
+module.exports = MailboxStore;

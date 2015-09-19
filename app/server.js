@@ -1,9 +1,7 @@
-/* global process */
+var serve = require('fluxlike/serve.js');
 
-import serve from 'fluxlike/serve.js';
-
-import config from './config.js';
-import routes from './routes.js';
+var config = require('./config.js');
+var routes = require('./routes.js');
 
 serve(routes, config, {
   port: 5000

@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   // messages
   SELECT_MESSAGE: 'SELECT_MESSAGE',
   DELETE_MESSAGE: 'DELETE_MESSAGE',

@@ -1,8 +1,8 @@
-import React from 'react';
+var React = require('react');
 
-import Loading from '../components/Loading.js';
+var Loading = require('../components/Loading.js');
 
-export default React.createClass({
+module.exports = React.createClass({
   displayName: 'LoadingView',
 
   shouldComponentUpdate: function () {

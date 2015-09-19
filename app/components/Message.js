@@ -1,8 +1,8 @@
-import React from 'react';
+var React = require('react');
 
-import MessageToolbar from './MessageToolbar.js';
+var MessageToolbar = require('./MessageToolbar.js');
 
-export default React.createClass({
+module.exports = React.createClass({
   displayName: 'Message',
 
   propTypes: {

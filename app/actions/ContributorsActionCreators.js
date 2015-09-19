@@ -1,24 +1,24 @@
-import {API, Dispatcher} from 'fluxlike';
+var Fluxlike = require('fluxlike');
 
-import AppActionTypes from '../AppActionTypes.js';
+var AppActionTypes = require('../AppActionTypes.js');
 
 function _fetchContributors(owner, repo) {
   //var url = 'https://api.github.com/repos/' + owner + '/' + repo + '/contributors';
-  return API.GET('/contributors');
+  return Fluxlike.API.GET('/contributors');
 }
 
-export default {
+module.exports = {
   // return a promise
   load: function () {
     return _fetchContributors('danjamin', 'react-fluxlike-mail-demo').then(function (rawContributors) {
-      Dispatcher.dispatch({
+      Fluxlike.Dispatcher.dispatch({
         type: AppActionTypes.RECEIVE_RAW_CONTRIBUTORS,
         rawContributors: rawContributors
       });
       return rawContributors;
     })['catch'](function (e) {
       console.warn(e);
-      Dispatcher.dispatch({
+      Fluxlike.Dispatcher.dispatch({
         type: AppActionTypes.RECEIVE_RAW_CONTRIBUTORS,
         rawContributors: []
       });

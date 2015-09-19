@@ -1,11 +1,11 @@
-import React from 'react';
-import classNames from 'classnames';
+var React = require('react');
+var classNames = require('classnames');
 
-import MailboxesView from '../views/MailboxesView.js';
-import DocumentTitleView from '../views/DocumentTitleView.js';
-import HeaderView from '../views/HeaderView.js';
+var MailboxesView = require('../views/MailboxesView.js');
+var DocumentTitleView = require('../views/DocumentTitleView.js');
+var HeaderView = require('../views/HeaderView.js');
 
-export default React.createClass({
+module.exports = React.createClass({
   displayName: 'DefaultTemplate',
 
   propTypes: {

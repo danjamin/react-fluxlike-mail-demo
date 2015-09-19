@@ -1,8 +1,8 @@
-import React from 'react';
+var React = require('react');
 
-import Pull from './Pull.js';
+var Pull = require('./Pull.js');
 
-export default React.createClass({
+module.exports = React.createClass({
   displayName: 'MessagesToolbar',
 
   propTypes: {

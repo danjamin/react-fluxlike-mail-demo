@@ -1,12 +1,12 @@
-import {API, Dispatcher} from 'fluxlike';
+var Fluxlike = require('fluxlike');
 
-import AppActionTypes from '../AppActionTypes.js';
-import MessageStore from '../stores/MessageStore.js';
+var AppActionTypes = require('../AppActionTypes.js');
+var MessageStore = require('../stores/MessageStore.js');
 
 function _fetchMessagesInMailbox(mailboxId) {
   var url = '/mailbox/' + mailboxId + '/messages';
 
-  return API.GET(url).then(function (res) {
+  return Fluxlike.API.GET(url).then(function (res) {
     // leave as plain array
     return res.messages ? res.messages : [];
   });
@@ -15,17 +15,17 @@ function _fetchMessagesInMailbox(mailboxId) {
 function _deleteMessage(messageId) {
   var url = '/messages/' + messageId;
 
-  return API.DELETE(url).then(function (res) {
+  return Fluxlike.API.DELETE(url).then(function (res) {
     return res.hasOwnProperty('success') ?
       res.success : false;
   });
 }
 
-export default {
+module.exports = {
   // return a promise
   loadMessagesInMailbox: function (mailboxId) {
     return _fetchMessagesInMailbox(mailboxId).then(function (rawMessages) {
-      Dispatcher.dispatch({
+      Fluxlike.Dispatcher.dispatch({
         type: AppActionTypes.RECEIVE_RAW_MESSAGES,
         rawMessages: rawMessages
       });
@@ -35,7 +35,7 @@ export default {
   },
 
   selectMessage: function (messageId) {
-    Dispatcher.dispatch({
+    Fluxlike.Dispatcher.dispatch({
       type: AppActionTypes.SELECT_MESSAGE,
       messageId: messageId
     });
@@ -59,13 +59,13 @@ export default {
       return;
     }
 
-    Dispatcher.dispatch({
+    Fluxlike.Dispatcher.dispatch({
       type: AppActionTypes.DELETE_MESSAGE,
       message: message
     });
 
     function _undo(reason) {
-      Dispatcher.dispatch({
+      Fluxlike.Dispatcher.dispatch({
         type: AppActionTypes.UNDO_DELETE_MESSAGE,
         message: message,
         reason: reason

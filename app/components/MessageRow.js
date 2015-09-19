@@ -1,7 +1,9 @@
-import React from 'react';
-import {LinkTo} from 'fluxlike';
+var React = require('react');
+var Fluxlike = require('fluxlike');
 
-export default React.createClass({
+var LinkTo = Fluxlike.LinkTo;
+
+module.exports = React.createClass({
   displayName: 'MessageRow',
 
   propTypes: {

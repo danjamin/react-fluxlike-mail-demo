@@ -1,13 +1,15 @@
-import React from 'react';
-import {RouteStore, LinkTo} from 'fluxlike';
+var React = require('react');
+var Fluxlike = require('fluxlike');
+
+var LinkTo = Fluxlike.LinkTo;
 
 function getStateFromStores () {
   return {
-    activeURL: RouteStore.getURL()
+    activeURL: Fluxlike.RouteStore.getURL()
   };
 }
 
-export default React.createClass({
+module.exports = React.createClass({
   displayName: 'HeaderView',
 
   getInitialState: function () {
@@ -15,11 +17,11 @@ export default React.createClass({
   },
 
   componentDidMount: function () {
-    RouteStore.addChangeListener(this._onChange);
+    Fluxlike.RouteStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function () {
-    RouteStore.removeChangeListener(this._onChange);
+    Fluxlike.RouteStore.removeChangeListener(this._onChange);
   },
 
   render: function () {

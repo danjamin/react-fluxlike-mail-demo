@@ -1,19 +1,19 @@
-import {API, Dispatcher} from 'fluxlike';
+var Fluxlike = require('fluxlike');
 
-import AppActionTypes from '../AppActionTypes.js';
+var AppActionTypes = require('../AppActionTypes.js');
 
 function _fetchMailboxes() {
-  return API.GET('/mailboxes').then(function(res) {
+  return Fluxlike.API.GET('/mailboxes').then(function(res) {
     // leave this as plain object or array at this point
     return res.mailboxes ? res.mailboxes : [];
   });
 }
 
-export default {
+module.exports = {
   // return a promise
   load: function () {
     return _fetchMailboxes().then(function (rawMailboxes) {
-      Dispatcher.dispatch({
+      Fluxlike.Dispatcher.dispatch({
         type: AppActionTypes.RECEIVE_RAW_MAILBOXES,
         rawMailboxes: rawMailboxes
       });
@@ -23,7 +23,7 @@ export default {
   },
 
   selectMailbox: function (mailboxId) {
-    Dispatcher.dispatch({
+    Fluxlike.Dispatcher.dispatch({
       type: AppActionTypes.SELECT_MAILBOX,
       mailboxId: mailboxId
     });

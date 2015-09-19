@@ -1,20 +1,20 @@
-import React from 'react';
-import {Router, ActionCreators} from 'fluxlike';
+var React = require('react');
+var Fluxlike = require('fluxlike');
 
-import MailboxActionCreators from '../actions/MailboxActionCreators.js';
-import MessageActionCreators from '../actions/MessageActionCreators.js';
-import MessagesView from '../views/MessagesView.js';
-import DefaultTemplate from '../templates/DefaultTemplate.js';
+var MailboxActionCreators = require('../actions/MailboxActionCreators.js');
+var MessageActionCreators = require('../actions/MessageActionCreators.js');
+var MessagesView = require('../views/MessagesView.js');
+var DefaultTemplate = require('../templates/DefaultTemplate.js');
 
 // returns array of promises
-export default function (mailboxId, messageId) {
+module.exports = function (mailboxId, messageId) {
   var promises = [];
 
   // default to inbox, and transition to mailbox with proper
   // mailboxId when not originally defined
   if (!mailboxId) {
     mailboxId = 1;
-    Router.transitionTo("mailbox", [mailboxId]);
+    Fluxlike.Router.transitionTo("mailbox", [mailboxId]);
   }
 
   // parse params
@@ -27,11 +27,11 @@ export default function (mailboxId, messageId) {
   promises.push(MailboxActionCreators.load());
   promises.push(MessageActionCreators.loadMessagesInMailbox(mailboxId));
 
-  ActionCreators.setTemplate(
+  Fluxlike.ActionCreators.setTemplate(
     <DefaultTemplate>
       <MessagesView />
     </DefaultTemplate>
   );
 
   return promises;
-}
+};

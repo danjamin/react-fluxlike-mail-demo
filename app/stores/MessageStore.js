@@ -1,9 +1,9 @@
 /* global JSON */
 
-import _ from 'underscore';
-import {Store, Dispatcher, Serializer, ActionTypes} from 'fluxlike';
+var _ = require('underscore');
+var Fluxlike = require('fluxlike');
 
-import AppActionTypes from '../AppActionTypes.js';
+var AppActionTypes = require('../AppActionTypes.js');
 
 var MessageStore;
 
@@ -70,7 +70,7 @@ function _deleteMessage(messageId) {
   }
 }
 
-MessageStore = _.extend({}, Store, {
+MessageStore = _.extend({}, Fluxlike.Store, {
   getSelectedMessageId: function () {
     return _messageId;
   },
@@ -104,10 +104,10 @@ MessageStore = _.extend({}, Store, {
 });
 
 // Register with serializer
-Serializer.register('MessageStore', _serialize, _deserialize);
+Fluxlike.Serializer.register('MessageStore', _serialize, _deserialize);
 
 // Register callback with dispatcher and save dispatchToken
-MessageStore.dispatchToken = Dispatcher.register(function (action) {
+MessageStore.dispatchToken = Fluxlike.Dispatcher.register(function (action) {
   switch (action.type) {
     case AppActionTypes.RECEIVE_RAW_MESSAGES:
       _mergeMessages(action.rawMessages);
@@ -129,12 +129,12 @@ MessageStore.dispatchToken = Dispatcher.register(function (action) {
       MessageStore.emitChange();
       break;
 
-    case ActionTypes.CLEAR_SELECTED_ITEMS:
+    case Fluxlike.ActionTypes.CLEAR_SELECTED_ITEMS:
       _clearSelectedMessage();
       MessageStore.emitChange();
       break;
 
-    case ActionTypes.RESET:
+    case Fluxlike.ActionTypes.RESET:
       _setInitialState();
       MessageStore.emitChange();
       break;
@@ -144,4 +144,4 @@ MessageStore.dispatchToken = Dispatcher.register(function (action) {
   }
 });
 
-export default MessageStore;
+module.exports = MessageStore;
