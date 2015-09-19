@@ -4,7 +4,6 @@
   "version": "0.2.0",
   "description": "demo application of a very basic email client using fluxlike architecture, react, and requirejs",
   "scripts": {
-    "postinstall": "pushd .git/hooks && rm pre-commit && ln -s ../../.githooks/pre-commit && popd",
     "start": "./scripts/start",
     "lint": "jsxhint '*.js' 'app/*.js' 'app/**/*.js' 'fixture-api/**/*.js'",
     "test": "echo \"Error: no test specified\" && exit 1"
