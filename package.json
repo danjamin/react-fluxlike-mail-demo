@@ -33,5 +33,8 @@
     "jsxhint": "^0.12.1",
     "react": "^0.13.3",
     "underscore": "^1.8.3"
+  },
+  "dependencies": {
+    "fluxlike": "git://github.com/danjamin/fluxlike.git#isomorphism"
   }
 }
