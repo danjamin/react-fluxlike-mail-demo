@@ -1,3 +1,5 @@
+# NOT MAINTAINED
+
 # react-fluxlike-mail-demo
 
 demo application of a very basic email client using fluxlike architecture, react, and es6 modules
